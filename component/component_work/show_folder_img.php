@@ -3,7 +3,7 @@
 echo "<div class=\"col\" > 
         <div class=\"card\" id='card_foto' style=\"width: 14rem; \">";
         /*  controllo se esiste il file modificato in quel caso do quel percorso per il path da mostrare */
-            if (file_exists("../sottocartelle/$cartella_scelta/large/modificate/{$row['nome_foto']}")){
+            if (file_exists("../sottocartelle/$value/large/modificate/{$row['nome_foto']}")){
                         $row['path_medium']="../sottocartelle/$cartella_scelta/large/modificate/{$row['nome_foto']}";
                         $row['path']="../sottocartelle/$cartella_scelta/large/modificate/{$row['nome_foto']}";
                       }

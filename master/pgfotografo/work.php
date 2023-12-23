@@ -50,8 +50,6 @@ if (!isset($_SESSION['user_fotografo'])) {
 
   <?php
   include('header_side_light.php');
-  include('../../../config_pdo.php');
-  include('../../../function/funzioni_album.php');
 
 
   /*  mi prendo le info che servono dell'album */
@@ -81,7 +79,7 @@ if (!isset($_SESSION['user_fotografo'])) {
 
 
               <div class="container-flex text-center "> <!-- Sezione pulsanti di ricerca foto -->
-                <div id="buttons" class="row align-items-start sticky-top bs-white " style="background-color:#fff;">
+                <div id="buttons" class="row align-items-start bs-white " style="background-color:#fff;">
 
                   <!--  INCLUDO I VARI PULSANTI di utilizzo DELLA BARRA IN ALTO -->
                   <!--   INIZIO PULSANTI -->
@@ -126,17 +124,20 @@ if (!isset($_SESSION['user_fotografo'])) {
 
 
 
-                      $cartella_scelta2 = $_POST['cartella_scelta2'];
+   
                       $cartella_scelta = $_POST['cartella_scelta'];
-                      $select = $conn->prepare("SELECT *  FROM `$id_album` WHERE (sotto_cartella= :cartella_scelta OR sotto_cartella= :cartella_scelta2 ) ORDER BY data ASC;");
-                      $select->bindparam(":cartella_scelta",  $cartella_scelta);
-                      $select->bindparam(":cartella_scelta2", $cartella_scelta2);
+                      foreach ($cartella_scelta as $value) {
+                        $select = $conn->prepare("SELECT *  FROM `$id_album` WHERE (sotto_cartella= :cartella_scelta) ORDER BY data ASC;");
+                      $select->bindparam(":cartella_scelta",  $value);
                       $select->execute();
-
                       while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-
                         include('../../../component/component_work/show_folder_img.php');
                       }
+                       }
+                      
+                    
+
+                      
 
 
                       $conn = null;

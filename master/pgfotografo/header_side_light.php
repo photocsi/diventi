@@ -1,9 +1,9 @@
 <?php
-  $nomeutente=111111111;
-  $operatore='a'                    ;
+$nomeutente = 111111111;
+$operatore = 'a'                                              ;
 
 
-  ?>
+?>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -32,32 +32,40 @@
   <!-- Template Main CSS File -->
   <link href="../../../assets/css/style.css" rel="stylesheet">
 
- 
+
 
 </head>
 
-<body class="toggle-sidebar" >
+<body class="toggle-sidebar">
 
 
   <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center" >
+  <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="../../../index.php" class="logo d-flex align-items-center" >
-        <img src="../../../img/logo.png"  alt="">
+      <a href="../../../index.php" class="logo d-flex align-items-center">
+        <img src="../../../img/logo.png" alt="">
         <span class="d-none d-lg-block"></span>
       </a>
       <i class="bi bi-hexagon-half toggle-sidebar-btn"></i>
       <!-- check nascondi mostra pulsanti -->
-      <div class="form-check form-switch form-check-reverse" style="margin-left: 50px;">
-                    <label class="form-check-label" for="cb"><b>mostra/nascondi Funzioni</b></label>
-                      <input class="form-check-input" type="checkbox" id="pulsante" onclick="hidden_button()" >
-                    </div> 
+     <!--  <div class="form-check form-switch form-check-reverse" style="margin-left: 50px;">
+        <label class="form-check-label" for="cb"><b>mostra/nascondi Funzioni</b></label>
+        <input class="form-check-input" type="checkbox" id="pulsante" onclick="hidden_button()">
+      </div> -->
+
+      <?php require_once '../../../includes/search_folder-class.php';
+       include('../../../config_pdo.php');
+       include('../../../function/funzioni_album.php');
+      $button = new SearchFolder;
+
+      ?>
+
     </div><!-- End Logo -->
 
 
 
-    
+
 
   </header><!-- End Header -->
 
@@ -72,7 +80,7 @@
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-      <li class="nav-item" >
+      <li class="nav-item">
         <a class="nav-link collapsed" style="background-color: #bee5fc ; border-radius:15px; padding: 5px;" href="../../../live/crea_album.php">
           <i class="bi bi-book"></i>
           <span>Crea nuovo album</span>
@@ -80,27 +88,31 @@
         </a>
 
         <hr>
-        <li class="nav-heading">Work Area</li>
-           <li class="nav-item">
+      <li class="nav-heading">Work Area</li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="work.php">
           <i class="bi bi-person-workspace"></i>
           <span>Area di Lavoro</span>
-        </a> </li>
-           <li class="nav-item">
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="impostazioni.php">
           <i class="bi bi-gear-fill"></i>
           <span>Impostazioni</span>
-        </a> </li>
-        <li class="nav-item">
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="gestione_clienti.php">
           <i class="bi bi-people-fill"></i>
           <span>Clienti</span>
-        </a>  </li>
-          <li class="nav-item">
-        <a class="nav-link collapsed" href="#" >
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
           <i class="bi bi-boxes"></i>
           <span>Modifica Album</span>
-        </a> </li>
+        </a>
+      </li>
 
 
       <hr>
@@ -136,50 +148,50 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="../../../../amministrazione/login_amministrazione.php">
-        <?php if(isset($_SESSION['admin_true']) && $_SESSION['admin_true']==="TRUE"){
-        echo "  <i class='bi bi-box-arrow-in-right'></i>
+          <?php if (isset($_SESSION['admin_true']) && $_SESSION['admin_true'] === "TRUE") {
+            echo "  <i class='bi bi-box-arrow-in-right'></i>
           <span>  'Amministrazione' ";
-           } ?> </span>
+          } ?> </span>
         </a>
       </li><!-- End Login Page Nav -->
 
-   
+
 
     </ul>
 
   </aside><!-- End Sidebar-->
- 
+
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 
 
   <script>
-function hidden_button(){
-    anteprima = document.getElementById('pulsante');
-    if (anteprima.checked){
-       
+    function hidden_button() {
+      anteprima = document.getElementById('pulsante');
+      if (anteprima.checked) {
+
         var divReference = document.getElementById("buttons");
-     divReference.className = "d-none";
-    }else{
-      var divReference = document.getElementById("buttons");
-     divReference.className = "row align-items-start sticky-top bs-white ";
+        divReference.className = "d-none";
+      } else {
+        var divReference = document.getElementById("buttons");
+        divReference.className = "row align-items-start sticky-top bs-white ";
 
+      }
     }
-}
-</script>
+  </script>
 
-<!-- Vendor JS Files -->
-<script src="../../../assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../../assets/vendor/chart.js/chart.umd.js"></script>
-<script src="../../../assets/vendor/echarts/echarts.min.js"></script>
-<script src="../../../assets/vendor/quill/quill.min.js"></script>
-<script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="../../../assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="../../../assets/vendor/php-email-form/validate.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="../../../assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../../assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="../../../assets/vendor/echarts/echarts.min.js"></script>
+  <script src="../../../assets/vendor/quill/quill.min.js"></script>
+  <script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="../../../assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="../../../assets/vendor/php-email-form/validate.js"></script>
 
-<!-- Template Main JS File -->
-<script src="../../../assets/js/main.js"></script>
+  <!-- Template Main JS File -->
+  <script src="../../../assets/js/main.js"></script>
 
 
 
