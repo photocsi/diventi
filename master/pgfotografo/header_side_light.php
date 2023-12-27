@@ -48,19 +48,25 @@ $operatore = 'a'                                              ;
         <span class="d-none d-lg-block"></span>
       </a>
       <i class="bi bi-hexagon-half toggle-sidebar-btn"></i>
-      <!-- check nascondi mostra pulsanti -->
-     <!--  <div class="form-check form-switch form-check-reverse" style="margin-left: 50px;">
-        <label class="form-check-label" for="cb"><b>mostra/nascondi Funzioni</b></label>
-        <input class="form-check-input" type="checkbox" id="pulsante" onclick="hidden_button()">
-      </div> -->
-
       <?php require_once '../../../includes/search_folder-class.php';
        include('../../../config_pdo.php');
        include('../../../function/funzioni_album.php');
-      $button = new SearchFolder;
+      $button = new SearchFolder($id_album,$id_operatore,$conn);
+      echo' <i class="bi bi-grip-vertical"> </i> ';
+      $button->reload();
+      echo' <i class="bi bi-grip-vertical"> </i> ';
+      $button->offcanvas_folder();
+      echo' <i class="bi bi-grip-vertical"> </i> ';
+      $button->slide_upload();
+      echo' <i class="bi bi-grip-vertical"> </i> ';
+      $button->mostra_selezione();
+      $button->azzera_selezione();
+      echo' <i class="bi bi-grip-vertical"> </i> ';
+      $button->size_picture();
+      echo' <i class="bi bi-grip-vertical"> </i> ';
+      $button->offcanvas_ricerche();
 
       ?>
-
     </div><!-- End Logo -->
 
 

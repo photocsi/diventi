@@ -79,20 +79,7 @@ if (!isset($_SESSION['user_fotografo'])) {
 
 
               <div class="container-flex text-center "> <!-- Sezione pulsanti di ricerca foto -->
-                <div id="buttons" class="row align-items-start bs-white " style="background-color:#fff;">
-
-                  <!--  INCLUDO I VARI PULSANTI di utilizzo DELLA BARRA IN ALTO -->
-                  <!--   INIZIO PULSANTI -->
-                  <?php include("../../../component/component_work/btn_folder_search.php");
-                  include("../../../component/component_work/btn_select_save.php");
-                  include("../../../component/component_work/btn_all_name_folder.php");
-                  include("../../../component/component_work/btn_rename.php");
-                  include("../../../component/component_work/btn_import_slide_size.php");
-                  include("../../../component/component_work/btn_view_client.php");   ?>
-
-                  <!-- FINE PULSANTI-->
-
-                </div> <!-- FINE DIV PULSANTI -->
+          
 
                 <!--  -------------------------------------------------------------------------------------------  -->
 
@@ -108,22 +95,13 @@ if (!isset($_SESSION['user_fotografo'])) {
                   /*         Se premo invia nella scelta delle cartelle da visualizzare */
 
                   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                    if (isset($_POST['mostra'])) {
+                    if (isset($_POST['mostra']) && isset($_POST['cartella_scelta'])) {
                       include('../../../config_pdo.php');
-                      $preferiti_cliente = array();
-                      /*    raccolgo i preferiti di quel cliente in quell'album------------------------------------ */
-                      $select_preferiti = $conn->prepare("SELECT id_foto FROM 1preferiti WHERE (id_cliente= :id_cliente AND id_album= :id_album )");
-                      $select_preferiti->bindparam(":id_cliente", $id_operatore);
-                      $select_preferiti->bindparam(":id_album", $id_album);
-                      $select_preferiti->execute();
-
-                      /*       e li metto all'interno di un array */
-                      while ($row = $select_preferiti->fetch(PDO::FETCH_ASSOC)) {
-                        $preferiti_cliente[] = $row['id_foto'];
-                      }
 
 
-
+                      $button = new SearchFolder($id_album,$id_operatore,$conn);
+                      $preferiti_cliente=$button->prendi_preferiti();
+                      
    
                       $cartella_scelta = $_POST['cartella_scelta'];
                       foreach ($cartella_scelta as $value) {
@@ -135,11 +113,6 @@ if (!isset($_SESSION['user_fotografo'])) {
                       }
                        }
                       
-                    
-
-                      
-
-
                       $conn = null;
                     }
                     unset($_POST['mostra']);
