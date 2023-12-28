@@ -1,6 +1,6 @@
 <?php
 $id_album=23 ;
-$id_operatore=34                                                   ;
+                                               ;
 
 
 
@@ -16,6 +16,8 @@ session_start();
 if (!isset($_SESSION['user_fotografo'])) {
   header('Location: ../index.php');
 }
+$id_operatore=$_COOKIE['id_operatore'];
+
 ?>
 
 
@@ -99,7 +101,7 @@ if (!isset($_SESSION['user_fotografo'])) {
                       include('../../../config_pdo.php');
 
 
-                      $button = new SearchFolder($id_album,$id_operatore,$conn);
+                      $button = new WORK($id_album,$id_operatore,$conn);
                       $preferiti_cliente=$button->prendi_preferiti();
                       
    

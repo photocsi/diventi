@@ -1,7 +1,7 @@
 <?php
 
 
-class SearchFolder
+class WORK
 {
     public $id_album = "";
     public $id_operatore = "";
@@ -37,7 +37,7 @@ class SearchFolder
 
 ?>
         <a class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" href="#offcanvasRicerca" style="margin-left: 20px; margin-right: 10px" role="button" aria-controls="offcanvasExample">
-        <i class="bi bi-gear"></i> Strumenti
+            <i class="bi bi-gear"></i> Strumenti
         </a>
 
 
@@ -48,11 +48,11 @@ class SearchFolder
             </div>
             <div class="offcanvas-body">
 
-                <?php 
-                $this->save_select(); 
-                 $this->ricerche();
-                 $this->client(); 
-                   ?>
+                <?php
+                $this->save_select();
+                $this->ricerche();
+                $this->client();
+                ?>
 
 
             </div>
@@ -92,7 +92,7 @@ class SearchFolder
                                 /*     uso la funzione per scandire le cartelle e inserirle in un array */
                                 $cartelle = mostra_cartelle($path);
                                 foreach ($cartelle as $cartella) {
-                                    $value =html_entity_decode($cartella);
+                                    $value = html_entity_decode($cartella);
                                     echo "<option value=\"$value\"> $value </option>";
                                 }
                                 ?>
@@ -102,7 +102,7 @@ class SearchFolder
                     </div>
                 </div>
 
-                <?php 
+                <?php
                 $this->rename_folder();
                 ?>
 
@@ -200,96 +200,102 @@ class SearchFolder
 
             </div>
         </div>
-<?php }
+    <?php }
 
     public function ricerche()
     { ?>
-  <div class="card">
-                <div class="card-body" style="padding-top: 20px ; ">
+        <div class="card">
+            <div class="card-body" style="padding-top: 20px ; ">
 
-                   <form method="POST" action="#" class="row g-3">
-                  <span class="input-group-text" id="basic-addon1" >
-                    <button type="submit" class="btn btn-info" name="selezione_nome"><i class="bi bi-images"></i></i></button>
-                 
-                      <input type="text" name="nome_foto" value="" class="form-control" placeholder="ricerca nome foto" aria-label="Username" aria-describedby="basic-addon1">
-                      </span> </form>
-                  
+                <form method="POST" action="#" class="row g-3">
+                    <span class="input-group-text" id="basic-addon1">
+                        <button type="submit" class="btn btn-info" name="selezione_nome"><i class="bi bi-images"></i></i></button>
+
+                        <input type="text" name="nome_foto" value="" class="form-control" placeholder="ricerca nome foto" aria-label="Username" aria-describedby="basic-addon1">
+                    </span>
+                </form>
+
                 <hr style="margin: 12px">
 
-                   <form method="POST" action="#" class="row g-3">
-                  <span class="input-group-text" id="basic-addon1" >
-                    <button type="submit" class="btn btn-info" name="prendi_cartella"><i class="bi bi-folder2-open"></i></button>
-                 
-                      <input type="text" name="nome_cartella" class="form-control" placeholder="trova cartella" aria-label="Username" aria-describedby="basic-addon1">
-                      </span> </form>
+                <form method="POST" action="#" class="row g-3">
+                    <span class="input-group-text" id="basic-addon1">
+                        <button type="submit" class="btn btn-info" name="prendi_cartella"><i class="bi bi-folder2-open"></i></button>
+
+                        <input type="text" name="nome_cartella" class="form-control" placeholder="trova cartella" aria-label="Username" aria-describedby="basic-addon1">
+                    </span>
+                </form>
 
 
-                      
-            </div></div>
 
-<?php
+            </div>
+        </div>
+
+    <?php
     }
 
-    public function client(){
-        ?>
-   <div class="card" style="margin: 0px">
-                <div class="card-body" style="padding-top: 20px">
-                
-                  <!-- No Labels Form -->
-                  <form class="row g-3" method="POST" action="#" >
-                <!--  BOTTONE PER ELIMINARE LA SELEZIONE -->
-                <button  type="submit" name="cliente_servito" value='' class="btn btn-danger  btn-sm" >Cliente servito</button>
-                   
+    public function client()
+    {
+    ?>
+        <div class="card" style="margin: 0px">
+            <div class="card-body" style="padding-top: 20px">
+
+                <!-- No Labels Form -->
+                <form class="row g-3" method="POST" action="#">
+                    <!--  BOTTONE PER ELIMINARE LA SELEZIONE -->
+                    <button type="submit" name="cliente_servito" value='' class="btn btn-danger  btn-sm">Cliente servito</button>
+
                     <select id="inputState" class="form-select" name="scelta_cliente" value="NULL" style="float:left; display:block;">
-    
-            <?php
-       $clienti=prendi_clienti($this->id_album);
-        
-               
-            /* creo la prima selezione */
-              echo"<option selected=\"NULL\" value=\"NULL\">seleziona cliente</option>";
-            while($row=$clienti->fetch(PDO::FETCH_ASSOC)) {
-                  echo "<option value=\"{$row['nome_cliente']},{$row['id_cliente']}\"> {$row['nome_cliente']} </option>";
-                
-              }
-              ?>
-                 </select>
-                 <button  type="submit" name="mostra_cliente"  class="btn btn-primary  btn-sm" >Mostra Cliente</button>
-            
-            
-                   
-                  </form>
-                  </div></div>
 
-<?php
+                        <?php
+                        $clienti = prendi_clienti($this->id_album);
+
+
+                        /* creo la prima selezione */
+                        echo "<option selected=\"NULL\" value=\"NULL\">seleziona cliente</option>";
+                        while ($row = $clienti->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<option value=\"{$row['nome_cliente']},{$row['id_cliente']}\"> {$row['nome_cliente']} </option>";
+                        }
+                        ?>
+                    </select>
+                    <button type="submit" name="mostra_cliente" class="btn btn-primary  btn-sm">Mostra Cliente</button>
+
+
+
+                </form>
+            </div>
+        </div>
+
+    <?php
     }
 
-    public function size_picture(){
-        ?>
+    public function size_picture()
+    {
+    ?>
 
-<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-bar-graph"  onclick="dsmall()" viewBox="0 0 16 16">
-      <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z"/>
-      <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-bar-graph"  onclick="dmedium()" viewBox="0 0 16 16">
-      <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z"/>
-      <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-bar-graph"   onclick="dbig()" viewBox="0 0 16 16">
-      <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z"/>
-      <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-file-bar-graph"   onclick="dfull()" viewBox="0 0 16 16">
-      <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z"/>
-      <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-    </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-bar-graph" onclick="dsmall()" viewBox="0 0 16 16">
+            <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z" />
+            <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-bar-graph" onclick="dmedium()" viewBox="0 0 16 16">
+            <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z" />
+            <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-bar-graph" onclick="dbig()" viewBox="0 0 16 16">
+            <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z" />
+            <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-file-bar-graph" onclick="dfull()" viewBox="0 0 16 16">
+            <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z" />
+            <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+        </svg>
 
-<?php
+    <?php
     }
 
-    public function reload(){
-        ?>
- <form method="POST" action="#">
+    public function reload()
+    {
+    ?>
+        <form method="POST" action="#">
             <button type="submit" name="reload" value="reload" class="btn btn-primary  btn-sm" style="margin-left: 10px; margin-right: 10px"><i class="bi bi-arrow-clockwise"></i> R</Button>
         </form>
 

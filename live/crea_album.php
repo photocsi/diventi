@@ -45,9 +45,11 @@ if (!isset($_SESSION['user_fotografo'])) {
                                     <!-- Bordered Tabs Justified -->
                                     <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
                                         <li class="nav-item flex-fill" role="presentation">
-                                            <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true"><h5><b>Crea Album</b></h5></button>
+                                            <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                                <h5><b>Crea Album</b></h5>
+                                            </button>
                                         </li>
-                                       
+
                                     </ul>
                                     <div class="tab-content pt-2" id="borderedTabJustifiedContent">
                                         <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
@@ -61,7 +63,7 @@ if (!isset($_SESSION['user_fotografo'])) {
                                                     <div class="col-sm-4">
                                                         <input type="text" name="nome" class="form-control" maxlength="30" required>
                                                     </div>
-                                               
+
                                                     <label for="inputText" class="col-sm-2 col-form-label">Sottotitolo</label>
                                                     <div class="col-sm-4">
                                                         <input type="text" name="sottotitolo" class="form-control" maxlength="30">
@@ -91,7 +93,7 @@ if (!isset($_SESSION['user_fotografo'])) {
                                                     <div class="col-sm-4">
                                                         <input type="date" name="data_album" class="form-control">
                                                     </div>
-                                                    </div>
+                                                </div>
 
 
                                                 <div class="row mb-3">
@@ -104,17 +106,37 @@ if (!isset($_SESSION['user_fotografo'])) {
                                                     <div class="col-sm-4">
                                                         <input type="text" name="path_hd" class="form-control" disabled>
                                                     </div>
-                                                    </div>
-                                                    
+                                                </div>
 
-                                            
+
+
                                                 <div class="row mb-3">
-                                                    <label for="inputPassword" class="col-sm-2 col-form-label">Note
-                                                        Album</label>
+                                                    <label for="inputPassword" class="col-sm-2 col-form-label">Note Album</label>
                                                     <div class="col-sm-10">
                                                         <textarea class="form-control" name="note" style="height: 100px"></textarea>
                                                     </div>
                                                 </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-2">
+                                                    <input type="text" class="form-control" name="operatore[]" placeholder="operatore 1" required >
+                                                    </div>
+                                                    <div class="col-2">
+                                                    <input type="text" class="form-control" name="operatore[]" placeholder="operatore 2">
+                                                    </div>
+                                                    <div class="col-2">
+                                                    <input type="text" class="form-control" name="operatore[]" placeholder="operatore 3">
+                                                    </div>
+                                                    
+                                                    <div class="col-2">
+                                                    <input type="text" class="form-control" name="operatore[]" placeholder="operatore 4">
+                                                    </div>
+                                                    <div class="col-2">
+                                                    <input type="text" class="form-control" name="operatore[]" placeholder="operatore 5">
+                                                    </div>
+                                                    <div class="col-2">
+                                                    <input type="text" class="form-control" name="operatore[]" placeholder="operatore 6">
+                                                    </div></div>
+
                                                 <div class="row mb-3">
                                                     <label class="col-sm-2 col-form-label">Crea l'Album</label>
                                                     <div class="col-sm-10">
@@ -129,16 +151,16 @@ if (!isset($_SESSION['user_fotografo'])) {
                         </div>
                     </div>
                 </div>
-              
 
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
+            </div>
+            </div>
+
+            </div>
+            </div>
         </section>
 
-        <?php include ('../component/sezione_controllo.php'); ?>
+        <?php include('../component/sezione_controllo.php'); ?>
 
     </main><!-- End #main -->
 

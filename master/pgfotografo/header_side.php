@@ -1,9 +1,12 @@
 <?php
-  $nomeutente=111111111;
-  $operatore='a'                    ;
+session_start();
+if(isset($_POST['dati_operatore'])){
+  $array_op=explode(',',$_POST['dati_operatore']);
+  $id_operatore=$array_op[0];
+  $nome_operatore=$array_op[1];
+}
 
-
-  ?>
+?>
 
 
 <!DOCTYPE html>
@@ -35,15 +38,15 @@
 
 </head>
 
-<body >
+<body>
 
 
   <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center" >
+  <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="../../../index.php" class="logo d-flex align-items-center" >
-        <img src="../../../img/logo.png"  alt="">
+      <a href="../../../index.php" class="logo d-flex align-items-center">
+        <img src="../../../img/logo.png" alt="">
         <span class="d-none d-lg-block"></span>
       </a>
       <i class="bi bi-hexagon-half toggle-sidebar-btn"></i>
@@ -65,15 +68,15 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="<?php 
-            $id_fotografo=$_SESSION['id_fotografo'];
-            if (file_exists("../../../fotografi/$id_fotografo/logo/logo.jpg")){
-              $logo="../../../fotografi/$id_fotografo/logo/logo.jpg";
-            }else{
-                $logo='../img/logo.png';
-              }
-             echo $logo;  ?>" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"> <?php echo  $nomeutente ; if(isset($operatore)) { echo $operatore ; } ?></span>
+            <img src="<?php
+                      $id_fotografo = $_SESSION['id_fotografo'];
+                      if (file_exists("../../../fotografi/$id_fotografo/logo/logo.jpg")) {
+                        $logo = "../../../fotografi/$id_fotografo/logo/logo.jpg";
+                      } else {
+                        $logo = '../img/logo.png';
+                      }
+                      echo $logo;  ?>" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"> <?php if (isset($id_operatore))  echo 'Operatore '.$nome_operatore; ?></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -141,7 +144,7 @@
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-      <li class="nav-item" >
+      <li class="nav-item">
         <a class="nav-link collapsed" style="background-color: #bee5fc ; border-radius:15px; padding: 5px;" href="../../../live/crea_album.php">
           <i class="bi bi-book"></i>
           <span>Crea nuovo album</span>
@@ -149,27 +152,31 @@
         </a>
 
         <hr>
-        <li class="nav-heading">Work Area</li>
-           <li class="nav-item">
+      <li class="nav-heading">Work Area</li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="work.php">
           <i class="bi bi-person-workspace"></i>
           <span>Area di Lavoro</span>
-        </a> </li>
-           <li class="nav-item">
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="impostazioni.php">
           <i class="bi bi-gear-fill"></i>
           <span>Impostazioni</span>
-        </a> </li>
-        <li class="nav-item">
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="gestione_clienti.php">
           <i class="bi bi-people-fill"></i>
           <span>Clienti</span>
-        </a>  </li>
-          <li class="nav-item">
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="#">
           <i class="bi bi-boxes"></i>
           <span>Modifica Album</span>
-        </a> </li>
+        </a>
+      </li>
 
 
       <hr>
@@ -205,14 +212,14 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="../../../../amministrazione/login_amministrazione.php">
-        <?php if(isset($_SESSION['admin_true']) && $_SESSION['admin_true']==="TRUE"){
-        echo "  <i class='bi bi-box-arrow-in-right'></i>
+          <?php if (isset($_SESSION['admin_true']) && $_SESSION['admin_true'] === "TRUE") {
+            echo "  <i class='bi bi-box-arrow-in-right'></i>
           <span>  'Amministrazione' ";
-           } ?> </span>
+          } ?> </span>
         </a>
       </li><!-- End Login Page Nav -->
 
-   
+
 
     </ul>
 
@@ -220,18 +227,18 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Vendor JS Files -->
-<script src="../../../assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../../assets/vendor/chart.js/chart.umd.js"></script>
-<script src="../../../assets/vendor/echarts/echarts.min.js"></script>
-<script src="../../../assets/vendor/quill/quill.min.js"></script>
-<script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="../../../assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="../../../assets/vendor/php-email-form/validate.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="../../../assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../../assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="../../../assets/vendor/echarts/echarts.min.js"></script>
+  <script src="../../../assets/vendor/quill/quill.min.js"></script>
+  <script src="../../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="../../../assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="../../../assets/vendor/php-email-form/validate.js"></script>
 
-<!-- Template Main JS File -->
-<script src="../../../assets/js/main.js"></script>
+  <!-- Template Main JS File -->
+  <script src="../../../assets/js/main.js"></script>
 
 
 

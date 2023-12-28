@@ -1,9 +1,10 @@
 <?php
-$nomeutente = 111111111;
-$operatore = 'a'                                              ;
 
+$id_operatore=$_COOKIE['id_operatore'];
+$nome_operatore=$_COOKIE['nome_operatore'];
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="it">
@@ -45,13 +46,16 @@ $operatore = 'a'                                              ;
     <div class="d-flex align-items-center justify-content-between">
       <a href="../../../index.php" class="logo d-flex align-items-center">
         <img src="../../../img/logo.png" alt="">
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" >
+             <?php if (isset($id_operatore))  echo $nome_operatore; ?>
+          </a><!-- End Profile Iamge Icon -->
         <span class="d-none d-lg-block"></span>
       </a>
       <i class="bi bi-hexagon-half toggle-sidebar-btn"></i>
-      <?php require_once '../../../includes/search_folder-class.php';
+      <?php require_once '../../../includes/work-class.php';
        include('../../../config_pdo.php');
        include('../../../function/funzioni_album.php');
-      $button = new SearchFolder($id_album,$id_operatore,$conn);
+      $button = new WORK($id_album,$id_operatore,$conn);
       echo' <i class="bi bi-grip-vertical"> </i> ';
       $button->reload();
       echo' <i class="bi bi-grip-vertical"> </i> ';
@@ -67,9 +71,6 @@ $operatore = 'a'                                              ;
       $button->offcanvas_ricerche();
 
       ?>
-    </div><!-- End Logo -->
-
-
 
 
 

@@ -430,7 +430,7 @@ $conn = null;
       echo" 
            <div class='row portfolio-container' data-aos='fade-up' data-aos-delay='200'>
            
-            <th scope='row'><a href='../album/{$row['id_album']}/pgfotografo/impostazioni.php'><img src='../album/{$row['id_album']}/copertina/{$row['path_copertina']}' alt=''></th></a>
+            <th scope='row'><a href='../album/{$row['id_album']}/pgfotografo/impostazioni.php?op=12'><img src='../album/{$row['id_album']}/copertina/{$row['path_copertina']}' alt=''></th></a>
             
             <td><a href='../album/{$row['id_album']}/pgfotografo/impostazioni.php'>{$row['nome']}</a></td>
             <td>{$row['sottotitolo']}</td>
