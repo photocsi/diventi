@@ -1,6 +1,6 @@
 <?php
-$id_album=23 ;
-                                               ;
+$id_album=23                                    ;
+
 
 
 
@@ -52,7 +52,8 @@ $id_operatore=$_COOKIE['id_operatore'];
 
   <?php
   include('header_side_light.php');
-
+require_once '../../../includes/db_pdo-class.php';
+$db_class= new DB();
 
   /*  mi prendo le info che servono dell'album */
   $select = $conn->prepare("SELECT * FROM 1album WHERE id_album= :id_album ");
@@ -217,16 +218,13 @@ $id_operatore=$_COOKIE['id_operatore'];
                       $insert_cliente->bindParam(":conferma_preferiti",  $boolean_conferma);
                       $insert_cliente->execute();
 
-                      $operatore_fisso = "operatore";
-                      $select = $conn->prepare("SELECT id_cliente FROM 1clienti WHERE id_fotografo = :id_fotografo AND ruolo= :operatore ;");
-                      $select->bindParam(":id_fotografo", $id_fotografo);
-                      $select->bindParam(":operatore", $operatore_fisso);
-                      $select->execute();
-
-
-                      while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-                        $id_operatore = $row['id_cliente'];
-                      }
+                      $field=['id_cliente'];
+                      $where=['id_cliente','ruolo'];
+                      $value=[$id_operatore,'operatore'];
+                    
+                       $id_operatore=$db_class->select_2where($field,'1clienti',$where,$value);
+                       $id_operatore=$id_operatore[0]['id_cliente'];
+                       
 
                       $select_cliente = $conn->prepare("SELECT id_cliente FROM 1clienti ORDER BY id_cliente DESC LIMIT 1;");
                       $select_cliente->execute();

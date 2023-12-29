@@ -5,10 +5,10 @@ class DB
 {
 
     private $conn = "";
-    public $field = "";
+    public $field =array();
     public $table = "";
-    public $value1 = "";
-    public $value2 = "";
+    public $where = array();
+    public $value = array();
     public $db = 'diventi';
 
     function __construct()
@@ -24,17 +24,19 @@ class DB
         }
     }
 
-    public function select_op($id_album, $ruolo)
+    public function select_2where($field,$table,$where,$value)
     {
         $result = array();
        
-        $this->value1 = $id_album;
-        $this->value2 = $ruolo;
+        $this->field = implode(',',$field);
+        $this->table = $table;
+        $this->where = $where;
+        $this->value = $value;
 
         /*    raccolgo i preferiti di quel cliente in quell'album------------------------------------ */
-        $select = $this->conn->prepare("SELECT id_cliente, nome_cliente FROM 1clienti WHERE (id_album= :id_album AND ruolo= :ruolo )");
-        $select->bindparam(":id_album", $this->value1);
-        $select->bindparam(":ruolo", $this->value2);
+        $select = $this->conn->prepare("SELECT $this->field FROM $this->table WHERE ({$this->where[0]}= :value0 AND {$this->where[1]}= :value1 )");
+        $select->bindparam(":value0", $this->value[0]);
+        $select->bindparam(":value1", $this->value[1]);
         $select->execute();
 
         /*       e li metto all'interno di un array */

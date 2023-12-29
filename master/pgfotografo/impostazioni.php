@@ -30,29 +30,34 @@ if (!isset($_SESSION['user_fotografo'])) {
 
 <body>
 
-    <?php 
-  include('header_side.php');
-    include('../../../function/class_db.php'); 
+    <?php
+    include('header_side.php');
+    include('../../../function/class_db.php');
     require_once '../../../includes/db_pdo-class.php';
-    $db_class= new DB();
-    $lista_op=$db_class->select_op($id_album, "operatore");
-    if(!isset($id_operatore)){
-        $id_operatore=$lista_op[0]['id_cliente'];
-        $nome_operatore=$lista_op[0]['nome_cliente'];
-        setcookie ("id_operatore", $id_operatore , time()+(86400));
+    $db_class = new DB();
+    $field = ['id_cliente', 'nome_cliente'];
+    $table = '1clienti';
+    $where = ['id_album', 'ruolo'];
+    $value = [$id_album, 'operatore'];
+    $lista_op = $db_class->select_2where($field, $table, $where, $value);
+    
+    if (!isset($id_operatore)) {
+        $id_operatore = $lista_op[0]['id_cliente'];
+        $nome_operatore = $lista_op[0]['nome_cliente'];
+        setcookie("id_operatore", $id_operatore, time() + (86400));
     }
     
 
-    
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $array_op=explode(',',$_POST['dati_operatore']);
-        $id_operatore=$array_op[0];
-        $nome_operatore=$array_op[1];
-        setcookie ("id_operatore", $id_operatore , time()+(86400));
-        setcookie ("nome_operatore", $nome_operatore , time()+(86400));
+        $array_op = explode(',', $_POST['dati_operatore']);
+        $id_operatore = $array_op[0];
+        $nome_operatore = $array_op[1];
+        setcookie("id_operatore", $id_operatore, time() + (86400));
+        setcookie("nome_operatore", $nome_operatore, time() + (86400));
     }
 
-    
+
 
     ?>
 
@@ -207,33 +212,33 @@ if (!isset($_SESSION['user_fotografo'])) {
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                        <form class="row gy-2 gx-3 align-items-center" action="#" method="post">
-                                        <div class="col-9">
-                                            <label class="visually-hidden" for="autoSizingSelect">Preference</label>
-                                            <select class="form-select" id="autoSizingSelect" name="dati_operatore">
-                                                <?php
-                                                 echo"  <option value=$id_operatore,$nome_operatore>$nome_operatore</option>";
-                                              for ($i=0; $i <count($lista_op) ; $i++) { 
-                                                echo"  <option value={$lista_op[$i]['id_cliente']},{$lista_op[$i]['nome_cliente']}>{$lista_op[$i]['nome_cliente']}</option>"; 
-                                              }
-                                                
-                                              
-                                                
-                                                ?>
-                                               
-                                            </select>
+                                            <form class="row gy-2 gx-3 align-items-center" action="#" method="post">
+                                                <div class="col-9">
+                                                    <label class="visually-hidden" for="autoSizingSelect">Preference</label>
+                                                    <select class="form-select" id="autoSizingSelect" name="dati_operatore">
+                                                        <?php
+                                                        echo "  <option value=$id_operatore,$nome_operatore>$nome_operatore</option>";
+                                                        for ($i = 0; $i < count($lista_op); $i++) {
+                                                            echo "  <option value={$lista_op[$i]['id_cliente']},{$lista_op[$i]['nome_cliente']}>{$lista_op[$i]['nome_cliente']}</option>";
+                                                        }
+
+
+
+                                                        ?>
+
+                                                    </select>
+                                                </div>
+                                                <div class="col-2">
+                                                    <button type="submit" class="btn btn-primary">Seleziona</button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <div class="col-2">
-                                            <button type="submit" class="btn btn-primary">Seleziona</button>
+                                        <div class="col-6">
+
                                         </div>
-                                    </form>
-                                    </div>
-                                    <div class="col-6">
 
                                     </div>
-                                     
-                                    </div>
-                                  
+
 
 
 

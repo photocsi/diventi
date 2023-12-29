@@ -384,8 +384,8 @@ function crea_album()
 function carica_foto($id_album, $id_fotografo)
 {
   include('../../../function/funzioni_album.php');
-
-  $sotto_cartella = htmlEntities(str_replace(" ", "_", trim($_POST['sotto_cartella'])));
+  $sostituire=array("'"," ","<",">","&","£");
+  $sotto_cartella = htmlEntities(str_replace($sostituire, "_", trim($_POST['sotto_cartella'])),ENT_NOQUOTES);
   $tag = trim($_POST['tag']);
 
 
