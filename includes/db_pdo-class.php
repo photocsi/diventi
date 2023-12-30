@@ -4,7 +4,7 @@
 class DB
 {
 
-    private $conn = "";
+    public $conn = "";
     public $field =array();
     public $table = "";
     public $where = array();

@@ -111,7 +111,7 @@ if (!isset($_SESSION['user_fotografo'])) {
 
 
                                                 <div class="row mb-3">
-                                                    <label for="inputPassword" class="col-sm-2 col-form-label">Note Album</label>
+                                                    <label class="col-sm-2 col-form-label">Note Album</label>
                                                     <div class="col-sm-10">
                                                         <textarea class="form-control" name="note" style="height: 100px"></textarea>
                                                     </div>

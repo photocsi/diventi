@@ -1,6 +1,6 @@
 <?php
-session_start();
-if(isset($_POST['dati_operatore'])){
+
+if(isset($_POST['dati_operatore']) && is_string($_POST['dati_operatore'])){
   $array_op=explode(',',$_POST['dati_operatore']);
   $id_operatore=$array_op[0];
   $nome_operatore=$array_op[1];

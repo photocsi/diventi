@@ -31,25 +31,27 @@ if (!isset($_SESSION['user_fotografo'])) {
 <body>
 
     <?php
-    include('header_side.php');
+     include('header_side.php'); 
     include('../../../function/class_db.php');
     require_once '../../../includes/db_pdo-class.php';
+    require_once '../../../includes/button-class.php';
+    require_once '../../../includes/report-class.php';
     $db_class = new DB();
     $field = ['id_cliente', 'nome_cliente'];
     $table = '1clienti';
     $where = ['id_album', 'ruolo'];
     $value = [$id_album, 'operatore'];
     $lista_op = $db_class->select_2where($field, $table, $where, $value);
-    
+
     if (!isset($id_operatore)) {
         $id_operatore = $lista_op[0]['id_cliente'];
         $nome_operatore = $lista_op[0]['nome_cliente'];
         setcookie("id_operatore", $id_operatore, time() + (86400));
     }
-    
 
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && is_string($_POST['dati_operatore'])) {
         $array_op = explode(',', $_POST['dati_operatore']);
         $id_operatore = $array_op[0];
         $nome_operatore = $array_op[1];
@@ -213,9 +215,8 @@ if (!isset($_SESSION['user_fotografo'])) {
                                     <div class="row">
                                         <div class="col-6">
                                             <form class="row gy-2 gx-3 align-items-center" action="#" method="post">
-                                                <div class="col-9">
-                                                    <label class="visually-hidden" for="autoSizingSelect">Preference</label>
-                                                    <select class="form-select" id="autoSizingSelect" name="dati_operatore">
+                                                <div class="col-7">
+                                                    <select class="form-select" id="inputName" name="dati_operatore">
                                                         <?php
                                                         echo "  <option value=$id_operatore,$nome_operatore>$nome_operatore</option>";
                                                         for ($i = 0; $i < count($lista_op); $i++) {
@@ -228,16 +229,58 @@ if (!isset($_SESSION['user_fotografo'])) {
 
                                                     </select>
                                                 </div>
-                                                <div class="col-2">
-                                                    <button type="submit" class="btn btn-primary">Seleziona</button>
+                                                <div class="col-5">
+                                                    <button type="submit" class="btn btn-primary">Seleziona Operatore</button>
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="col-6">
-
+                                        <div class="col-6" style="text-align:center ">
+                                            <?php $button = new BUTTON;
+                                            $report = new REPORT;
+                                            $button->modale_start('Prepara il REPORT', 'Impostazioni Report');
+                                            /* $report->form_start(); */
+                                            echo "<h5>Info Gara</h5>";
+                                            $report->input_text('Luogo', 'luogo');
+                                            $report->input_text('Società', 'societa');
+                                            $report->input_text('Sport', 'sport');
+                                            $report->input_text('Categoria', 'categoria');
+                                            echo "<h5>Report stampanti</h5>";
+                                            $report->input_print('A5 1', 'a51','a51f');
+                                            $report->input_print('A5 2', 'a52','a52f');
+                                            $report->input_print('A5 3', 'a53','a53fe');
+                                            $report->input_print('A4', 'a4','a4f');
+                                            echo "<h5>Royalti</h5>";
+                                            $report->input_number('royalti a foto', 'royalti','Euro');
+                                            $report->input_number('royalti fissa', 'royalti_fissa','Euro');
+                                            echo "<h5>Prezzi</h5>";
+                                            $report->input_number('Prezzo stampa A5', 'costo_a5','Euro');
+                                            $report->input_number('Prezzo stampa A4', 'costo_a4','Euro');
+                                            $report->input_number('Prezzo file singolo', 'costo_file','Euro');
+                                            $report->input_number('Prezzo pacchetto file', 'costo_cd','Euro');
+                                            echo "<h5>Spese</h5>";
+                                            $report->input_number('Viaggio', 'viaggio','Euro');
+                                            $report->input_number('Albergo', 'albergo','Euro');
+                                            $report->input_number('Sconti', 'sconti','Euro');
+                                            $report->input_number('Spese varie', 'varie','Euro');
+                                            $report->input_textarea('Note', 'note');
+                                            echo "<h5>Personale</h5>";
+                                            $report->op($id_album);
+                                            $report->op($id_album);
+                                            $report->op($id_album);
+                                            $report->op($id_album);
+                                            $report->op($id_album);
+                                            $report->op($id_album);
+                                            echo "<h5>Varie</h5>";
+                                            $report->input_select('Tasse', 'tasse','25','30','-','%');
+                                            $report->input_select('Dottore', 'dottore','40','50','-','%');
+                                            $report->input_select('Assistente', 'assistente','6','-','-','%');
+                                           
+                                            $button->modale_end('report', 'Salva Report');
+                                            ?>
                                         </div>
 
                                     </div>
+
 
 
 
@@ -247,7 +290,7 @@ if (!isset($_SESSION['user_fotografo'])) {
                                            ************* CANCELLA ALBUM **************
                                            ******************************************* -->
                                     <div class="row" style="margin-top: 80px;">
-                                        <span class="badge bg-primary"><i class="bi bi-gear"></i> ELIMINA ALBUM</span>
+                                        <span class="badge bg-danger"><i class="bi bi-gear"></i> ELIMINA ALBUM</span>
                                         <hr>
                                         </br>
                                         <?php $path_cartella = "../"  ?> <!-- INIZIO PULSANTE CANCELLA ALBUM -->
