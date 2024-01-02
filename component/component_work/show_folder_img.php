@@ -22,10 +22,11 @@ echo "<div class=\"col\" >
 
              echo "<div class=\"card-body\" style=\"padding:0px; margin: 0px;\"style=\" margin: 0px;\">";
              echo " <p class=\"card-text\" style=\" margin: 0px;\">{$row['nome_foto']}</br></p>";
-    
+            
              echo " <a href=\"{$row['path']}\" target=\"_blank\" ><button <i class=\"bi bi-zoom-in\"></i></button></a> "; 
              echo "&nbsp&nbsp&nbsp <button onclick=\"ApriImmagini('immagine.php?id={$row['nome_foto']},{$row['sotto_cartella']},{$row['id_foto']}')\"><i class=\"bi bi-printer\"></i></button> ";
-            echo "&nbsp&nbsp&nbsp&nbsp<button><i class=\"bi bi-trash\"></i></button>";
-             echo "</div></div></div>";
-
              ?>
+             &nbsp&nbsp&nbsp&nbsp<button><i class="bi bi-trash"></i></button>
+             </div></div></div>
+
+             

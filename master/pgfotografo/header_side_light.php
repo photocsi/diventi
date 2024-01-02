@@ -55,7 +55,7 @@ $nome_operatore=$_COOKIE['nome_operatore'];
       <?php require_once '../../../includes/work-class.php';
        include('../../../config_pdo.php');
        include('../../../function/funzioni_album.php');
-      $button = new WORK($id_album,$id_operatore,$conn);
+      $button = new WORK_CSI($id_album,$id_operatore,$conn);
       echo' <i class="bi bi-grip-vertical"> </i> ';
       $button->reload();
       echo' <i class="bi bi-grip-vertical"> </i> ';

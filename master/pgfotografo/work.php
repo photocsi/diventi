@@ -53,7 +53,7 @@ $id_operatore=$_COOKIE['id_operatore'];
   <?php
   include('header_side_light.php');
 require_once '../../../includes/db_pdo-class.php';
-$db_class= new DB();
+$db_class= new DB_CSI();
 
   /*  mi prendo le info che servono dell'album */
   $select = $conn->prepare("SELECT * FROM 1album WHERE id_album= :id_album ");
@@ -102,7 +102,7 @@ $db_class= new DB();
                       include('../../../config_pdo.php');
 
 
-                      $button = new WORK($id_album,$id_operatore,$conn);
+                      $button = new WORK_CSI($id_album,$id_operatore,$conn);
                       $preferiti_cliente=$button->prendi_preferiti();
                       
    

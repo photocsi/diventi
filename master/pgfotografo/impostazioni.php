@@ -23,20 +23,15 @@ if (!isset($_SESSION['user_fotografo'])) {
     <title>Modifica Album - Tardis Photo CSI</title>
     <script type="text/javascript" src="../../../function/funzioni_js.js"></script>
 
-
-
-    <!--  funzione per la conferma della cancellazione dell'album -->
 </head>
 
 <body>
 
     <?php
-     include('header_side.php'); 
-    include('../../../function/class_db.php');
+     include('header_side.php');
     require_once '../../../includes/db_pdo-class.php';
     require_once '../../../includes/button-class.php';
-    require_once '../../../includes/report-class.php';
-    $db_class = new DB();
+    $db_class = new DB_CSI;
     $field = ['id_cliente', 'nome_cliente'];
     $table = '1clienti';
     $where = ['id_album', 'ruolo'];
@@ -97,7 +92,9 @@ if (!isset($_SESSION['user_fotografo'])) {
                                         <li class="nav-item flex-fill" role="presentation">
                                             <a href="modifica_album.php"> <button class="nav-link w-100 " id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true" disabled>Modifica Album</button></a>
                                         </li>
-
+                                        <li class="nav-item flex-fill" role="presentation">
+                                            <a href="report.php"> <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="report" aria-selected="false">Report</button></a>
+                                        </li>
                                         <li class="nav-item flex-fill" role="presentation">
                                             <a href="impostazioni.php"> <button class="nav-link w-100 active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Impostazioni</button></a>
                                         </li>
@@ -105,10 +102,43 @@ if (!isset($_SESSION['user_fotografo'])) {
                                             <a href="gestione_clienti.php"> <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Clienti</button></a>
                                         </li>
                                     </ul>
+ <!--   INIZIO CONTENUTO INTERNO CON LE VARIE OPZIONI ALBUM -->
+ <div class="row">
+                                        <div class="alert alert-primary" style="text-align: center; margin-top: 5px" role="alert">
+                                            <b> <i class="bi bi-gear"></i> <i class="bi bi-book"></i> PREFERENZE ALBUM </b>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <form class="row gy-2 gx-3 align-items-center" action="#" method="post">
+                                                <div class="col-7">
+                                                    <select class="form-select" id="inputName" name="dati_operatore">
+                                                        <?php
+                                                        echo "  <option value=$id_operatore,$nome_operatore>$nome_operatore</option>";
+                                                        for ($i = 0; $i < count($lista_op); $i++) {
+                                                            echo "  <option value={$lista_op[$i]['id_cliente']},{$lista_op[$i]['nome_cliente']}>{$lista_op[$i]['nome_cliente']}</option>";
+                                                        }
+
+
+
+                                                        ?>
+
+                                                    </select>
+                                                </div>
+                                                <div class="col-5">
+                                                    <button type="submit" class="btn btn-primary">Seleziona Operatore</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-6" style="text-align:center ">
+                                          
+                                        </div>
+
+                                    </div>
 
                                     <hr>
                                     <div class="row">
-                                        <span class="badge bg-primary"><i class="bi bi-gear"></i> PAGINE CLIENTI</span>
+                                        <span class="badge bg-primary"><i class="bi bi-gear"></i> <i class="bi bi-person-badge"></i> PAGINE CLIENTI</span>
                                         <hr>
                                         <!--  INIZIO SCELTA PREFERITI -->
                                         <div class="col-4" style="border-right: 2px solid #bbb; background-color:aliceblue ">
@@ -206,91 +236,12 @@ if (!isset($_SESSION['user_fotografo'])) {
                                     </div>
                                     <!--  FINE SCELTA WATERMARK-->
 
-                                    <!--   INIZIO CONTENUTO INTERNO CON LE VARIE OPZIONI ALBUM -->
-                                    <div class="row">
-                                        <div class="alert alert-primary" style="text-align: center;" role="alert">
-                                            <b> <i class="bi bi-gear"></i> PREFERENZE ALBUM </b>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <form class="row gy-2 gx-3 align-items-center" action="#" method="post">
-                                                <div class="col-7">
-                                                    <select class="form-select" id="inputName" name="dati_operatore">
-                                                        <?php
-                                                        echo "  <option value=$id_operatore,$nome_operatore>$nome_operatore</option>";
-                                                        for ($i = 0; $i < count($lista_op); $i++) {
-                                                            echo "  <option value={$lista_op[$i]['id_cliente']},{$lista_op[$i]['nome_cliente']}>{$lista_op[$i]['nome_cliente']}</option>";
-                                                        }
-
-
-
-                                                        ?>
-
-                                                    </select>
-                                                </div>
-                                                <div class="col-5">
-                                                    <button type="submit" class="btn btn-primary">Seleziona Operatore</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="col-6" style="text-align:center ">
-                                            <?php $button = new BUTTON;
-                                            $report = new REPORT;
-                                            $button->modale_start('Prepara il REPORT', 'Impostazioni Report');
-                                            /* $report->form_start(); */
-                                            echo "<h5>Info Gara</h5>";
-                                            $report->input_text('Luogo', 'luogo');
-                                            $report->input_text('Società', 'societa');
-                                            $report->input_text('Sport', 'sport');
-                                            $report->input_text('Categoria', 'categoria');
-                                            echo "<h5>Report stampanti</h5>";
-                                            $report->input_print('A5 1', 'a51','a51f');
-                                            $report->input_print('A5 2', 'a52','a52f');
-                                            $report->input_print('A5 3', 'a53','a53fe');
-                                            $report->input_print('A4', 'a4','a4f');
-                                            echo "<h5>Royalti</h5>";
-                                            $report->input_number('royalti a foto', 'royalti','Euro');
-                                            $report->input_number('royalti fissa', 'royalti_fissa','Euro');
-                                            echo "<h5>Prezzi</h5>";
-                                            $report->input_number('Prezzo stampa A5', 'costo_a5','Euro');
-                                            $report->input_number('Prezzo stampa A4', 'costo_a4','Euro');
-                                            $report->input_number('Prezzo file singolo', 'costo_file','Euro');
-                                            $report->input_number('Prezzo pacchetto file', 'costo_cd','Euro');
-                                            echo "<h5>Spese</h5>";
-                                            $report->input_number('Viaggio', 'viaggio','Euro');
-                                            $report->input_number('Albergo', 'albergo','Euro');
-                                            $report->input_number('Sconti', 'sconti','Euro');
-                                            $report->input_number('Spese varie', 'varie','Euro');
-                                            $report->input_textarea('Note', 'note');
-                                            echo "<h5>Personale</h5>";
-                                            $report->op($id_album);
-                                            $report->op($id_album);
-                                            $report->op($id_album);
-                                            $report->op($id_album);
-                                            $report->op($id_album);
-                                            $report->op($id_album);
-                                            echo "<h5>Varie</h5>";
-                                            $report->input_select('Tasse', 'tasse','25','30','-','%');
-                                            $report->input_select('Dottore', 'dottore','40','50','-','%');
-                                            $report->input_select('Assistente', 'assistente','6','-','-','%');
-                                           
-                                            $button->modale_end('report', 'Salva Report');
-                                            ?>
-                                        </div>
-
-                                    </div>
-
-
-
-
-
 
                                     <!--   *******************************************
                                            ************* CANCELLA ALBUM **************
                                            ******************************************* -->
                                     <div class="row" style="margin-top: 80px;">
-                                        <span class="badge bg-danger"><i class="bi bi-gear"></i> ELIMINA ALBUM</span>
+                                        <span class="badge bg-danger"><i class="bi bi-gear"></i> <i class="bi bi-exclamation-octagon"></i> ELIMINA ALBUM</span>
                                         <hr>
                                         </br>
                                         <?php $path_cartella = "../"  ?> <!-- INIZIO PULSANTE CANCELLA ALBUM -->

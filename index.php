@@ -1,11 +1,6 @@
 <?php
 ob_start();
 
-define( 'CSIIQ_VERSION', '1.0.0' );
-define( 'D20PAGE', __FILE__ );
-define( 'D20URL', __FILE__ );
-define( 'D20DIR',  dirname( __FILE__ ) );
-
 
 if(isset($_COOKIE['user_fotografo'])){
     session_start();

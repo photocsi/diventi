@@ -2,7 +2,7 @@
 
 require_once 'db_pdo-class.php';
 
-class BUTTON extends DB
+class BUTTON_CSI extends DB_CSI
 {
 
     private $name_button = "diventi";
@@ -52,7 +52,7 @@ class BUTTON extends DB
                 public function form_start($action = "#", $method = "POST")
                 { ?>
 
-        <form id="modulo" action="<?php echo $action ?>" method="<?php echo $method ?>" class="row g-3">
+        <form  action="<?php echo $action ?>" method="<?php echo $method ?>" class="row mb-3">
         <?php }
 
                 public function submit($nome_submit, $testo_submit)

@@ -78,9 +78,30 @@ function crea_album()
       };
     }
   }
+  require_once '../includes/db_pdo-class.php';
+  $db_class= new DB_CSI;
+  $db_class->insert('1report','id_album',':id_album',$id_album);
+  $lista_op=$db_class->select(array('id_cliente', 'id_album'),'1clienti','id_album',$id_album);
+  if(isset($lista_op[0]['id_cliente'])){
+  $db_class->update('id_op1', $lista_op[0]['id_cliente'],$id_album,'id_album','1report');
+  }
+  if(isset($lista_op[1]['id_cliente'])){
+    $db_class->update('id_op2', $lista_op[1]['id_cliente'],$id_album,'id_album','1report');
+    }
+    if(isset($lista_op[2]['id_cliente'])){
+      $db_class->update('id_op3', $lista_op[2]['id_cliente'],$id_album,'id_album','1report');
+      }
+      if(isset($lista_op[3]['id_cliente'])){
+        $db_class->update('id_op4', $lista_op[3]['id_cliente'],$id_album,'id_album','1report');
+        }
+        if(isset($lista_op[4]['id_cliente'])){
+          $db_class->update('id_op5', $lista_op[4]['id_cliente'],$id_album,'id_album','1report');
+          }
+          if(isset($lista_op[5]['id_cliente'])){
+            $db_class->update('id_op6', $lista_op[5]['id_cliente'],$id_album,'id_album','1report');
+            }
 
-
-
+ 
 
   /* estrapolo e poi aggiungo l'id operatore all'interno della lista operatori_registrati nella tabella 1album */
   $select = $conn->prepare("SELECT id_cliente FROM 1clienti WHERE id_album= :id_album AND nome_cliente= :nome_cliente AND ruolo= :ruolo ;");
@@ -178,6 +199,18 @@ function crea_album()
 
   fwrite($nuovo_file, $testo);
   fclose($nuovo_file);
+
+   /*   creo la pagina REPORT */
+   $origin = "../master/pgfotografo/report.php";
+   $destination = "../album/$id_album/pgfotografo/report.php";
+   copy($origin, $destination);
+ 
+   $nuovo_file = fopen("$destination", "r+") or die("unable to open file!");
+   $testo = "<?php
+     \$id_album=$id_album   ;  ";
+ 
+   fwrite($nuovo_file, $testo);
+   fclose($nuovo_file);
 
   /*   CREO LA PAGINA HEADER */
   $origin = "../master/pgfotografo/header_side.php";

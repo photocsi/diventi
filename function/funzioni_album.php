@@ -254,8 +254,10 @@ function modale_cliente($nome_cliente,$email_cliente,$telefono_cliente,$conferma
             
             <button type='button' name='bottone' value='c,$id_cliente,$id_album' id='cancella$id_cliente' onclick=\"cancella_selezione('cancella$id_cliente','$id_cliente')\"  class='btn btn-outline-danger btn-sm '>Azzera selezione</button>
          
+            <button type='button' name='bottone' value='$id_cliente,$id_album' id='download$id_cliente' onclick=\"download_files('download$id_cliente','$id_cliente')\"  class='btn btn-outline-danger btn-sm '>Download files</button>
+              
             <button type='submit' class='btn btn-outline-primary btn-sm ms-auto' disabled>Estrai le foto dal pc</button>
-           
+            
             <div class='vr'></div>
             <a href=' ../pgcliente/selezioni/$nome_cliente-selezione-$id_cliente.txt' download='$nome_cliente-selezione-$id_cliente.txt'>
             <button type='button' class='btn btn-outline-primary btn-sm  '>Scarica selezione txt</button></a>
@@ -264,8 +266,8 @@ function modale_cliente($nome_cliente,$email_cliente,$telefono_cliente,$conferma
       </div>
     </div><!-- End Modal Dialog Scrollable-->
     </div>
-  </div>";
-
+   </div>";
+ 
     
 }
 

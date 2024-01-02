@@ -68,6 +68,44 @@ function cancella_selezione(id,idcuore){
     })    
 }
 
+function download_files(id){
+    console.log(id);
+
+    var valore =$('#'+ id).val();
+    console.log(valore);
+    $.ajax({
+        type: "post",
+        url: "../../../includes/function-class.php",
+        data: "bottone=" + valore,
+        success: function(response){
+            var prova = response;
+          console.log(prova);
+
+          location.reload();
+    
+        }
+    })    
+}
+
+function delete_file(id){
+    console.log(id);
+
+    var valore =$('#'+ id).val();
+    console.log(valore);
+    $.ajax({
+        type: "post",
+        url: "../../../includes/function-class.php",
+        data: "bottone=" + valore,
+        success: function(response){
+            var prova = response;
+          console.log(prova);
+
+          location.reload();
+    
+        }
+    })    
+}
+
 function contatore(id_button){
 var valore =$('#' + id_button).val();
 $.ajax({
@@ -152,7 +190,7 @@ function resetta() {
             var card=(document.getElementsByClassName ("card"));
             for(i=0;i<card.length;i++){
                 document.querySelectorAll('#card_foto')[i].style.width = '8rem';
-        console.log(card[i]);
+       
                  }
             }
         
@@ -160,24 +198,32 @@ function resetta() {
             var card=(document.getElementsByClassName ("card"));
             for(i=0;i<card.length;i++){
                 document.querySelectorAll('#card_foto')[i].style.width = '12rem';
-        console.log(card[i]);
+        
                  }
             }
         function dbig(){
             var card=(document.getElementsByClassName ("card"));
             for(i=0;i<card.length;i++){
                 document.querySelectorAll('#card_foto')[i].style.width = '16rem';
-        console.log(card[i]);
+        
                  }
             }
             function dfull(){
             var card=(document.getElementsByClassName ("card"));
             for(i=0;i<card.length;i++){
                 document.querySelectorAll('#card_foto')[i].style.width = '26rem';
-        console.log(card[i]);
+        
                  }
             }
-  
+
+            function dxlfull(){
+                var card=(document.getElementsByClassName ("card"));
+                for(i=0;i<card.length;i++){
+                    document.querySelectorAll('#card_foto')[i].style.width = '36rem';
+            
+                     }
+                }
+           
            /*  SELEZIONE IN LIVE  */
             function seleziona(val){
                 var valore =$('#'+val).attr('value');
@@ -203,6 +249,7 @@ function resetta() {
                     }
                 })    
           }
+
 
        /*    inserisci logo nella grafica */
 
