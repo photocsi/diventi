@@ -6,7 +6,7 @@ creo una nuova riga sul db in album, memorizzo le variabili creo una nuova carte
 
 function crea_album()
 {
-  include('class_db.php');
+
   /* Esternalizzo le viaribili post del form */
   $nome = htmlEntities(str_replace(" ", "_", trim($_POST['nome'])));
   $sottotitolo = htmlEntities(str_replace(" ", "_", trim($_POST['sottotitolo'])));
@@ -80,25 +80,25 @@ function crea_album()
   }
   require_once '../includes/db_pdo-class.php';
   $db_class= new DB_CSI;
-  $db_class->insert('1report','id_album',':id_album',$id_album);
+  $db_class->insert('1report','id_album',':id_album',array($id_album));
   $lista_op=$db_class->select(array('id_cliente', 'id_album'),'1clienti','id_album',$id_album);
   if(isset($lista_op[0]['id_cliente'])){
-  $db_class->update('id_op1', $lista_op[0]['id_cliente'],$id_album,'id_album','1report');
+  $db_class->update('id_op1', $lista_op[0]['id_cliente'],'id_album',$id_album,'1report');
   }
   if(isset($lista_op[1]['id_cliente'])){
-    $db_class->update('id_op2', $lista_op[1]['id_cliente'],$id_album,'id_album','1report');
+    $db_class->update('id_op2', $lista_op[1]['id_cliente'],'id_album',$id_album,'1report');
     }
     if(isset($lista_op[2]['id_cliente'])){
-      $db_class->update('id_op3', $lista_op[2]['id_cliente'],$id_album,'id_album','1report');
+      $db_class->update('id_op3', $lista_op[2]['id_cliente'],'id_album',$id_album,'1report');
       }
       if(isset($lista_op[3]['id_cliente'])){
-        $db_class->update('id_op4', $lista_op[3]['id_cliente'],$id_album,'id_album','1report');
+        $db_class->update('id_op4', $lista_op[3]['id_cliente'],'id_album',$id_album,'1report');
         }
         if(isset($lista_op[4]['id_cliente'])){
-          $db_class->update('id_op5', $lista_op[4]['id_cliente'],$id_album,'id_album','1report');
+          $db_class->update('id_op5', $lista_op[4]['id_cliente'],'id_album',$id_album,'1report');
           }
           if(isset($lista_op[5]['id_cliente'])){
-            $db_class->update('id_op6', $lista_op[5]['id_cliente'],$id_album,'id_album','1report');
+            $db_class->update('id_op6', $lista_op[5]['id_cliente'],'id_album',$id_album,'1report');
             }
 
  

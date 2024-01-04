@@ -16,7 +16,7 @@ session_start();
 if (!isset($_SESSION['user_fotografo'])) {
   header('Location: ../index.php');
 }
-$id_operatore=$_COOKIE['id_operatore'];
+$id_operatore = $_COOKIE['id_operatore'];
 
 ?>
 
@@ -52,8 +52,8 @@ $id_operatore=$_COOKIE['id_operatore'];
 
   <?php
   include('header_side_light.php');
-require_once '../../../includes/db_pdo-class.php';
-$db_class= new DB_CSI();
+  require_once '../../../includes/db_pdo-class.php';
+  $db_class = new DB_CSI();
 
   /*  mi prendo le info che servono dell'album */
   $select = $conn->prepare("SELECT * FROM 1album WHERE id_album= :id_album ");
@@ -82,7 +82,7 @@ $db_class= new DB_CSI();
 
 
               <div class="container-flex text-center "> <!-- Sezione pulsanti di ricerca foto -->
-          
+
 
                 <!--  -------------------------------------------------------------------------------------------  -->
 
@@ -102,20 +102,20 @@ $db_class= new DB_CSI();
                       include('../../../config_pdo.php');
 
 
-                      $button = new WORK_CSI($id_album,$id_operatore,$conn);
-                      $preferiti_cliente=$button->prendi_preferiti();
-                      
-   
+                      $button = new WORK_CSI($id_album, $id_operatore, $conn);
+                      $preferiti_cliente = $button->prendi_preferiti();
+
+
                       $cartella_scelta = $_POST['cartella_scelta'];
                       foreach ($cartella_scelta as $value) {
                         $select = $conn->prepare("SELECT *  FROM `$id_album` WHERE (sotto_cartella= :cartella_scelta) ORDER BY data ASC;");
-                      $select->bindparam(":cartella_scelta",  $value);
-                      $select->execute();
-                      while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-                        include('../../../component/component_work/show_folder_img.php');
+                        $select->bindparam(":cartella_scelta",  $value);
+                        $select->execute();
+                        while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+                          include('../../../component/component_work/show_folder_img.php');
+                        }
                       }
-                       }
-                      
+
                       $conn = null;
                     }
                     unset($_POST['mostra']);
@@ -218,13 +218,13 @@ $db_class= new DB_CSI();
                       $insert_cliente->bindParam(":conferma_preferiti",  $boolean_conferma);
                       $insert_cliente->execute();
 
-                      $field=['id_cliente'];
-                      $where=['id_cliente','ruolo'];
-                      $value=[$id_operatore,'operatore'];
-                    
-                       $id_operatore=$db_class->select_2where($field,'1clienti',$where,$value);
-                       $id_operatore=$id_operatore[0]['id_cliente'];
-                       
+                      $field = ['id_cliente'];
+                      $where = ['id_cliente', 'ruolo'];
+                      $value = [$id_operatore, 'operatore'];
+
+                      $id_operatore = $db_class->select_2where($field, '1clienti', $where, $value);
+                      $id_operatore = $id_operatore[0]['id_cliente'];
+
 
                       $select_cliente = $conn->prepare("SELECT id_cliente FROM 1clienti ORDER BY id_cliente DESC LIMIT 1;");
                       $select_cliente->execute();
@@ -347,6 +347,55 @@ $db_class= new DB_CSI();
                     unset($_POST['cartella_rename']);
                     unset($_POST['cartella_newname']);
                   }
+
+                  /*    INIZIO CREA NUOVA CARTELLA */
+
+                  if (isset($_POST['create_folder']) && $_POST['create_folder'] != 'NULL') {
+                    $new_folder = $_POST['create_folder'];
+                    mkdir("../sottocartelle/$new_folder/large/", 0777, TRUE);
+                    mkdir("../sottocartelle/$new_folder/medium/", 0777, TRUE);
+                    mkdir("../sottocartelle/$new_folder/small/", 0777, TRUE);
+                    mkdir("../sottocartelle/$new_folder/watermark/", 0777, TRUE);
+                  }
+                  /*  FINE CREA NUOVA CARTELLA */
+
+                  /*   INIZIO SPOSTA FOTO */
+
+                  if (isset($_POST['move_photo']) && $_POST['move_photo'] != 'NULL') {
+                    $move_photo = $_POST['move_photo'];
+                    if(!file_exists("../sottocartelle/$move_photo/large/")){
+                    mkdir("../sottocartelle/$move_photo/large/", 0777, TRUE);
+                    mkdir("../sottocartelle/$move_photo/medium/", 0777, TRUE);
+                    mkdir("../sottocartelle/$move_photo/small/", 0777, TRUE);
+                    mkdir("../sottocartelle/$move_photo/watermark/", 0777, TRUE);
+                    }
+                    $select = $db_class->take_select($id_operatore, $id_album);
+                    for ($i = 0; $i < count($select); $i++) {
+                      $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path']);
+                      copy($select[$i]['path'], $new_path);
+                      unlink($select[$i]['path']);
+                      $db_class->update('path',$new_path,'id_foto',$select[$i]['id_foto'],$id_album);
+
+                      $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_small']);
+                      copy($select[$i]['path_small'], $new_path);
+                      unlink($select[$i]['path_small']);
+                      $db_class->update('path_small',$new_path,'id_foto',$select[$i]['id_foto'],$id_album);
+
+                      $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_medium']);
+                      copy($select[$i]['path_medium'], $new_path);
+                      unlink($select[$i]['path_medium']);
+                      $db_class->update('path_medium',$new_path,'id_foto',$select[$i]['id_foto'],$id_album);
+
+                      $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_watermark']);
+                      copy($select[$i]['path_watermark'], $new_path);
+                      unlink($select[$i]['path_watermark']);
+                      $db_class->update('path_watermark',$new_path,'id_foto',$select[$i]['id_foto'],$id_album);
+
+                      $db_class->update('sotto_cartella',$move_photo,'id_foto',$select[$i]['id_foto'],$id_album);
+                    }
+                  }
+
+                  /*     FINE SPOSTA FOTO */
 
                   ?>
 

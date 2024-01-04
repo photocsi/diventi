@@ -99,21 +99,21 @@ class DB_CSI
     public function insert($table, $string_fields, $string_param, $array_values)
     {
         $array_param = explode(",", $string_param);
-        $insert = $this->conn->prepare("INSERT INTO $table ($string_fields) VALUES ($string_param) ");
+        $insert = $this->conn->prepare("INSERT INTO $this->db.$table ($string_fields) VALUES ($string_param) ");
         for ($i = 0; $i < count($array_param); $i++) {
             $insert->bindparam($array_param[$i], $array_values[$i]);
         }
-
+       
         $insert->execute();
     }
 
-    public function update($field, $value, $id_album, $where_field = "id_album", $table)
+    public function update($field, $value, $where_field = "id_album",$where_value, $table)
     {
         $where_param = ':' . $where_field;
         $param = ':' . $field;
-        $insert = $this->conn->prepare("UPDATE $table SET $field=$param WHERE $where_field = $where_param");
+        $insert = $this->conn->prepare("UPDATE $this->db.$table SET $field=$param WHERE $where_field = $where_param");
         $insert->bindparam($param, $value);
-        $insert->bindparam($where_param, $id_album);
+        $insert->bindparam($where_param, $where_value);
         $insert->execute();
     }
 

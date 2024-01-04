@@ -104,6 +104,8 @@ class WORK_CSI
 
                 <?php
                 $this->rename_folder();
+                $this->move_photo();
+                $this->create_folder();
                 ?>
 
             </div>
@@ -201,6 +203,48 @@ class WORK_CSI
             </div>
         </div>
     <?php }
+
+public function move_photo()
+    { ?>
+        <div class="card">
+            <div class="card-body" style="padding-top: 20px ; ">
+
+
+                <form method="POST" action="#" class="row g-3">
+                    <span class="input-group-text" id="basic-addon1" style="padding: 2px !important;">
+                        <button type="submit" class="btn btn-info" name="salva_move_photo"><i class="bi bi-folder-symlink"></i></button>
+
+                        <input type="text" name="move_photo" value="" class="form-control" placeholder="Sposta foto" aria-label="Username" aria-describedby="basic-addon1">
+                    </span>
+                </form>
+
+
+
+
+            </div>
+        </div>
+    <?php }
+
+public function create_folder()
+{ ?>
+    <div class="card">
+        <div class="card-body" style="padding-top: 20px ; ">
+
+
+            <form method="POST" action="#" class="row g-3">
+                <span class="input-group-text" id="basic-addon1" style="padding: 2px !important;">
+                    <button type="submit" class="btn btn-info" name="create_folder"><i class="bi bi-folder-plus"></i></button>
+
+                    <input type="text" name="create_folder" value="" class="form-control" placeholder="Crea nuova cartella" aria-label="Username" aria-describedby="basic-addon1">
+                </span>
+            </form>
+
+
+
+
+        </div>
+    </div>
+<?php }
 
     public function ricerche()
     { ?>
