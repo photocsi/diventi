@@ -106,7 +106,7 @@ return $sotto_cartelle;
   
 /* CREO UN ARRAY CON LA LISTA CLIENTI DI UN ALBUM */
 function lista_clienti($id_album){
-  include('../../../config_pdo.php');
+  include(D20DIR.'/config_pdo.php');
 /* estrapolo la lista clienti di quell'album */
     $select_clienti=$conn->prepare("SELECT clienti_registrati FROM 1album WHERE id_album= :id_album;");
     $select_clienti->bindParam(':id_album' , $id_album);
@@ -432,9 +432,9 @@ $conn = null;
       echo" 
            <div class='row portfolio-container' data-aos='fade-up' data-aos-delay='200'>
            
-            <th scope='row'><a href='../album/{$row['id_album']}/pgfotografo/impostazioni.php?op=12'><img src='../album/{$row['id_album']}/copertina/{$row['path_copertina']}' alt=''></th></a>
+            <th scope='row'><a href='../album/{$row['id_album']}/pgfotografo/impostazioni.php?id_album={$row['id_album']}'><img src='../album/{$row['id_album']}/copertina/{$row['path_copertina']}' alt=''></th></a>
             
-            <td><a href='../album/{$row['id_album']}/pgfotografo/impostazioni.php'>{$row['nome']}</a></td>
+            <td><a href='../album/{$row['id_album']}/pgfotografo/impostazioni.php?id_album={$row['id_album']}'>{$row['nome']}</a></td>
             <td>{$row['sottotitolo']}</td>
            <td class='fw-bold'>{$row['data_album']}</td>
        </tr>";

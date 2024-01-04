@@ -6,8 +6,10 @@ $nome_album="citua"                                                             
 
 ob_start();
 session_start();
-include('../../../function/funzioni_album.php');
-
+if(isset($_GET['id_album'])){
+$id_album=$_GET['id_album'];
+}
+$_SESSION['id_album']=$id_album;
 if (!isset($_SESSION['user_fotografo'])) {
     header('Location: ../../../index.php');
 }
@@ -28,7 +30,10 @@ if (!isset($_SESSION['user_fotografo'])) {
 <body>
 
     <?php
-     include('header_side.php');
+    include('../../../main.php');
+    include(D20DIR.'/function/funzioni_album.php');
+    include(D20DIR.'/config_pdo.php');
+    include('header_side.php');
     require_once '../../../includes/db_pdo-class.php';
     require_once '../../../includes/button-class.php';
     $db_class = new DB_CSI;
@@ -90,13 +95,13 @@ if (!isset($_SESSION['user_fotografo'])) {
                                     <!-- Bordered Tabs Justified -->
                                     <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
                                         <li class="nav-item flex-fill" role="presentation">
-                                            <a href="modifica_album.php"> <button class="nav-link w-100 " id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true" disabled>Modifica Album</button></a>
+                                            <a href="<?php echo D20.'/live/modifica_album.php' ?>"> <button class="nav-link w-100 " id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true" >Modifica Album</button></a>
                                         </li>
                                         <li class="nav-item flex-fill" role="presentation">
                                             <a href="report.php"> <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="report" aria-selected="false">Report</button></a>
                                         </li>
                                         <li class="nav-item flex-fill" role="presentation">
-                                            <a href="impostazioni.php"> <button class="nav-link w-100 active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Impostazioni</button></a>
+                                            <a href="#"> <button class="nav-link w-100 active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Impostazioni</button></a>
                                         </li>
                                         <li class="nav-item flex-fill" role="presentation">
                                             <a href="gestione_clienti.php"> <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Clienti</button></a>

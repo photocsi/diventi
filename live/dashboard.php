@@ -34,9 +34,12 @@ $_SESSION['id_fotografo']=$_COOKIE['id_fotografo'];
 <?php
 include('../function/funzioni_album.php');
 include('../function/statistiche.php');
-$n_album=numero_album($_SESSION['id_fotografo']);
+/* $n_album=numero_album($_SESSION['id_fotografo']);
 $quantita_foto=numero_foto($_SESSION['id_fotografo']);
-$n_clienti=numero_clienti($_SESSION['id_fotografo']);
+$n_clienti=numero_clienti($_SESSION['id_fotografo']); */
+$n_album=0;
+$quantita_foto=0;
+$n_clienti=0;
 ?>
 
 <main id="main" class="main" style="background-color: #bee5fc;">

@@ -29,19 +29,20 @@ class DB_CSI
         $this->conn = null;
     }
 
-     /* prendi la selezione delle foto */
-    public function take_select($id_cliente, $id_album){
-        $result=array();
-        $select=$this->conn->prepare("SELECT * FROM $this->db.$id_album 
+    /* prendi la selezione delle foto */
+    public function take_select($id_cliente, $id_album)
+    {
+        $result = array();
+        $select = $this->conn->prepare("SELECT * FROM $this->db.$id_album 
   INNER JOIN 1preferiti ON $this->db.$id_album.id_foto=1preferiti.id_foto  WHERE id_cliente= :id_cliente ;");
-  $select->bindParam(':id_cliente' , $id_cliente);
-  $select->execute();
+        $select->bindParam(':id_cliente', $id_cliente);
+        $select->execute();
 
-  while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-    $result[] = $row;
-  }
-  
-  return $result;
+        while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = $row;
+        }
+
+        return $result;
     }
     /* seleziona una u piu campi con un where */
     public function select($array_field, $table, $where, $value)
@@ -52,12 +53,12 @@ class DB_CSI
         $this->where = $where;
         $this->value = $value;
 
-     
+
         $select = $this->conn->prepare("SELECT $this->field FROM $this->table WHERE $this->where= :value0 ");
         $select->bindparam(":value0", $this->value);
         $select->execute();
 
-      
+
         while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
             $result[] = $row;
         }
@@ -94,11 +95,10 @@ class DB_CSI
         }
         return $result;
     }
-
-    public function insert($table, $string_fields, $string_param, $string_values)
+ /*  inserisco un nuovo record con i suoi vari campi */
+    public function insert($table, $string_fields, $string_param, $array_values)
     {
         $array_param = explode(",", $string_param);
-        $array_values = explode(",", $string_values);
         $insert = $this->conn->prepare("INSERT INTO $table ($string_fields) VALUES ($string_param) ");
         for ($i = 0; $i < count($array_param); $i++) {
             $insert->bindparam($array_param[$i], $array_values[$i]);
@@ -107,7 +107,7 @@ class DB_CSI
         $insert->execute();
     }
 
-    public function update($field, $value, $id_album, $where_field="id_album", $table)
+    public function update($field, $value, $id_album, $where_field = "id_album", $table)
     {
         $where_param = ':' . $where_field;
         $param = ':' . $field;
@@ -115,5 +115,13 @@ class DB_CSI
         $insert->bindparam($param, $value);
         $insert->bindparam($where_param, $id_album);
         $insert->execute();
+    }
+
+    public function delete($table, $where, $field)
+    {
+        $param = ':' . $where;
+        $delete = $this->conn->prepare("DELETE FROM $this->db.$table WHERE $where = $param");
+        $delete->bindParam($param, $field);
+        $delete->execute();
     }
 }

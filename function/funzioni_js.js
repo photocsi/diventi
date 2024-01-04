@@ -90,18 +90,43 @@ function download_files(id){
 function delete_file(id){
     console.log(id);
 
-    var valore =$('#'+ id).val();
+    var valore =$('#'+ id).attr('value');
     console.log(valore);
     $.ajax({
         type: "post",
         url: "../../../includes/function-class.php",
-        data: "bottone=" + valore,
+        data: "delete=" + valore,
         success: function(response){
             var prova = response;
           console.log(prova);
 
           location.reload();
     
+        }
+    })    
+}
+
+  /*  SELEZIONE IN LIVE  */
+  function seleziona(val){
+    var valore =$('#'+val).attr('value');
+    $.ajax({
+        type: "post",
+        url: "../../../function/seleziona.php",
+        data: "foto=" + valore,
+        success: function(response){
+            var prova = response;
+          console.log(prova);
+    
+            var bordo = document.getElementById(val);
+            if(prova==0){
+                bordo.style.border = 'limegreen 8px solid';
+               /*   contorno.style.color= 'white';  */
+                 
+            }else{
+                bordo.style.border = '';
+               /*  contorno.style.color= 'black'; */
+               
+            }
         }
     })    
 }
@@ -224,31 +249,7 @@ function resetta() {
                      }
                 }
            
-           /*  SELEZIONE IN LIVE  */
-            function seleziona(val){
-                var valore =$('#'+val).attr('value');
-                $.ajax({
-                    type: "post",
-                    url: "../../../function/seleziona.php",
-                    data: "foto=" + valore,
-                    success: function(response){
-                        var prova = response;
-                      console.log(prova);
-                
-                        var bordo = document.getElementById(val);
-                        if(prova==0){
-                            bordo.style.border = 'limegreen 8px solid';
-                           /*   contorno.style.color= 'white';  */
-                             
-                        }else{
-                            bordo.style.border = '';
-                           /*  contorno.style.color= 'black'; */
-                           
-                        }
-                     console.log(response);
-                    }
-                })    
-          }
+         
 
 
        /*    inserisci logo nella grafica */

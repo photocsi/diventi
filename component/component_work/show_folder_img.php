@@ -26,7 +26,9 @@ echo "<div class=\"col\" >
              echo " <a href=\"{$row['path']}\" target=\"_blank\" ><button <i class=\"bi bi-zoom-in\"></i></button></a> "; 
              echo "&nbsp&nbsp&nbsp <button onclick=\"ApriImmagini('immagine.php?id={$row['nome_foto']},{$row['sotto_cartella']},{$row['id_foto']}')\"><i class=\"bi bi-printer\"></i></button> ";
              ?>
-             &nbsp&nbsp&nbsp&nbsp<button><i class="bi bi-trash"></i></button>
+             &nbsp&nbsp&nbsp&nbsp<button id="<?php echo $row['id_foto'] ?>" 
+             value="<?php echo $row['id_foto'].','.$id_album.','.$row['nome_foto'].','.$row['sotto_cartella'] ?>"
+              onclick="delete_file(<?php echo $row['id_foto'] ?>)"><i class="bi bi-trash"></i></button>
              </div></div></div>
 
              

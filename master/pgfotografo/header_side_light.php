@@ -52,9 +52,12 @@ $nome_operatore=$_COOKIE['nome_operatore'];
         <span class="d-none d-lg-block"></span>
       </a>
       <i class="bi bi-hexagon-half toggle-sidebar-btn"></i>
-      <?php require_once '../../../includes/work-class.php';
-       include('../../../config_pdo.php');
-       include('../../../function/funzioni_album.php');
+      <?php
+      include('../../../main.php');
+      include(D20DIR.'/function/funzioni_album.php');
+      include(D20DIR.'/config_pdo.php');
+      require_once '../../../includes/work-class.php';
+      
       $button = new WORK_CSI($id_album,$id_operatore,$conn);
       echo' <i class="bi bi-grip-vertical"> </i> ';
       $button->reload();
@@ -115,7 +118,7 @@ $nome_operatore=$_COOKIE['nome_operatore'];
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="<?php echo D20.'/live/modifica_album.php' ?>">
           <i class="bi bi-boxes"></i>
           <span>Modifica Album</span>
         </a>
