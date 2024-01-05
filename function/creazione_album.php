@@ -158,7 +158,7 @@ function crea_album()
   mkdir("../album/$id_album/pgcliente/selezioni/", 0777, TRUE);
   mkdir("../album/$id_album/pgfotografo/", 0777, TRUE);
   mkdir("../album/$id_album/sottocartelle/", 0777, TRUE);
-  mkdir("../album/$id_album/sottocartelle/cestino/", 0777, TRUE);
+  mkdir("../album/$id_album/sottocartelle/CESTINO/", 0777, TRUE);
 
 
   /* creo una nuova tabella nominata con l'id dell'album */

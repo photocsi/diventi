@@ -154,21 +154,27 @@ if(isset($_POST['dati_operatore']) && is_string($_POST['dati_operatore'])){
         <hr>
       <li class="nav-heading">Work Area</li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="work.php">
+        <a class="nav-link collapsed" href="<?php echo "../album/$id_album/pgfotografo/work.php" ?>">
           <i class="bi bi-person-workspace"></i>
           <span>Area di Lavoro</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="impostazioni.php">
+        <a class="nav-link collapsed" href="<?php echo "../album/$id_album/pgfotografo/impostazioni.php" ?>">
           <i class="bi bi-gear-fill"></i>
           <span>Impostazioni</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="gestione_clienti.php">
+        <a class="nav-link collapsed" href="<?php echo "../album/$id_album/pgfotografo/gestione_clienti.php" ?>">
           <i class="bi bi-people-fill"></i>
           <span>Clienti</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="<?php echo "../album/$id_album/pgfotografo/report.php" ?>">
+        <i class="bi bi-table"></i>
+          <span>Report</span>
         </a>
       </li>
       <li class="nav-item">

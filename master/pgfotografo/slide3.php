@@ -1,12 +1,12 @@
 <?php
-$id_album=165                                              ;
+$id_album = 165;
 
 
 
 session_start();
-$cartella_scelta5=$_SESSION['cartella_scelta5'];
-$cartella_scelta6=$_SESSION['cartella_scelta6'];
-$id_cliente=$_SESSION['id_cliente3'];
+$cartella_scelta5 = $_SESSION['cartella_scelta5'];
+$cartella_scelta6 = $_SESSION['cartella_scelta6'];
+$id_cliente = $_SESSION['id_cliente3'];
 
 
 
@@ -21,124 +21,120 @@ header("Pragma: no-cache");
 
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide1</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide1</title>
 
 </head>
+
 <body>
 
-<?php
-         include('../../../function/funzioni_album.php');
-         include('../../../config_pdo.php');
-         /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
-         $seleziona_foto=$conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella= :cartella_scelta5 OR sotto_cartella= :cartella_scelta6; ");
-         $seleziona_foto->bindParam(':cartella_scelta5', $cartella_scelta5);
-         $seleziona_foto->bindParam(':cartella_scelta6', $cartella_scelta6);
-         $seleziona_foto->execute();
-         $conn= null ;
-         $listafile=array();
-         
-         
-         while($row=$seleziona_foto->fetch(PDO::FETCH_ASSOC)){
-           if (file_exists("../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}")){
-             $row['path_medium']="../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}";
-           }
-  $listafile["path"][]=$row['path_medium'];
-  $listafile["nome"][]=$row['nome_foto'];
-  $listafile["sotto_cartella"][]=$row['sotto_cartella'];
- 
-}
+  <?php
+  include('../../../function/funzioni_album.php');
+  include('../../../config_pdo.php');
+  /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
+  $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella= :cartella_scelta5 OR sotto_cartella= :cartella_scelta6; ");
+  $seleziona_foto->bindParam(':cartella_scelta5', $cartella_scelta5);
+  $seleziona_foto->bindParam(':cartella_scelta6', $cartella_scelta6);
+  $seleziona_foto->execute();
+  $conn = null;
+  $listafile = array();
 
-$selezione=prendi_preferiti($id_album,$id_cliente);
-/* aggiungo all'array anche le foto delle selezioni */
-while($row=$selezione->fetch(PDO::FETCH_ASSOC)){
-  if (file_exists("../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}")){
-    $row['path_medium']="../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}";
+
+  while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
+    if (file_exists("../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}")) {
+      $row['path_medium'] = "../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}";
+    }
+    $listafile["path"][] = $row['path_medium'];
+    $listafile["nome"][] = filter_var($row['nome_foto'], FILTER_SANITIZE_NUMBER_INT);
+    $listafile["sotto_cartella"][] = $row['sotto_cartella'];
   }
-  $listafile["path"][]=$row['path_medium'];
-  $listafile["nome"][]=$row['nome_foto'];
-  $listafile["sotto_cartella"][]=$row['sotto_cartella'];
- 
-}
-          ?>
+
+  $selezione = prendi_preferiti($id_album, $id_cliente);
+  /* aggiungo all'array anche le foto delle selezioni */
+  while ($row = $selezione->fetch(PDO::FETCH_ASSOC)) {
+    if (file_exists("../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}")) {
+      $row['path_medium'] = "../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}";
+    }
+    $listafile["path"][] = $row['path_medium'];
+    $listafile["nome"][] = filter_var($row['nome_foto'], FILTER_SANITIZE_NUMBER_INT);
+    $listafile["sotto_cartella"][] = $row['sotto_cartella'];
+  }
+  ?>
 
 
   <script>
+    var listafile = <?php echo json_encode($listafile) ?>
 
-     
-var listafile = <?php echo json_encode($listafile) ?>
-
-console.log(listafile);
-var i = 0;
-var time = 3000;
+    console.log(listafile);
+    var i = 0;
+    var time = 3000;
 
 
 
-function changeImg() {
- 
-  document.slide.src = listafile["path"][i]; /* faccio apparire l'immagine */
+    function changeImg() {
 
-  var paragrafo= document.createElement("testo"); /* aggiungo l'elemento del nome immagine */
-  var testo = document.createTextNode(listafile["sotto_cartella"][i] + ' => ' + listafile["nome"][i]);
-  paragrafo.appendChild(testo);
-  document.getElementById("testo").appendChild(paragrafo); /* fine aggiunta nome immagine */
+      document.slide.src = listafile["path"][i]; /* faccio apparire l'immagine */
 
-  setTimeout("rem()" ,time);
-  console.log(listafile["nome"][i]);
+      var paragrafo = document.createElement("testo"); /* aggiungo l'elemento del nome immagine */
+      var testo = document.createTextNode(listafile["sotto_cartella"][i] + ' > ' + listafile["nome"][i] + ' < ');
+      paragrafo.appendChild(testo);
+      document.getElementById("testo").appendChild(paragrafo); /* fine aggiunta nome immagine */
 
-  if (i < listafile["path"].length - 1) {
-      i++
-  } else {
-      i = 0;
-  }
-  setTimeout("changeImg()" ,time);
- 
+      setTimeout("rem()", time);
+      console.log(listafile["nome"][i]);
 
-
-}
-
-function rem(){
-  const list = document.getElementById("testo");
-list.removeChild(list.firstElementChild);
-   
-}
-
-window.onload = changeImg;
+      if (i < listafile["path"].length - 1) {
+        i++
+      } else {
+        i = 0;
+      }
+      setTimeout("changeImg()", time);
 
 
 
-</script>
+    }
+
+    function rem() {
+      const list = document.getElementById("testo");
+      list.removeChild(list.firstElementChild);
+
+    }
+
+    window.onload = changeImg;
+  </script>
 
 
 
-<div class="container-fluid" style="text-align: center;">
+  <div class="container-fluid" style="text-align: center;">
 
-  <div class="item active">
-  <div id="testo" style="font-size : 300%;  color:black; font-family: Helvetica ; "   > </div>
-  <hr>
- 
-              <div class="container-fluid" >
-              <div id="prova" class="row " style="width: auto ; height: 600px">
-                 <img name="slide"  style="width: 100% ; height: 100%; object-fit: contain;  border: 4px black solid ; "  alt="..." data-gallery="portfolioGallery"  title="Card 1"><i class="bx bx-plus">
-            </div>
-            <hr>
-            </div>
-             
-           
-        </div></div>
+    <div class="item active">
+      <div id="testo" style="font-size : 300%;  color:black; font-family: Helvetica ; "> </div>
+      <hr>
+
+      <div class="container-fluid">
+        <div id="prova" class="row " style="width: auto ; height: 600px">
+          <img name="slide" style="width: 100% ; height: 100%; object-fit: contain;  border: 4px black solid ; " alt="..." data-gallery="portfolioGallery" title="Card 1"><i class="bx bx-plus">
+        </div>
+        <hr>
+      </div>
 
 
-<script>
-  var altezza= window.screen.availHeight;
-console.log(altezza);
+    </div>
+  </div>
 
-var divReference = document.getElementById("prova");
-     divReference.style.height = altezza-160 + 'px';
 
-</script>
+  <script>
+    var altezza = window.screen.availHeight;
+    console.log(altezza);
+
+    var divReference = document.getElementById("prova");
+    divReference.style.height = altezza - 160 + 'px';
+  </script>
 
 </body>
+
 </html>

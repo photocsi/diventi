@@ -51,7 +51,7 @@ while($row=$seleziona_foto->fetch(PDO::FETCH_ASSOC)){
     $row['path_medium']="../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}";
   }
   $listafile["path"][]=$row['path_medium'];
-  $listafile["nome"][]=$row['nome_foto'];
+  $listafile["nome"][]=filter_var($row['nome_foto'], FILTER_SANITIZE_NUMBER_INT);
   $listafile["sotto_cartella"][]=$row['sotto_cartella'];
  
 }
@@ -63,7 +63,7 @@ while($row=$selezione->fetch(PDO::FETCH_ASSOC)){
     $row['path_medium']="../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}";
   }
   $listafile["path"][]=$row['path_medium'];
-  $listafile["nome"][]=$row['nome_foto'];
+  $listafile["nome"][]=filter_var($row['nome_foto'], FILTER_SANITIZE_NUMBER_INT);
   $listafile["sotto_cartella"][]=$row['sotto_cartella'];
  
 }
@@ -85,7 +85,7 @@ function changeImg() {
   document.slide.src = listafile["path"][i]; /* faccio apparire l'immagine */
 
   var paragrafo= document.createElement("testo"); /* aggiungo l'elemento del nome immagine */
-  var testo = document.createTextNode(listafile["sotto_cartella"][i] + ' => ' + listafile["nome"][i]);
+  var testo = document.createTextNode(listafile["sotto_cartella"][i] + ' > ' + listafile["nome"][i] + ' < ') ;
   
   paragrafo.appendChild(testo);
   document.getElementById("testo").appendChild(paragrafo); /* fine aggiunta nome immagine */

@@ -68,13 +68,13 @@ class INPUT_CSI extends BUTTON_CSI
   <?php 
   }
 
-  public function input_text($name, $name_post)
+  public function input_text($label, $name_post)
   {
 
     $result=$this->db_class->select(array($name_post), '1report', 'id_album', $this->id_album);
 
   ?> <div class="row mb-3">
-      <label for="inputValue" class="col-sm-4 col-form-label col-form-label-sm"><?php echo $name ?></label>
+      <label for="inputValue" class="col-sm-4 col-form-label col-form-label-sm"><?php echo $label ?></label>
       <div class="col-md-8">
         <input name="<?php echo $name_post ?>" type="text" value="<?php echo $result[0][$name_post] ?>" class="form-control form-control-sm" id="inputValue">
       </div>

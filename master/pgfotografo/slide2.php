@@ -25,7 +25,7 @@ header("Pragma: no-cache");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide1</title>
+    <title>Slide2</title>
 
 </head>
 <body>
@@ -46,9 +46,9 @@ header("Pragma: no-cache");
            if (file_exists("../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}")){
              $row['path_medium']="../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}";
            }
-  $listafile["path"][]=$row['path_medium'];
-  $listafile["nome"][]=$row['nome_foto'];
-  $listafile["sotto_cartella"][]=$row['sotto_cartella'];
+           $listafile["path"][]=$row['path_medium'];
+           $listafile["nome"][]=filter_var($row['nome_foto'], FILTER_SANITIZE_NUMBER_INT);
+           $listafile["sotto_cartella"][]=$row['sotto_cartella'];
  
 }
 
@@ -59,7 +59,7 @@ while($row=$selezione->fetch(PDO::FETCH_ASSOC)){
     $row['path_medium']="../sottocartelle/{$row['sotto_cartella']}/large/modificate/{$row['nome_foto']}";
   }
   $listafile["path"][]=$row['path_medium'];
-  $listafile["nome"][]=$row['nome_foto'];
+  $listafile["nome"][]=filter_var($row['nome_foto'], FILTER_SANITIZE_NUMBER_INT);
   $listafile["sotto_cartella"][]=$row['sotto_cartella'];
  
 }
@@ -82,7 +82,7 @@ function changeImg() {
   document.slide.src = listafile["path"][i]; /* faccio apparire l'immagine */
 
   var paragrafo= document.createElement("testo"); /* aggiungo l'elemento del nome immagine */
-  var testo = document.createTextNode(listafile["sotto_cartella"][i] + ' => ' + listafile["nome"][i]);
+  var testo = document.createTextNode(listafile["sotto_cartella"][i] + ' > ' + listafile["nome"][i] + ' <');
   paragrafo.appendChild(testo);
   document.getElementById("testo").appendChild(paragrafo); /* fine aggiunta nome immagine */
 

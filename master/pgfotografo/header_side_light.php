@@ -118,6 +118,12 @@ $nome_operatore=$_COOKIE['nome_operatore'];
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link collapsed" href="report.php">
+        <i class="bi bi-table"></i>
+          <span>Report</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="<?php echo D20.'/live/modifica_album.php' ?>">
           <i class="bi bi-boxes"></i>
           <span>Modifica Album</span>
