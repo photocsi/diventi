@@ -134,7 +134,7 @@ if (!isset($_SESSION['user_fotografo'])) {
                                     <h6 class="card-title">Gestione Clienti</h6>
                                 </div>
                                 <div class="col">
-                                    <a href="work.php"> <button type="button" style="margin-top: 1rem;" class="btn btn-outline-success btn-sm">
+                                    <a href="<?php echo "../album/$id_album/pgfotografo/work.php" ?>"> <button type="button" style="margin-top: 1rem;" class="btn btn-outline-success btn-sm">
                                             "Vai nell'area di lavoro" </button></a>
                                 </div>
                                 <div class="col">
