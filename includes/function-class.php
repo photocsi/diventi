@@ -50,8 +50,7 @@ class FUNCTION_CSI extends DB_CSI
         $this->delete($this->id_album, 'id_foto', $id_foto);
          $this->insert(
             $this->id_album,
-            'id_album,id_fotografo,sotto_cartella,path,path_medium,path_small,path_watermark,nome_foto',
-            ':id_album,:id_fotografo,:sotto_cartella,:path,:path_medium,:path_small,:path_watermark,:nome_foto',
+           array('id_album','id_fotografo','sotto_cartella','path','path_medium','path_small','path_watermark','nome_foto'),
             array($this->id_album , '0' , 'cestino',"../sottocartelle/cestino/$nome_foto" ,"../sottocartelle/cestino/$nome_foto","../sottocartelle/cestino/$nome_foto","../sottocartelle/cestino/$nome_foto", "$nome_foto" ),
         );
        

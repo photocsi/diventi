@@ -2,6 +2,7 @@
 
 session_start();
 $id_album = $_SESSION['id_album'];
+$id_fotografo =$_SESSION['id_fotografo'];
 if (!isset($_SESSION['user_fotografo'])) {
     header('Location: ../../../index.php');
 }
@@ -36,6 +37,88 @@ if (!isset($_SESSION['user_fotografo'])) {
 
 
     require_once 'header_side.php';
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['modifica_album']) && $_POST['nome'] != null) {
+            $nome_album = $_POST['nome'];
+            $sottotitolo = $_POST['sottotitolo'];
+            $categoria = $_POST['categoria'];
+            $data = $_POST['data_album'];
+            $note = $_POST['note'];
+           /*  prendo gli id degli operatori */
+            $op1=$_POST['operatore'][0];
+            $op2=$_POST['operatore'][1];
+            $op3=$_POST['operatore'][2];
+            $op4=$_POST['operatore'][3];
+            $op5=$_POST['operatore'][4];
+            $op6=$_POST['operatore'][5];
+             $db_class->update('1album','nome',$nome_album,'id_album',$id_album);
+             $db_class->update('1album','sottotitolo',$sottotitolo,'id_album',$id_album);
+             $db_class->update('1album','categoria',$categoria,'id_album',$id_album);
+             $db_class->update('1album','data_album',$data,'id_album',$id_album);  
+             $db_class->update('1album','note',$note,'id_album',$id_album);
+
+             $op=$_SESSION['op'];  /* prendo i nomi degli operatori */
+            /*  primo operatore obbligatorio cambio direttamente il nome nella tabella clienti */
+             $db_class->update('1clienti','nome_cliente',$op1,'id_cliente',$op[0]['id_op1']);
+
+           /*   dal secondo in poi prima controllo se è stato inserito, quindi se c'e' il nome e l'id */
+             if(isset($op2) && $op2 != null && $op[0]['id_op2'] == null){
+               /* se dunque era un campo vuoto aggiungo un nuovo operatore nella tabella clienti e inserisco il nuovo id nella tabella report */
+                $db_class->insert('1clienti',array('id_album','id_fotografo','nome_cliente','ruolo'), array($id_album,$id_fotografo,$op2,'operatore'));
+                $new_id=$db_class->select_order('1clienti',array('id_cliente'),'1',array('id_album','nome_cliente','ruolo'),array($id_album,$op2,'operatore'),'DESC');
+                $id_new_cliente=$new_id[0]['id_cliente'];
+                $db_class->update('1report','id_op2',$id_new_cliente,'id_album',$id_album);
+             } else{          /* altrimenti con l'operatore gia inserito vado a modificare solo il nome */
+                $db_class->update('1clienti','nome_cliente',$op2,'id_cliente',$op[0]['id_op2']);
+             }
+
+             if(isset($op3) && $op3 != null && $op[0]['id_op3'] == null){
+                /* se dunque era un campo vuoto aggiungo un nuovo operatore nella tabella clienti e inserisco il nuovo id nella tabella report */
+                 $db_class->insert('1clienti',array('id_album','id_fotografo','nome_cliente','ruolo'), array($id_album,$id_fotografo,$op3,'operatore'));
+                 $new_id=$db_class->select_order('1clienti',array('id_cliente'),'1',array('id_album','nome_cliente','ruolo'),array($id_album,$op3,'operatore'),'DESC');
+                 $id_new_cliente=$new_id[0]['id_cliente'];
+                 $db_class->update('1report','id_op3',$id_new_cliente,'id_album',$id_album);
+              } else{          /* altrimenti con l'operatore gia inserito vado a modificare solo il nome */
+                 $db_class->update('1clienti','nome_cliente',$op3,'id_cliente',$op[0]['id_op3']);
+
+              } if(isset($op4) && $op4 != null && $op[0]['id_op4'] == null){
+                /* se dunque era un campo vuoto aggiungo un nuovo operatore nella tabella clienti e inserisco il nuovo id nella tabella report */
+                 $db_class->insert('1clienti',array('id_album','id_fotografo','nome_cliente','ruolo'), array($id_album,$id_fotografo,$op4,'operatore'));
+                 $new_id=$db_class->select_order('1clienti',array('id_cliente'),'1',array('id_album','nome_cliente','ruolo'),array($id_album,$op4,'operatore'),'DESC');
+                 $id_new_cliente=$new_id[0]['id_cliente'];
+                 $db_class->update('1report','id_op4',$id_new_cliente,'id_album',$id_album);
+              } else{          /* altrimenti con l'operatore gia inserito vado a modificare solo il nome */
+                 $db_class->update('1clienti','nome_cliente',$op4,'id_cliente',$op[0]['id_op4']);
+
+              } if(isset($op5) && $op5 != null && $op[0]['id_op5'] == null){
+                /* se dunque era un campo vuoto aggiungo un nuovo operatore nella tabella clienti e inserisco il nuovo id nella tabella report */
+                 $db_class->insert('1clienti',array('id_album','id_fotografo','nome_cliente','ruolo'), array($id_album,$id_fotografo,$op5,'operatore'));
+                 $new_id=$db_class->select_order('1clienti',array('id_cliente'),'1',array('id_album','nome_cliente','ruolo'),array($id_album,$op5,'operatore'),'DESC');
+                 $id_new_cliente=$new_id[0]['id_cliente'];
+                 $db_class->update('1report','id_op5',$id_new_cliente,'id_album',$id_album);
+              } else{          /* altrimenti con l'operatore gia inserito vado a modificare solo il nome */
+                 $db_class->update('1clienti','nome_cliente',$op5,'id_cliente',$op[0]['id_op5']);
+
+              } if(isset($op6) && $op6 != null && $op[0]['id_op6'] == null){
+                /* se dunque era un campo vuoto aggiungo un nuovo operatore nella tabella clienti e inserisco il nuovo id nella tabella report */
+                 $db_class->insert('1clienti',array('id_album','id_fotografo','nome_cliente','ruolo'), array($id_album,$id_fotografo,$op6,'operatore'));
+                 $new_id=$db_class->select_order('1clienti',array('id_cliente'),'1',array('id_album','nome_cliente','ruolo'),array($id_album,$op6,'operatore'),'DESC');
+                 $id_new_cliente=$new_id[0]['id_cliente'];
+                 $db_class->update('1report','id_op6',$id_new_cliente,'id_album',$id_album);
+              } else{          /* altrimenti con l'operatore gia inserito vado a modificare solo il nome */
+                 $db_class->update('1clienti','nome_cliente',$op6,'id_cliente',$op[0]['id_op6']);
+              }
+             
+         /*  *******************************************************************
+             ************************MI DEVO RICORDARE**************************
+             ***ricordarsi di scrivere il codice per eliminare i record dalla **
+             **tabella clienti nel caso in cui il nome venga eliminatodal form**
+             **quindi se un nome viene cancellato togliere l'id operatore e **
+             **e il cliente nella tabella clienti*******************************
+             ******************************************************************** */
+        }
+    }
 
     ?>
 
@@ -93,7 +176,7 @@ if (!isset($_SESSION['user_fotografo'])) {
                                     </div>
                                     <!-- contenuto tab -->
                                     <!-- Form di compilazione dati -->
-                                    <?php $result=$db_class->select(array("*"),'1album','id_album',$id_album); ?>
+                                    <?php $result = $db_class->select(array("*"), '1album', 'id_album', $id_album); ?>
                                     <form action="#" method="POST" enctype="multipart/form-data">
                                         <div class="row mb-3">
                                             <label for="inputText" class="col-sm-2 col-form-label">Nome Album</label>
@@ -133,7 +216,7 @@ if (!isset($_SESSION['user_fotografo'])) {
                                         </div>
 
 
-                                       <!--  <div class="row mb-3">
+                                        <!--  <div class="row mb-3">
                                             <label for="inputNumber" class="col-sm-2 col-form-label">Carica
                                                 Copertina</label>
                                             <div class="col-sm-4">
@@ -153,32 +236,73 @@ if (!isset($_SESSION['user_fotografo'])) {
                                                 <textarea class="form-control" value="<?php echo $result[0]['note'] ?>" name="note" style="height: 100px"></textarea>
                                             </div>
                                         </div>
+
+                                        <?php
+                                        $op = $db_class->select(array('id_op1','id_op2','id_op3','id_op4','id_op5','id_op6'), '1report', 'id_album', $id_album);
+                                        $_SESSION['op']=$op;
+
+                                        $op_select = $op[0]['id_op1'];
+                                        $op_selezionato = $db_class->select_innerjoin('id_cliente,nome_cliente', array('1clienti', '1report'), '1clienti.id_cliente', $op_select);
+                                        if(isset($op[0]['id_op2']) && $op[0]['id_op2'] != null){
+                                        $op_select2 = $op[0]['id_op2'];
+                                        $op_selezionato2 = $db_class->select_innerjoin('id_cliente,nome_cliente', array('1clienti', '1report'), '1clienti.id_cliente', $op_select2);
+                                        }else{
+                                            $op_selezionato2[0]['nome_cliente']= null;
+                                        }
+                                        if(isset($op[0]['id_op3']) && $op[0]['id_op2'] != null){
+                                        $op_select3 = $op[0]['id_op3'];
+                                        $op_selezionato3 = $db_class->select_innerjoin('id_cliente,nome_cliente', array('1clienti', '1report'), '1clienti.id_cliente', $op_select3);
+                                        }else{
+                                            $op_selezionato3[0]['nome_cliente']= null;
+                                        }
+                                        if(isset($op[0]['id_op4']) && $op[0]['id_op2'] != null){
+                                        $op_select4 = $op[0]['id_op4'];
+                                        $op_selezionato4 = $db_class->select_innerjoin('id_cliente,nome_cliente', array('1clienti', '1report'), '1clienti.id_cliente', $op_select4);
+                                        }else{
+                                            $op_selezionato4[0]['nome_cliente']= null;
+                                        }
+                                        if(isset($op[0]['id_op5']) && $op[0]['id_op2'] != null){
+                                        $op_select5 = $op[0]['id_op5'];
+                                        $op_selezionato5 = $db_class->select_innerjoin('id_cliente,nome_cliente', array('1clienti', '1report'), '1clienti.id_cliente', $op_select5);
+                                        }else{
+                                            $op_selezionato5[0]['nome_cliente']= null;
+                                        }
+                                        if(isset($op[0]['id_op6']) && $op[0]['id_op2'] != null){
+                                        $op_select6 = $op[0]['id_op6'];
+                                        $op_selezionato6 = $db_class->select_innerjoin('id_cliente,nome_cliente', array('1clienti', '1report'), '1clienti.id_cliente', $op_select6);
+                                        }else{
+                                            $op_selezionato6[0]['nome_cliente']= null;
+                                        }
+
+
+
+                                        ?>
                                         <div class="row mb-3">
                                             <div class="col-2">
-                                                <input type="text" class="form-control" value="<?php echo $result[0]['note'] ?>" name="operatore[]" placeholder="operatore 1" required>
+                                                <input type="text" class="form-control" value="<?php echo $op_selezionato[0]['nome_cliente'] ?>" name="operatore[]" placeholder="<?php echo $op_selezionato[0]['nome_cliente'] ?>" required>
                                             </div>
                                             <div class="col-2">
-                                                <input type="text" class="form-control" value="<?php echo $result[0]['note'] ?>" name="operatore[]" placeholder="operatore 2">
+                                                <input type="text" class="form-control" value="<?php echo $op_selezionato2[0]['nome_cliente'] ?>" name="operatore[]" placeholder="operatore 2">
                                             </div>
                                             <div class="col-2">
-                                                <input type="text" class="form-control" value="<?php echo $result[0]['note'] ?>" name="operatore[]" placeholder="operatore 3">
+                                                <input type="text" class="form-control" value="<?php echo $op_selezionato3[0]['nome_cliente'] ?>" name="operatore[]" placeholder="operatore 3">
                                             </div>
 
                                             <div class="col-2">
-                                                <input type="text" class="form-control" value="<?php echo $result[0]['note'] ?>" name="operatore[]" placeholder="operatore 4">
+                                                <input type="text" class="form-control" value="<?php echo $op_selezionato4[0]['nome_cliente'] ?>" name="operatore[]" placeholder="operatore 4">
                                             </div>
                                             <div class="col-2">
-                                                <input type="text" class="form-control" value="<?php echo $result[0]['note'] ?>" name="operatore[]" placeholder="operatore 5">
+                                                <input type="text" class="form-control" value="<?php echo $op_selezionato5[0]['nome_cliente'] ?>" name="operatore[]" placeholder="operatore 5">
                                             </div>
                                             <div class="col-2">
-                                                <input type="text" class="form-control" value="<?php echo $result[0]['note'] ?>" name="operatore[]" placeholder="operatore 6">
+                                                <input type="text" class="form-control" value="<?php echo $op_selezionato6[0]['nome_cliente'] ?>" name="operatore[]" placeholder="operatore 6">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label class="col-sm-2 col-form-label">Modifica Album</label>
                                             <div class="col-sm-10">
-                                                <button type="submit" class="btn btn-primary">Invia</button>
+                                                <button type="submit" name="modifica_album" class="btn btn-primary">Invia</button>
                                             </div>
                                         </div>
                                     </form><!-- End General Form Elements -->
@@ -197,7 +321,7 @@ if (!isset($_SESSION['user_fotografo'])) {
                 </div> <!-- fine contenuto tab -->
 
                 <!--       sezione anteprima album -->
-                <?php include(D20PGF . '/anteprima_album.php'); ?>
+                <?php /* include(D20PGF . '/anteprima_album.php'); */ ?>
                 <!--   fine anteprima album -->
 
             </div> <!-- FINE ROW PAGINA TOTALE -->

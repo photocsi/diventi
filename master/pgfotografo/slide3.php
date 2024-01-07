@@ -112,7 +112,7 @@ header("Pragma: no-cache");
   <div class="container-fluid" style="text-align: center;">
 
     <div class="item active">
-      <div id="testo" style="font-size : 300%;  color:black; font-family: Helvetica ; "> </div>
+    <b><div id="testo" style="font-size : 250%;  color:black; font-family: Tahoma ; "   > </div></b>
       <hr>
 
       <div class="container-fluid">

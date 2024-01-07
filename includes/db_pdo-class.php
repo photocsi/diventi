@@ -29,7 +29,7 @@ class DB_CSI
         $this->conn = null;
     }
 
-    /* prendi la selezione delle foto */
+    /* prendi le foto selezionate  */
     public function take_select($id_cliente, $id_album)
     {
         $result = array();
@@ -64,7 +64,7 @@ class DB_CSI
         }
         return $result;
     }
-    /* seleziona una u piu campi con 2 where */
+    /* seleziona uno o piu campi con 2 where */
     public function select_2where($array_field, $table, $where, $value)
     {
         $result = array();
@@ -85,6 +85,43 @@ class DB_CSI
         return $result;
     }
 
+    public function select_order($table,$array_field, $quantity, $array_where, $array_value,$asc_desc)
+    {
+        $result = array();
+
+        $this->field = implode(',', $array_field);
+        $this->table = $table;
+        $this->where = $array_where;
+        $this->value = $array_value;
+
+        if(!isset($this->where[1])){
+           $this->where[1]=$this->where[0];
+           $this->where[2]=$this->where[0];
+        }else if(isset($this->where[1]) && !isset($this->where[2])){
+            $this->where[2]=$this->where[0];
+        }
+
+        if(!isset($this->value[1])){
+            $this->value[1]=$this->value[0];
+            $this->value[2]=$this->value[0];
+         }else if(isset($this->value[1]) && !isset($this->value[2])){
+             $this->value[2]=$this->value[0];
+         }
+
+        $select = $this->conn->prepare("SELECT $this->field FROM $this->table WHERE ({$this->where[0]}= :value0 AND {$this->where[1]}= :value1 AND {$this->where[2]}= :value2 ) ORDER BY $this->field $asc_desc LIMIT $quantity");
+        $select->bindparam(":value0", $this->value[0]);
+        $select->bindparam(":value1", $this->value[1]);
+        $select->bindparam(":value2", $this->value[2]);
+        $select->execute();
+
+        while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = $row;
+        }
+        return $result;
+    }
+
+
+
     public function select_innerjoin($string_field, $array_table, $where, $value)
     {
         $result = array();
@@ -96,9 +133,14 @@ class DB_CSI
         return $result;
     }
  /*  inserisco un nuovo record con i suoi vari campi */
-    public function insert($table, $string_fields, $string_param, $array_values)
+    public function insert($table, $array_fields, $array_values)
     {
-        $array_param = explode(",", $string_param);
+        $array_param=array();
+        for ($i=0; $i <count($array_fields) ; $i++) { 
+            $array_param[$i]=':'.$array_fields[$i];
+        }
+        $string_fields=implode(",",$array_fields);
+        $string_param=implode(",",$array_param);
         $insert = $this->conn->prepare("INSERT INTO $this->db.$table ($string_fields) VALUES ($string_param) ");
         for ($i = 0; $i < count($array_param); $i++) {
             $insert->bindparam($array_param[$i], $array_values[$i]);
@@ -107,7 +149,7 @@ class DB_CSI
         $insert->execute();
     }
 
-    public function update($field, $value, $where_field = "id_album",$where_value, $table)
+    public function update($table,$field, $value, $where_field,$where_value)
     {
         $where_param = ':' . $where_field;
         $param = ':' . $field;

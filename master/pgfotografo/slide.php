@@ -422,8 +422,8 @@ session_start();
                                 $_SESSION['cartella_scelta7'] = $_GET['cartella_scelta7'];
                                 $_SESSION['cartella_scelta8'] = $_GET['cartella_scelta8'];
                                 /*  per l'INPUT CARTELLA CLIENTI FACCIO IL PROCEDIMENTO PER ESTRAPOLARE I PREFERITI E METTERLI IN UN ARRAY */
-                                if (isset($_GET['scelta_cliente3'])) {
-                                    $array = explode(" ", $_GET['scelta_cliente3']);
+                                if (isset($_GET['scelta_cliente4'])) {
+                                    $array = explode(" ", $_GET['scelta_cliente4']);
                                     $nome_cliente = $array[0];
                                     $id_cliente = $array[1];
                                     $_SESSION['nome_cliente4'] = $nome_cliente;
@@ -500,7 +500,7 @@ session_start();
 
                                 <!-- SELEZIONE PER PRENDERE LE CARTELLE SELEZIONATE DAI CLIENTI -->
 
-                                <select id="inputState" class="form-select" name="scelta_cliente3" style="float:left; display:block;">
+                                <select id="inputState" class="form-select" name="scelta_cliente5" style="float:left; display:block;">
 
                                     <?php
                                     $clienti = prendi_clienti($id_album);
@@ -522,13 +522,13 @@ session_start();
                             <!-- fine form di scelta -->
 
                             <?php
-                            if (isset($_GET['win3'])) {
+                            if (isset($_GET['win5'])) {
 
                                 $_SESSION['cartella_scelta9'] = $_GET['cartella_scelta9'];
                                 $_SESSION['cartella_scelta10'] = $_GET['cartella_scelta10'];
                                 /*  per l'INPUT CARTELLA CLIENTI FACCIO IL PROCEDIMENTO PER ESTRAPOLARE I PREFERITI E METTERLI IN UN ARRAY */
-                                if (isset($_GET['scelta_cliente3'])) {
-                                    $array = explode(" ", $_GET['scelta_cliente3']);
+                                if (isset($_GET['scelta_cliente5'])) {
+                                    $array = explode(" ", $_GET['scelta_cliente5']);
                                     $nome_cliente = $array[0];
                                     $id_cliente = $array[1];
                                     $_SESSION['nome_cliente5'] = $nome_cliente;
@@ -605,7 +605,7 @@ session_start();
 
                                 <!-- SELEZIONE PER PRENDERE LE CARTELLE SELEZIONATE DAI CLIENTI -->
 
-                                <select id="inputState" class="form-select" name="scelta_cliente3" style="float:left; display:block;">
+                                <select id="inputState" class="form-select" name="scelta_cliente6" style="float:left; display:block;">
 
                                     <?php
                                     $clienti = prendi_clienti($id_album);
@@ -627,7 +627,7 @@ session_start();
                             <!-- fine form di scelta -->
 
                             <?php
-                            if (isset($_GET['win3'])) {
+                            if (isset($_GET['win6'])) {
 
                                 $_SESSION['cartella_scelta11'] = $_GET['cartella_scelta11'];
                                 $_SESSION['cartella_scelta12'] = $_GET['cartella_scelta12'];

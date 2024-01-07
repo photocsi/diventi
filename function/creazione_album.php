@@ -80,25 +80,25 @@ function crea_album()
   }
   require_once '../includes/db_pdo-class.php';
   $db_class= new DB_CSI;
-  $db_class->insert('1report','id_album',':id_album',array($id_album));
+  $db_class->insert('1report',array('id_album'),array($id_album));
   $lista_op=$db_class->select(array('id_cliente', 'id_album'),'1clienti','id_album',$id_album);
   if(isset($lista_op[0]['id_cliente'])){
-  $db_class->update('id_op1', $lista_op[0]['id_cliente'],'id_album',$id_album,'1report');
+  $db_class->update('1report','id_op1', $lista_op[0]['id_cliente'],'id_album',$id_album);
   }
   if(isset($lista_op[1]['id_cliente'])){
-    $db_class->update('id_op2', $lista_op[1]['id_cliente'],'id_album',$id_album,'1report');
+    $db_class->update('1report','id_op2', $lista_op[1]['id_cliente'],'id_album',$id_album);
     }
     if(isset($lista_op[2]['id_cliente'])){
-      $db_class->update('id_op3', $lista_op[2]['id_cliente'],'id_album',$id_album,'1report');
+      $db_class->update('1report','id_op3', $lista_op[2]['id_cliente'],'id_album',$id_album);
       }
       if(isset($lista_op[3]['id_cliente'])){
-        $db_class->update('id_op4', $lista_op[3]['id_cliente'],'id_album',$id_album,'1report');
+        $db_class->update('1report','id_op4', $lista_op[3]['id_cliente'],'id_album',$id_album);
         }
         if(isset($lista_op[4]['id_cliente'])){
-          $db_class->update('id_op5', $lista_op[4]['id_cliente'],'id_album',$id_album,'1report');
+          $db_class->update('1report','id_op5', $lista_op[4]['id_cliente'],'id_album',$id_album);
           }
           if(isset($lista_op[5]['id_cliente'])){
-            $db_class->update('id_op6', $lista_op[5]['id_cliente'],'id_album',$id_album,'1report');
+            $db_class->update('1report','id_op6', $lista_op[5]['id_cliente'],'id_album',$id_album);
             }
 
  
@@ -343,6 +343,45 @@ function crea_album()
   $nuovo_file = fopen("$destination", "r+") or die("unable to open file!");
   $testo = "<?php
          \$id_album=$id_album;  ";
+
+
+  fwrite($nuovo_file, $testo);
+  fclose($nuovo_file);
+
+  /* creo la pagina slide 4 */
+  $origin = "../master/pgfotografo/slide4.php";
+  $destination = "../album/$id_album/pgfotografo/slide4.php";
+  copy($origin, $destination);
+
+  $nuovo_file = fopen("$destination", "r+") or die("unable to open file!");
+  $testo = "<?php
+      \$id_album=$id_album;  ";
+
+
+  fwrite($nuovo_file, $testo);
+  fclose($nuovo_file);
+
+  /* creo la pagina slide 5 */
+  $origin = "../master/pgfotografo/slide5.php";
+  $destination = "../album/$id_album/pgfotografo/slide5.php";
+  copy($origin, $destination);
+
+  $nuovo_file = fopen("$destination", "r+") or die("unable to open file!");
+  $testo = "<?php
+      \$id_album=$id_album;  ";
+
+
+  fwrite($nuovo_file, $testo);
+  fclose($nuovo_file);
+
+  /* creo la pagina slide 6 */
+  $origin = "../master/pgfotografo/slide6.php";
+  $destination = "../album/$id_album/pgfotografo/slide6.php";
+  copy($origin, $destination);
+
+  $nuovo_file = fopen("$destination", "r+") or die("unable to open file!");
+  $testo = "<?php
+      \$id_album=$id_album;  ";
 
 
   fwrite($nuovo_file, $testo);

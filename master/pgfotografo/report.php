@@ -74,8 +74,8 @@ if (!isset($_SESSION['user_fotografo'])) {
         $assistente = $_POST['a53f'];
         $note = $_POST['a4'];
 
-        $db_class->update('luogo',$luogo,'id_album',$id_album,'1report');
-        $db_class->update('societa',$societa,'id_album',$id_album,'1report');
+        $db_class->update('1report','luogo',$luogo,'id_album',$id_album);
+        $db_class->update('1report','societa',$societa,'id_album',$id_album);
        
        
     }
