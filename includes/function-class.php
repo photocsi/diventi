@@ -51,7 +51,7 @@ class FUNCTION_CSI extends DB_CSI
          $this->insert(
             $this->id_album,
            array('id_album','id_fotografo','sotto_cartella','path','path_medium','path_small','path_watermark','nome_foto'),
-            array($this->id_album , '0' , 'cestino',"../sottocartelle/cestino/$nome_foto" ,"../sottocartelle/cestino/$nome_foto","../sottocartelle/cestino/$nome_foto","../sottocartelle/cestino/$nome_foto", "$nome_foto" ),
+            array($this->id_album , '0' , 'cestino',"../sottocartelle/cestino/large/$nome_foto" ,"../sottocartelle/cestino/medium/$nome_foto","../sottocartelle/cestino/small/$nome_foto","../sottocartelle/cestino/watermark/$nome_foto", "$nome_foto" ),
         );
        
         
@@ -72,13 +72,13 @@ if (isset($_POST['delete'])) {
     $fun = new FUNCTION_CSI($id_album);
     $fun->delete_file($id_foto,$nome_foto);
 
-    copy("../album/$id_album/sottocartelle/$sotto_cartella/small/$nome_foto", "../album/$id_album/sottocartelle/cestino/$nome_foto");
+    copy("../album/$id_album/sottocartelle/$sotto_cartella/small/$nome_foto", "../album/$id_album/sottocartelle/cestino/small/$nome_foto");
     unlink("../album/$id_album/sottocartelle/$sotto_cartella/small/$nome_foto");
-    copy("../album/$id_album/sottocartelle/$sotto_cartella/watermark/$nome_foto", "../album/$id_album/sottocartelle/cestino/$nome_foto");
+    copy("../album/$id_album/sottocartelle/$sotto_cartella/watermark/$nome_foto", "../album/$id_album/sottocartelle/cestino/watermark/$nome_foto");
     unlink("../album/$id_album/sottocartelle/$sotto_cartella/watermark/$nome_foto");
-    copy("../album/$id_album/sottocartelle/$sotto_cartella/medium/$nome_foto", "../album/$id_album/sottocartelle/cestino/$nome_foto");
+    copy("../album/$id_album/sottocartelle/$sotto_cartella/medium/$nome_foto", "../album/$id_album/sottocartelle/cestino/medium/$nome_foto");
     unlink("../album/$id_album/sottocartelle/$sotto_cartella/medium/$nome_foto");
-    copy("../album/$id_album/sottocartelle/$sotto_cartella/large/$nome_foto", "../album/$id_album/sottocartelle/cestino/$nome_foto");
+    copy("../album/$id_album/sottocartelle/$sotto_cartella/large/$nome_foto", "../album/$id_album/sottocartelle/cestino/large/$nome_foto");
     unlink("../album/$id_album/sottocartelle/$sotto_cartella/large/$nome_foto");
 }
 /* $fun->save(); */
