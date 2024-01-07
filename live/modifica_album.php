@@ -177,6 +177,8 @@ if (!isset($_SESSION['user_fotografo'])) {
                                     <!-- contenuto tab -->
                                     <!-- Form di compilazione dati -->
                                     <?php $result = $db_class->select(array("*"), '1album', 'id_album', $id_album); ?>
+
+
                                     <form action="#" method="POST" enctype="multipart/form-data">
                                         <div class="row mb-3">
                                             <label for="inputText" class="col-sm-2 col-form-label">Nome Album</label>
@@ -192,8 +194,8 @@ if (!isset($_SESSION['user_fotografo'])) {
                                         <div class="row mb-3">
                                             <label class="col-sm-2 col-form-label">Categoria Servizio</label>
                                             <div class="col-sm-4">
-                                                <select class="form-select" value="<?php echo $result[0]['categoria'] ?>" name="categoria" aria-label="Default select example">
-                                                    <option selected>scegli il tipo di servizio</option>
+                                                <select class="form-select" value="" name="categoria" aria-label="Default select example">
+                                                    <option selected><?php echo $result[0]['categoria'] ?></option>
                                                     <option value="matrimonio">Matrimonio</option>
                                                     <option value="gravidanza">Gravidanza</option>
                                                     <option value="newborn">New Born</option>
@@ -233,7 +235,7 @@ if (!isset($_SESSION['user_fotografo'])) {
                                         <div class="row mb-3">
                                             <label class="col-sm-2 col-form-label">Note Album</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" value="<?php echo $result[0]['note'] ?>" name="note" style="height: 100px"></textarea>
+                                                <textarea class="form-control" value="<?php echo $result[0]['note'] ?>" name="note" style="height: 100px"><?php echo $result[0]['note'] ?></textarea>
                                             </div>
                                         </div>
 

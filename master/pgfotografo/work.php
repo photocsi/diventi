@@ -373,23 +373,31 @@ $id_operatore = $_COOKIE['id_operatore'];
                     for ($i = 0; $i < count($select); $i++) {
                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path']);
                       copy($select[$i]['path'], $new_path);
+                      if($select[$i]['path'] != $new_path){
                       unlink($select[$i]['path']);
                       $db_class->update($id_album,'path',$new_path,'id_foto',$select[$i]['id_foto']);
+                    }
 
                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_small']);
                       copy($select[$i]['path_small'], $new_path);
+                      if($select[$i]['path_small'] != $new_path){
                       unlink($select[$i]['path_small']);
                       $db_class->update($id_album,'path_small',$new_path,'id_foto',$select[$i]['id_foto']);
+                      }
 
                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_medium']);
                       copy($select[$i]['path_medium'], $new_path);
+                      if($select[$i]['path_medium'] != $new_path){
                       unlink($select[$i]['path_medium']);
                       $db_class->update($id_album,'path_medium',$new_path,'id_foto',$select[$i]['id_foto']);
+                      }
 
                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_watermark']);
                       copy($select[$i]['path_watermark'], $new_path);
+                      if($select[$i]['path_watermark'] != $new_path){
                       unlink($select[$i]['path_watermark']);
                       $db_class->update($id_album,'path_watermark',$new_path,'id_foto',$select[$i]['id_foto']);
+                      }
 
                       $db_class->update($id_album,'sotto_cartella',$move_photo,'id_foto',$select[$i]['id_foto']);
                     }
