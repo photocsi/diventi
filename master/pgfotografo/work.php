@@ -17,6 +17,7 @@ if (!isset($_SESSION['user_fotografo'])) {
   header('Location: ../index.php');
 }
 $id_operatore = $_COOKIE['id_operatore'];
+(isset($_SESSION['lista_file'])) ? $select_in_slide= $_SESSION['lista_file'] : null ;
 
 ?>
 
@@ -49,6 +50,7 @@ $id_operatore = $_COOKIE['id_operatore'];
 </head>
 
 <body>
+
 
   <?php
   include('header_side_light.php');
@@ -363,43 +365,43 @@ $id_operatore = $_COOKIE['id_operatore'];
 
                   if (isset($_POST['move_photo']) && $_POST['move_photo'] != 'NULL') {
                     $move_photo = $_POST['move_photo'];
-                    if(!file_exists("../sottocartelle/$move_photo/large/")){
-                    mkdir("../sottocartelle/$move_photo/large/", 0777, TRUE);
-                    mkdir("../sottocartelle/$move_photo/medium/", 0777, TRUE);
-                    mkdir("../sottocartelle/$move_photo/small/", 0777, TRUE);
-                    mkdir("../sottocartelle/$move_photo/watermark/", 0777, TRUE);
+                    if (!file_exists("../sottocartelle/$move_photo/large/")) {
+                      mkdir("../sottocartelle/$move_photo/large/", 0777, TRUE);
+                      mkdir("../sottocartelle/$move_photo/medium/", 0777, TRUE);
+                      mkdir("../sottocartelle/$move_photo/small/", 0777, TRUE);
+                      mkdir("../sottocartelle/$move_photo/watermark/", 0777, TRUE);
                     }
                     $select = $db_class->take_select($id_operatore, $id_album);
                     for ($i = 0; $i < count($select); $i++) {
                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path']);
                       copy($select[$i]['path'], $new_path);
-                      if($select[$i]['path'] != $new_path){
-                      unlink($select[$i]['path']);
-                      $db_class->update($id_album,'path',$new_path,'id_foto',$select[$i]['id_foto']);
-                    }
+                      if ($select[$i]['path'] != $new_path) {
+                        unlink($select[$i]['path']);
+                        $db_class->update($id_album, 'path', $new_path, 'id_foto', $select[$i]['id_foto']);
+                      }
 
                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_small']);
                       copy($select[$i]['path_small'], $new_path);
-                      if($select[$i]['path_small'] != $new_path){
-                      unlink($select[$i]['path_small']);
-                      $db_class->update($id_album,'path_small',$new_path,'id_foto',$select[$i]['id_foto']);
+                      if ($select[$i]['path_small'] != $new_path) {
+                        unlink($select[$i]['path_small']);
+                        $db_class->update($id_album, 'path_small', $new_path, 'id_foto', $select[$i]['id_foto']);
                       }
 
                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_medium']);
                       copy($select[$i]['path_medium'], $new_path);
-                      if($select[$i]['path_medium'] != $new_path){
-                      unlink($select[$i]['path_medium']);
-                      $db_class->update($id_album,'path_medium',$new_path,'id_foto',$select[$i]['id_foto']);
+                      if ($select[$i]['path_medium'] != $new_path) {
+                        unlink($select[$i]['path_medium']);
+                        $db_class->update($id_album, 'path_medium', $new_path, 'id_foto', $select[$i]['id_foto']);
                       }
 
                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_watermark']);
                       copy($select[$i]['path_watermark'], $new_path);
-                      if($select[$i]['path_watermark'] != $new_path){
-                      unlink($select[$i]['path_watermark']);
-                      $db_class->update($id_album,'path_watermark',$new_path,'id_foto',$select[$i]['id_foto']);
+                      if ($select[$i]['path_watermark'] != $new_path) {
+                        unlink($select[$i]['path_watermark']);
+                        $db_class->update($id_album, 'path_watermark', $new_path, 'id_foto', $select[$i]['id_foto']);
                       }
 
-                      $db_class->update($id_album,'sotto_cartella',$move_photo,'id_foto',$select[$i]['id_foto']);
+                      $db_class->update($id_album, 'sotto_cartella', $move_photo, 'id_foto', $select[$i]['id_foto']);
                     }
                   }
 
@@ -420,7 +422,51 @@ $id_operatore = $_COOKIE['id_operatore'];
 
     </div>
     </div>
+  <!--   tasti rapidi per la dimensione delle immagini -->
+    <script type="text/javascript">
+      document.addEventListener('keydown', function(event) {
+        if (event.code == 'Digit1' && (event.ctrlKey || event.shiftKey)) {
+          var card = (document.getElementsByClassName("card"));
+          for (i = 0; i < card.length; i++) {
+            document.querySelectorAll('#card_foto')[i].style.width = '8rem';
+          }
+        }
 
+        if(event.code == 'Digit2' && (event.ctrlKey || event.shiftKey)) {
+          var card = (document.getElementsByClassName("card"));
+          for (i = 0; i < card.length; i++) {
+            document.querySelectorAll('#card_foto')[i].style.width = '18rem';
+          }
+        }
+
+        if(event.code == 'Digit3' && (event.ctrlKey || event.shiftKey)) {
+          var card = (document.getElementsByClassName("card"));
+          for (i = 0; i < card.length; i++) {
+            document.querySelectorAll('#card_foto')[i].style.width = '24rem';
+          }
+        }
+
+        if(event.code == 'Digit4' && (event.ctrlKey || event.shiftKey)) {
+          var card = (document.getElementsByClassName("card"));
+          for (i = 0; i < card.length; i++) {
+            document.querySelectorAll('#card_foto')[i].style.width = '32rem';
+          }
+        }
+
+        if(event.code == 'Digit5' && (event.ctrlKey || event.shiftKey)) {
+          var card = (document.getElementsByClassName("card"));
+          for (i = 0; i < card.length; i++) {
+            document.querySelectorAll('#card_foto')[i].style.width = '40rem';
+          }
+        }
+
+
+      });
+
+      
+
+     
+    </script>
     <script type="text/javascript" src="../../../script/jquery-3.7.1.min.js"></script>
     <script src="../../../function/funzioni_js.js"></script>
 </body>

@@ -17,14 +17,25 @@ class FUNCTION_CSI extends DB_CSI
         $this->id_cliente = $id_cliente;
     }
 
-    public function save()
+    public function mostra_cartelle($path){
+
+        /* per estrarre il nome delle cartelle */
+
+    if(is_dir($path)){
+    $result=scandir($path);
+    $cartelle=array_diff($result,array('.','..'));
+  
+    }
+  
+    return $cartelle;
+  }
+    
+
+    public function save()   /*  forse prendo la lista dei file selezionati */
     {
 
         $array_file = $this->take_select($this->id_cliente, $this->id_album);
         $this->file = $array_file;
-
-
-        var_dump($this->file);
 
         for ($i = 0; $i < count($this->file); $i++) {
             $path = '../album/' . $this->id_album . '/sottocartelle/' . $this->file[$i]['path'];

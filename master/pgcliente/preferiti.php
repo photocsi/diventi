@@ -75,66 +75,36 @@ $nome_cliente=$_SESSION['nome_cliente'];
     
     <!-- MENU -->
     
-    <!-- ======= Header ======= -->
-    <header id='header' class='fixed-top '>
-        <div class='container d-flex align-items-center justify-content-lg-between'>
-    
-     <!--      <h1 class='logo me-auto me-lg-0'><a href='index.html'>Tardis<span>.</span></a></h1> -->
-          <!-- Uncomment below if you prefer to use an image logo -->
-          <a href='' class='logo me-auto me-lg-0'><img src='<?php echo "../../../fotografi/$id_fotografo/logo/logo.jpg " ; ?>' alt='' class='img-fluid'></a>
-    
-          <nav id='navbar' class='navbar order-last order-lg-0'>
-            <ul>
-              <li><a class='nav-link scrollto' href='index.php'>Album</a></li>
-              <li><a class='nav-link scrollto' href='carrello.php'>Carrello</a></li>
-            </ul>
-            <i class='bi bi-list mobile-nav-toggle'></i>
-          </nav><!-- .navbar -->
-    
-          <a href='#header' class='get-started-btn scrollto'>Torna su</a>
-    
-        </div>
-      </header><!-- End Header -->
-    
-    
-      <!-- ======= Hero Section ======= -->
-      <section id='hero' style='background: url("<?php echo $path_copertina ?> ")  top center; background-size: cover;' class='d-flex align-items-center justify-content-center'>
-        <div class='container' data-aos='fade-up'>
-    
-           <div class='row justify-content-center' data-aos='fade-up' data-aos-delay='150'>
-            <div class='col-xl-12 col-lg-12'>
-            <h2><?php echo $nome_cliente ?> queste sono le tue foto selezionate </h2>
-              <h1> massimiliano <span>.</span></h1>
-            
-            </div>
-          </div> 
-       <div class='row gy-4 mt-5 justify-content-center' data-aos='zoom-in' data-aos-delay='250'>
-            <div class='col-xl-4 col-md-6'>
-              <div class='icon-box'>
-                <i class='bi bi-book'></i>
-                <h3><a href='168.php'>Album</a></h3>
-                <p style='color: white ;'>Visualizza l'intero album</p>
-              </div>
-            </div>
-            <div class='col-xl-4 col-md-6'>
-              <div class='icon-box'>
-                <i class='bx bx-cart'></i>
-                <h3><a href='../../web/carrello.php'>Visualizza Carrello</a></h3>
-                <p style='color: white ;'>Clicca sull'icona del carrello per acquistare stampe , file e prodotti vari</p>
-              </div>
-            </div>
-            <div class='col-xl-4 col-md-6'>
-              <div class='icon-box'>
-                <i class='bi bi-megaphone'></i>
-                <h3><a href=''>Info e Comunicazioni</a></h3>
-                <p style='color: white ;'>Leggi le comunicazioni del tuo fotografo e le instruzioni d'uso dell'App</p>
-              </div>
-            </div>
-            
-          </div> 
-    
-        </div>
-      </section> <!-- End Hero --> 
+    <div class="card text-center">
+  <div class="card-header ">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary ">
+  <div class="container-fluid">
+    <a class="navbar-brand text-primary" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active text-primary" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-primary" href="#">Link</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Ricontrolla la tua scelta e conferma</h5>
+    <p class="card-text"><b>Appena confermata la scelta puoi recanti al Photo Point per ritirare le tue stampe</b></p>
+  
+  </div>
+  <div class="card-footer text-body-secondary">
+    2 days ago
+  </div>
+</div>
       <main id='main'>
        <!-- ======= SEZIONE FOTO ======= -->
     

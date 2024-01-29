@@ -79,29 +79,29 @@ function crea_album()
     }
   }
   require_once '../includes/db_pdo-class.php';
-  $db_class= new DB_CSI;
-  $db_class->insert('1report',array('id_album'),array($id_album));
-  $lista_op=$db_class->select(array('id_cliente', 'id_album'),'1clienti','id_album',$id_album);
-  if(isset($lista_op[0]['id_cliente'])){
-  $db_class->update('1report','id_op1', $lista_op[0]['id_cliente'],'id_album',$id_album);
+  $db_class = new DB_CSI;
+  $db_class->insert('1report', array('id_album'), array($id_album));
+  $lista_op = $db_class->select(array('id_cliente', 'id_album'), '1clienti', 'id_album', $id_album);
+  if (isset($lista_op[0]['id_cliente'])) {
+    $db_class->update('1report', 'id_op1', $lista_op[0]['id_cliente'], 'id_album', $id_album);
   }
-  if(isset($lista_op[1]['id_cliente'])){
-    $db_class->update('1report','id_op2', $lista_op[1]['id_cliente'],'id_album',$id_album);
-    }
-    if(isset($lista_op[2]['id_cliente'])){
-      $db_class->update('1report','id_op3', $lista_op[2]['id_cliente'],'id_album',$id_album);
-      }
-      if(isset($lista_op[3]['id_cliente'])){
-        $db_class->update('1report','id_op4', $lista_op[3]['id_cliente'],'id_album',$id_album);
-        }
-        if(isset($lista_op[4]['id_cliente'])){
-          $db_class->update('1report','id_op5', $lista_op[4]['id_cliente'],'id_album',$id_album);
-          }
-          if(isset($lista_op[5]['id_cliente'])){
-            $db_class->update('1report','id_op6', $lista_op[5]['id_cliente'],'id_album',$id_album);
-            }
+  if (isset($lista_op[1]['id_cliente'])) {
+    $db_class->update('1report', 'id_op2', $lista_op[1]['id_cliente'], 'id_album', $id_album);
+  }
+  if (isset($lista_op[2]['id_cliente'])) {
+    $db_class->update('1report', 'id_op3', $lista_op[2]['id_cliente'], 'id_album', $id_album);
+  }
+  if (isset($lista_op[3]['id_cliente'])) {
+    $db_class->update('1report', 'id_op4', $lista_op[3]['id_cliente'], 'id_album', $id_album);
+  }
+  if (isset($lista_op[4]['id_cliente'])) {
+    $db_class->update('1report', 'id_op5', $lista_op[4]['id_cliente'], 'id_album', $id_album);
+  }
+  if (isset($lista_op[5]['id_cliente'])) {
+    $db_class->update('1report', 'id_op6', $lista_op[5]['id_cliente'], 'id_album', $id_album);
+  }
 
- 
+
 
   /* estrapolo e poi aggiungo l'id operatore all'interno della lista operatori_registrati nella tabella 1album */
   $select = $conn->prepare("SELECT id_cliente FROM 1clienti WHERE id_album= :id_album AND nome_cliente= :nome_cliente AND ruolo= :ruolo ;");
@@ -167,7 +167,7 @@ function crea_album()
 
 
   $create = $conn->prepare("CREATE TABLE $db.$id_album (`id_foto` INT UNSIGNED NOT NULL AUTO_INCREMENT , `id_album` INT UNSIGNED NOT NULL ,`id_fotografo` INT UNSIGNED NOT NULL,`sotto_cartella` VARCHAR(50) NOT NULL ,
-   `path` VARCHAR(150) NOT NULL , `path_medium` VARCHAR(150) NOT NULL , `path_small` VARCHAR(150) NOT NULL  , `path_watermark` VARCHAR(150) NOT NULL, `nome_foto` VARCHAR(50) NOT NULL ,
+   `path` VARCHAR(250) NOT NULL , `path_medium` VARCHAR(250) NOT NULL  , `path_watermark` VARCHAR(250) NOT NULL, `nome_foto` VARCHAR(50) NOT NULL ,
    `tag` VARCHAR(50)  , `download` INT UNSIGNED , `stampe` INT UNSIGNED , `messaggio` VARCHAR(200)  ,`data`VARCHAR(20), PRIMARY KEY (`id_foto`), 
    CONSTRAINT `$id_album` FOREIGN KEY (`id_album`) REFERENCES `1album`(`id_album`) ON DELETE RESTRICT ON UPDATE RESTRICT) ENGINE = InnoDB;");
 
@@ -203,17 +203,17 @@ function crea_album()
   fwrite($nuovo_file, $testo);
   fclose($nuovo_file);
 
-   /*   creo la pagina REPORT */
-   $origin = "../master/pgfotografo/report.php";
-   $destination = "../album/$id_album/pgfotografo/report.php";
-   copy($origin, $destination);
- 
-   $nuovo_file = fopen("$destination", "r+") or die("unable to open file!");
-   $testo = "<?php
+  /*   creo la pagina REPORT */
+  $origin = "../master/pgfotografo/report.php";
+  $destination = "../album/$id_album/pgfotografo/report.php";
+  copy($origin, $destination);
+
+  $nuovo_file = fopen("$destination", "r+") or die("unable to open file!");
+  $testo = "<?php
      \$id_album=$id_album   ;  ";
- 
-   fwrite($nuovo_file, $testo);
-   fclose($nuovo_file);
+
+  fwrite($nuovo_file, $testo);
+  fclose($nuovo_file);
 
   /*   CREO LA PAGINA HEADER */
   $origin = "../master/pgfotografo/header_side.php";
@@ -459,16 +459,13 @@ function crea_album()
 function carica_foto($id_album, $id_fotografo)
 {
   include('../../../function/funzioni_album.php');
-  $sostituire=array("'"," ","<",">","&","£");
-  $sotto_cartella = htmlEntities(str_replace($sostituire, "_", trim($_POST['sotto_cartella'])),ENT_NOQUOTES);
+  $sostituire = array("'", " ", "<", ">", "&", "£", ".");
+  $sotto_cartella = htmlEntities(str_replace($sostituire, "_", trim($_POST['sotto_cartella'])), ENT_NOQUOTES);
   $tag = trim($_POST['tag']);
 
 
   /* CON 0777, TRUE VADO A CREARE TUTTE LE CARTELLE SE NON ANCORA ESISTENTI
 IN UNA SOLA RIGA invece di fare 3 righe (nomealbum cartella e poi small) */
-  if (is_dir("../sottocartelle/$sotto_cartella/small/") != TRUE) {
-    mkdir("../sottocartelle/$sotto_cartella/small/", 0777, TRUE);
-  }
 
   if (is_dir("../sottocartelle/$sotto_cartella/medium/") != TRUE) {
     mkdir("../sottocartelle/$sotto_cartella/medium/", 0777, TRUE);
@@ -487,7 +484,7 @@ IN UNA SOLA RIGA invece di fare 3 righe (nomealbum cartella e poi small) */
   }
 
   /*  questa parte e per salvare l'alta risoluzione su una cartella del pc */
-  /*  controllo se è stato inserito un persorso e allora utilizzo quello, altrimenti uTilizzo quello di base */
+  /*  controllo se è stato inserito un percorso e allora utilizzo quello, altrimenti uTilizzo quello di base */
   include('../../../config_pdo.php');
   $controllo = $conn->prepare("SELECT path_pc FROM 1album WHERE id_album=:id_album;");
   $controllo->bindparam(':id_album', $id_album);
@@ -531,7 +528,6 @@ IN UNA SOLA RIGA invece di fare 3 righe (nomealbum cartella e poi small) */
     $tipi_consentiti = array("image/jpeg");
     $path_file = "../sottocartelle/$sotto_cartella/large/";
     $path_medie = "../sottocartelle/$sotto_cartella/medium/";
-    $path_miniature = "../sottocartelle/$sotto_cartella/small/";
     $path_watermark = "../sottocartelle/$sotto_cartella/watermark/";
   }
 
@@ -562,47 +558,65 @@ IN UNA SOLA RIGA invece di fare 3 righe (nomealbum cartella e poi small) */
         $n_foto_caricate++;
         /*           fine controllo foto gia presente nell'album */
 
-        if (isset($_POST['hd']) && $_POST['hd'] == 'on') { //se l'opzione hd è selezionata copio i file in hd 
+        if (isset($_POST['resolution']) && $_POST['resolution'] == 'hd') { //se l'opzione hd è selezionata copio i file in hd 
 
           copy($file['tmp_name'], "$path_hd" . $file['name']); //RICORDARSI DI SISTEMARE LA PATH GIUSTA PATH_HD_BIS
-        }
-
-        //START RIDIMENSIONAMENTO E SALVATAGGIO IMMAGINI E WATERMARK
+          $dimensioni_foto = getimagesize($file['tmp_name']);
+          if ($dimensioni_foto[0] < $dimensioni_foto[1]) { //se è verticale uso queste dimensioni
+           
+            riduci_e_salva($file['tmp_name'], 500, $path_medie . $file['name'], 75, true);
+          } else if ($dimensioni_foto[0] > $dimensioni_foto[1]) {  //se è orizzontale uso queste dimensioni
+         
+            riduci_e_salva($file['tmp_name'], 900, $path_medie . $file['name'], 75, false);
+          } else {
+           
+            riduci_e_salva($file['tmp_name'], 800, $path_medie . $file['name'], 75, false);
+          }
+        } else if (isset($_POST['resolution']) && $_POST['resolution'] == 'speed') {
+           //START RIDIMENSIONAMENTO E SALVATAGGIO IMMAGINI E WATERMARK
         /* funzione per ridurre e salvare l'immagine
          parametri 1-tpm_name dell'immagine, dimensione finale, path del salvataggio, compressione */
-        $dimensioni_foto = getimagesize($file['tmp_name']);
-        if ($dimensioni_foto[0] < $dimensioni_foto[1]) { //se è verticale uso queste dimensioni
-          riduci_e_salva($file['tmp_name'], 100, $path_miniature . $file['name'], 75, true);
-          riduci_e_salva($file['tmp_name'], 500, $path_medie . $file['name'], 75, true);
-        } else if ($dimensioni_foto[0] > $dimensioni_foto[1]) {  //se è orizzontale uso queste dimensioni
-          riduci_e_salva($file['tmp_name'], 100, $path_miniature . $file['name'], 75, false);
-          riduci_e_salva($file['tmp_name'], 900, $path_medie . $file['name'], 75, false);
-        } else {
-          riduci_e_salva($file['tmp_name'], 100, $path_miniature . $file['name'], 75, false);
-          riduci_e_salva($file['tmp_name'], 800, $path_medie . $file['name'], 75, false);
+          $dimensioni_foto = getimagesize($file['tmp_name']);
+          if ($dimensioni_foto[0] < $dimensioni_foto[1]) { //se è verticale uso queste dimensioni
+            riduci_e_salva($file['tmp_name'], 500, $path_medie . $file['name'], 75, true);
+            riduci_e_salva($file['tmp_name'], 1700, $path_hd . $file['name'], 75, true);
+          } else if ($dimensioni_foto[0] > $dimensioni_foto[1]) {  //se è orizzontale uso queste dimensioni
+            riduci_e_salva($file['tmp_name'], 900, $path_medie . $file['name'], 75, false);
+            riduci_e_salva($file['tmp_name'], 2500, $path_hd . $file['name'], 75, true);
+          } else {
+            riduci_e_salva($file['tmp_name'], 800, $path_medie . $file['name'], 75, false);
+            riduci_e_salva($file['tmp_name'], 2500, $path_hd . $file['name'], 75, true);
+          }
         }
 
 
 
+/* *****************************CODICE PER CREARE IMG CON LA WATERMARK********************************
+*****************************DA RIMETTERE QUANDO USEREMO LA PARTE CLIENTI****************************
+*************************************************************************************************** */
 
-        if (file_exists("../../../fotografi/$id_fotografo/watermark/watermark.png"))
+
+       /*  if (file_exists("../../../fotografi/$id_fotografo/watermark/watermark.png"))
           $path_file_watermark = "../../../fotografi/$id_fotografo/watermark/watermark.png";
         else  $path_file_watermark = "../../../img/logo_w.png";
 
-        watermark($file['tmp_name'], $path_watermark . $file['name'], $path_file_watermark);
+        watermark($file['tmp_name'], $path_watermark . $file['name'], $path_file_watermark); */
+
+
+
+
         /*         poi inserisco i dati nel db */
         $file_name = $file['name'];
         $path = $path_file . $file_name;
         $tag = $_POST['tag'];
-        $path_small = $path_miniature . $file_name;
         $path_medium = $path_medie . $file_name;
         $path_watermark_db = $path_watermark . $file_name;
         $exif = exif_read_data($path, 'IFDO');
-        $data_scatto = $exif['DateTimeOriginal'];
+        $data_scatto = $data;  // prende il $exif['DateTimeOriginal']; che abbiamo definito prima dal file originale
 
 
-        $insert = $conn->prepare("INSERT INTO `$id_album`( `id_album`, `id_fotografo`, `sotto_cartella`, `path`, `path_medium`, `path_small`, `path_watermark`,`nome_Foto`, `tag`, `data`)
-         VALUES (:id_album, :id_fotografo,:sotto_cartella, :path_big , :path_medium, :path_small, :path_watermark, :nome_foto, :tag , :data);");
+        $insert = $conn->prepare("INSERT INTO `$id_album`( `id_album`, `id_fotografo`, `sotto_cartella`, `path`, `path_medium`, `path_watermark`,`nome_Foto`, `tag`, `data`)
+         VALUES (:id_album, :id_fotografo,:sotto_cartella, :path_big , :path_medium, :path_watermark, :nome_foto, :tag , :data);");
         $insert->bindparam(':id_album', $id_album);
         $insert->bindparam(':id_fotografo', $id_fotografo);
         $insert->bindparam(':sotto_cartella', $sotto_cartella);
@@ -611,13 +625,16 @@ IN UNA SOLA RIGA invece di fare 3 righe (nomealbum cartella e poi small) */
         $insert->bindparam(':path_watermark', $path_watermark_db);
         $insert->bindparam(':nome_foto', $file_name);
         $insert->bindparam(':tag', $tag);
-        $insert->bindparam(':path_small', $path_small);
         $insert->bindparam(':data', $data_scatto);
         if ($insert->execute()) {
+        } else {
+          echo " foto non caricata";
+        }
+        /* if ($insert->execute()) {
           echo "</br><h4 style=\"color: green \">caricata</h4><img src=\"$path_small\" style=\"border: 2px solid green\";>  <h4 style=\"color: green \">$file_name </h4> ";
         } else {
           echo "</br></br><h4 style=\"color: red \">errore</h4><img src=\"$path_small\" style=\"border: 2px solid red\">  <h4 style=\"color: red \">$file_name</h4> ";
-        };
+        }; */
       } else {    /* FINE IF CONTROLLO = A 0  GRAFFA DA ELIMINARE PER TOGLIERE IL CONTROLLO FOTO GIA SCARICATA*/
         echo 'Foto: ' . $file['name'] . ' già presente nell\'album ' . $data . '</br>';
         $n_foto_non_caricate++;

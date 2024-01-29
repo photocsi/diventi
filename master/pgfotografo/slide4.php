@@ -12,7 +12,9 @@ session_start();
 $cartella_scelta7=$_SESSION['cartella_scelta7'];
 $cartella_scelta8=$_SESSION['cartella_scelta8'];
 $id_cliente=$_SESSION['id_cliente4'];
-
+if(isset($id_cliente) && isset($cartella_scelta7) && isset($cartella_scelta8) ){
+  $id_cliente=$_COOKIE['id_operatore'];
+}
 
 
 

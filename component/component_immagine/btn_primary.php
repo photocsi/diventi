@@ -17,7 +17,7 @@
               <div class="btn-group" role="group" aria-label="Basic example" style="padding-right: 3rem;">
               <button type="button" class="btn btn-primary btn" name="elimina_grafica" id="elimina_grafica"  onclick="inserisci('elimina_grafica','elimina_grafica','elimina_grafica')"> Elimina grafica </button>
               </div>
-              <?php modale_foto($path_immagine_medium , $path_immagine); ?>
+              <?php /* modale_foto($path_immagine_medium , $path_immagine); */ ?>
              
                  </div> 
                     </div>

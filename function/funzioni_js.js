@@ -274,8 +274,10 @@ console.log(logo);
 /* }else if(oggetto == 'center_size'){
     var center_size=document.getElementById(prendi).value;
 document.getElementById(inserisci).style.height=center_size;
-localStorage.setItem("center_size", center_size); */
+localStorage.setItem("center_size", center_size);
  
+ */
+
 
 }else if(oggetto == 'grafica_color'){
     var center_color=document.getElementById(prendi).value;
@@ -306,3 +308,5 @@ localStorage.setItem("text_color", text_color);
       
                 }
 }
+
+  

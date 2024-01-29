@@ -2,7 +2,7 @@
                         <span class="badge rounded-pill bg-light text-dark" style="margin: 10px 0px 15px 0px" >Base grafica</span>
                         <div class="card">
             <div class="card-body">
-              <!-- <p>Grandezza base grafica</p>
+           <!--    <p>Grandezza base grafica</p>
               <button type="button" class="btn btn-primary btn-sm"  id="center_large" 
                              value="50px" onclick="inserisci('center_large','center','center_size')"> 3 </button>
              <button type="button" class="btn btn-primary btn-sm"  id="center_medium" 

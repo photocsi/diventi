@@ -144,6 +144,7 @@ header("Pragma: no-cache");
 
       }
     </script>
+    <script src="../../../assets-d20/js/key_ritocco.js"></script>
 
     <script src="../../../script/jcrop/dist/jcrop.js"></script>
     <script src="../../../script/jcrop/dist/jcrop.dev.js"></script>

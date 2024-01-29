@@ -12,25 +12,25 @@ if(ratio == '4/3O'){
 var cropper = new Cropper(image, {
    
     aspectRatio: 8 / 6.05 ,
-    viewMode: 1, 
+    viewMode: 0, 
      }); 
    }else if(ratio == '4/3V'){
     var cropper = new Cropper(image, {
        
         aspectRatio: 6 / 7.9 ,
-        viewMode: 1, 
+        viewMode: 0, 
          }); 
        }else if(ratio == '2/3O'){
         var cropper = new Cropper(image, {
            
             aspectRatio: 9 / 6.05 ,
-            viewMode: 1, 
+            viewMode: 0, 
              }); 
            }else if(ratio == '2/3V'){
             var cropper = new Cropper(image, {
                
                 aspectRatio: 6 / 8.9 ,
-                viewMode: 1, 
+                viewMode: 0, 
                  }); 
                };
 
@@ -40,9 +40,10 @@ function(){
 
      croppedImage = cropper.getCroppedCanvas().toDataURL("image/jpg");
     document.getElementById('output').src = croppedImage;
-
     document.getElementById('textImg').innerHTML += croppedImage;
-
+    document.getElementById("cropImageBtn").className += "btn btn-success";//poi lo faccio diventare verde a ritaglio avvenuto
+    document.getElementById("cropImageBtn").innerHTML = "Ritaglio Confermato";//poi lo faccio diventare verde a ritaglio avvenuto
+  
 
 
 

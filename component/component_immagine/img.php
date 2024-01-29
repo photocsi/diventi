@@ -19,9 +19,9 @@
                 </a>
                 <!--  Elementi della grafica nella loro posizione -->
                 <div class="card-img-overlay">
-                  <img src="../../../img/base_grafica_white.png" id="center" class=" position-absolute bottom-0 start-50 translate-middle-x" style="width: 100% ;  object-fit: contain;">
-                  <img src="" id="logosx" class="position-absolute bottom-0 start-0" style="padding: 10px 3px 14px 15px; width:auto; height:60px ;">
-                  <img src="" id="logodx" class="position-absolute bottom-0 end-0" style="padding: 10px 15px 14px 3px;width:auto; height:60px ;">
+                  <img src="../../../img/base_grafica_white.png" id="center" class=" position-absolute bottom-0 start-50 translate-middle-x" style="width: 100% ; height: auto;  object-fit: contain;">
+                  <img src="" id="logosx" class="position-absolute bottom-0 start-0" style="padding: 10px 3px 14px 20px; width:auto; height:65px ;">
+                  <img src="" id="logodx" class="position-absolute bottom-0 end-0" style="padding: 10px 20px 14px 3px;width:auto; height:65px ;">
                   <p class="card-text position-absolute bottom-0 start-50 translate-middle-x" id="textGrafica" style="font-size: 18px; color: red; text-shadow: 2px 2px 4px black; padding: 5px 2px 14px 2px;"></p>
 
                 </div>
