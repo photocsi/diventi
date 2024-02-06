@@ -13,6 +13,10 @@ $_SESSION['id_album']=$id_album;
 if (!isset($_SESSION['user_fotografo'])) {
     header('Location: ../../../index.php');
 }
+if(isset($_COOKIE['id_operatore']) && isset($_COOKIE['nome_operatore'])){
+$id_operatore=$_COOKIE['id_operatore'];
+$nome_operatore=$_COOKIE['nome_operatore'];
+}
 ?>
 
 <!DOCTYPE html>

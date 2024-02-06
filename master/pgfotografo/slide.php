@@ -129,7 +129,7 @@ session_start();
                                 $listafile = array();
 
                                 while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_small'];
+                                    $listafile[] = $row['path_medium'];
                                     $_SESSION['sotto_cartella'] = $row['sotto_cartella'];
                                 }
 
@@ -232,7 +232,7 @@ session_start();
                                 $listafile = array();
 
                                 while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_small'];
+                                    $listafile[] = $row['path_medium'];
                                     $_SESSION['sotto_cartella2'] = $row['sotto_cartella'];
                                 }
 
@@ -335,7 +335,7 @@ session_start();
                                 $listafile = array();
 
                                 while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_small'];
+                                    $listafile[] = $row['path_medium'];
                                     $_SESSION['sotto_cartella3'] = $row['sotto_cartella'];
                                 }
 
@@ -438,7 +438,7 @@ session_start();
                                 $listafile = array();
 
                                 while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_small'];
+                                    $listafile[] = $row['path_medium'];
                                     $_SESSION['sotto_cartella4'] = $row['sotto_cartella'];
                                 }
 
@@ -543,7 +543,7 @@ session_start();
                                 $listafile = array();
 
                                 while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_small'];
+                                    $listafile[] = $row['path_medium'];
                                     $_SESSION['sotto_cartella5'] = $row['sotto_cartella'];
                                 }
 
@@ -648,7 +648,7 @@ session_start();
                                 $listafile = array();
 
                                 while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_small'];
+                                    $listafile[] = $row['path_medium'];
                                     $_SESSION['sotto_cartella6'] = $row['sotto_cartella'];
                                 }
 

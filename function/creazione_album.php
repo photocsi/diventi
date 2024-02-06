@@ -166,7 +166,7 @@ function crea_album()
   /* creo una nuova tabella nominata con l'id dell'album */
 
 
-  $create = $conn->prepare("CREATE TABLE $db.$id_album (`id_foto` INT UNSIGNED NOT NULL AUTO_INCREMENT , `id_album` INT UNSIGNED NOT NULL ,`id_fotografo` INT UNSIGNED NOT NULL,`sotto_cartella` VARCHAR(50) NOT NULL ,
+  $create = $conn->prepare("CREATE TABLE $db.$id_album (`id_foto` INT UNSIGNED NOT NULL AUTO_INCREMENT , `id_album` INT UNSIGNED NOT NULL ,`id_fotografo` INT UNSIGNED NOT NULL,`sotto_cartella` VARCHAR(80) NOT NULL ,
    `path` VARCHAR(250) NOT NULL , `path_medium` VARCHAR(250) NOT NULL  , `path_watermark` VARCHAR(250) NOT NULL, `nome_foto` VARCHAR(50) NOT NULL ,
    `tag` VARCHAR(50)  , `download` INT UNSIGNED , `stampe` INT UNSIGNED , `messaggio` VARCHAR(200)  ,`data`VARCHAR(20), PRIMARY KEY (`id_foto`), 
    CONSTRAINT `$id_album` FOREIGN KEY (`id_album`) REFERENCES `1album`(`id_album`) ON DELETE RESTRICT ON UPDATE RESTRICT) ENGINE = InnoDB;");
@@ -579,13 +579,13 @@ IN UNA SOLA RIGA invece di fare 3 righe (nomealbum cartella e poi small) */
           $dimensioni_foto = getimagesize($file['tmp_name']);
           if ($dimensioni_foto[0] < $dimensioni_foto[1]) { //se è verticale uso queste dimensioni
             riduci_e_salva($file['tmp_name'], 500, $path_medie . $file['name'], 75, true);
-            riduci_e_salva($file['tmp_name'], 1700, $path_hd . $file['name'], 75, true);
+            riduci_e_salva($file['tmp_name'], 1600, $path_hd . $file['name'], 75, true);
           } else if ($dimensioni_foto[0] > $dimensioni_foto[1]) {  //se è orizzontale uso queste dimensioni
             riduci_e_salva($file['tmp_name'], 900, $path_medie . $file['name'], 75, false);
-            riduci_e_salva($file['tmp_name'], 2500, $path_hd . $file['name'], 75, true);
+            riduci_e_salva($file['tmp_name'], 2300, $path_hd . $file['name'], 75, true);
           } else {
             riduci_e_salva($file['tmp_name'], 800, $path_medie . $file['name'], 75, false);
-            riduci_e_salva($file['tmp_name'], 2500, $path_hd . $file['name'], 75, true);
+            riduci_e_salva($file['tmp_name'], 2300, $path_hd . $file['name'], 75, true);
           }
         }
 
@@ -596,11 +596,11 @@ IN UNA SOLA RIGA invece di fare 3 righe (nomealbum cartella e poi small) */
 *************************************************************************************************** */
 
 
-       /*  if (file_exists("../../../fotografi/$id_fotografo/watermark/watermark.png"))
+        if (file_exists("../../../fotografi/$id_fotografo/watermark/watermark.png"))
           $path_file_watermark = "../../../fotografi/$id_fotografo/watermark/watermark.png";
         else  $path_file_watermark = "../../../img/logo_w.png";
 
-        watermark($file['tmp_name'], $path_watermark . $file['name'], $path_file_watermark); */
+        watermark($file['tmp_name'], $path_watermark . $file['name'], $path_file_watermark);
 
 
 
@@ -608,7 +608,12 @@ IN UNA SOLA RIGA invece di fare 3 righe (nomealbum cartella e poi small) */
         /*         poi inserisco i dati nel db */
         $file_name = $file['name'];
         $path = $path_file . $file_name;
-        $tag = $_POST['tag'];
+        if(isset($_POST['tag']) && $_POST['tag'] != NULL){
+          $tag = str_replace(' ','_',$_POST['tag']);
+        }else{
+          $tag ='NO_TAG';
+        }
+       
         $path_medium = $path_medie . $file_name;
         $path_watermark_db = $path_watermark . $file_name;
         $exif = exif_read_data($path, 'IFDO');

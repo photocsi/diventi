@@ -11,9 +11,10 @@ class BUTTON_CSI extends DB_CSI
     {
     }
 
-    public function modale_start($name_button , $title_modale='' , $type_modale = 'modal-dialog modal-dialog-scrollable')
+    public function modale_start($name_button, $title_modale = '', $type_modale = 'modal-dialog modal-dialog-scrollable')
     {
         $this->name_button = $name_button;
+
 
 ?>
 
@@ -33,6 +34,12 @@ class BUTTON_CSI extends DB_CSI
                     <div class="modal-body">
 
                     <?php }
+
+
+              
+
+
+
                 public function modale_end($nome_submit, $testo_submit)
                 {
 
@@ -42,7 +49,7 @@ class BUTTON_CSI extends DB_CSI
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button  name="<?php echo $nome_submit ?>" type="submit" class="btn btn-primary"><?php echo $testo_submit ?></button>
+                        <button name="<?php echo $nome_submit ?>" type="submit" class="btn btn-primary"><?php echo $testo_submit ?></button>
                     </div>
                 </div>
             </div>
@@ -52,7 +59,7 @@ class BUTTON_CSI extends DB_CSI
                 public function form_start($action = "#", $method = "POST")
                 { ?>
 
-        <form  action="<?php echo $action ?>" method="<?php echo $method ?>" class="row mb-3">
+        <form action="<?php echo $action ?>" method="<?php echo $method ?>" class="row mb-3">
         <?php }
 
                 public function submit($nome_submit, $testo_submit)

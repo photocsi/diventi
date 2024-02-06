@@ -12,8 +12,11 @@ $_SESSION['id_album'] = $id_album;
 $_SESSION['id_fotografo'] = $id_fotografo;
 
 if (!isset($_SESSION['email_cliente'])) {
-  header('Location: ../../../register_clienti.php');
+  header('Location: ../../../register_clienti_semplificato.php');
 }
+
+//PER L'ONLINE GIA PRONTO CAMBIARE LA DESTINAZIONE
+//   header('Location: ../../../register_clienti.php');
 
 ?>
 <!DOCTYPE html>
@@ -46,7 +49,7 @@ if (!isset($_SESSION['email_cliente'])) {
 
 <body>
 
-        <!-- PHP CODE PER ESTRAPOLARE TUTTI I VALORI CHE SERVONO -->
+  <!-- PHP CODE PER ESTRAPOLARE TUTTI I VALORI CHE SERVONO -->
   <?php
 
 
@@ -90,61 +93,74 @@ if (!isset($_SESSION['email_cliente'])) {
 
 
 
-  <div class="card text-center">
-<div class="card-header">
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-<div class="container-fluid">
-<a class="navbar-brand text-primary" href="#">Navbar</a>
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-<span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
-<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item">
-  <a class="nav-link active text-primary" aria-current="page" href="#">Home</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link text-primary" href="#">Link</a>
-</li>
-</ul>
-<form class="d-flex" role="search">
-<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-<button class="btn btn-outline-success" type="submit">Search</button>
-</form>
-</div>
-</div>
-</nav>
-</div>
-<div class="card-body">
-<h5 class="card-title">Seleziona ed ordina le tue foto</h5>
-<p class="card-text"><b>Seleziona la cartella corrispondente alla tua categoria. </br> clicca sul cuoricino per selezionare le foto che ti piaciono. </br> Clicca sul pulsante in basso "Guarda la selezione" per ricontrollare le foto scelte.</b></p>
+    <div class="card text-center">
+      <div class="card-header">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary ">
+          <div class="container-fluid">
+            <img class="navbar-brand " src="../../../img/logo_w.png" width="150" height="auto">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+<ul class=" navbar-nav me-auto mb-2 mb-lg-0 ">
+              <li>
+                <a class="dropdown-item d-flex align-items-center text-primary" href="../../../log_out_clienti.php">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Log Out</span>
+                </a>
+              </li>
+              </ul>
+              <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><b>Seleziona ed ordina le tue foto</b></h5>
+        <div class="row">
+          <div class="col-4 " style="background:azure ; border: 1px solid gray">
+          <img src="../../../img/clickCartella.png" height="50px" width="auto" style="padding-top: 5px;"><p class="card-text"><b>Seleziona la cartella corrispondente alla tua categoria.</b></p>
+          </div>
+          <div class="col-4" style="background:azure ; border: 1px solid gray">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+</svg><img src="../../../img/clickMano.png" height="50px" width="auto" style="padding-top: 5px;"><p class="card-text"><b>clicca sul cuoricino per selezionare le foto che ti piaciono.</b></p>
+          </div>
+          <div class="col-4" style="background:azure ; border: 1px solid gray">
+          <img src="../../../img/clickSelezione.png" height="50px" width="auto" style="padding-top: 5px;"><p class="card-text"><b>Clicca sul pulsante in basso "Guarda la selezione" per ricontrollare le foto scelte.</b></p>
+          </div>
+        </div>
+      
 
-</div>
-<div class="card-footer text-body-secondary">
-2 days ago
-</div>
-</div>
+      </div>
+      <div class="card-footer text-body-secondary">
+   
+      </div>
+    </div>
 
 
     <!-- ======= Portfolio Section ======= -->
-<div class="container">
-    <div class="card mt-2">
-    <div class="card-header text-center">
-      <h5>Inizia Subito</h5>
-</div>
-      <div class="card-body">
+    <div class="container">
+      <div class="card mt-2">
+        <div class="card-header text-center">
+          <h5>Inizia Subito</h5>
+        </div>
+        <div class="card-body">
 
-        <?php require_once '../../../views/client.php';
+          <?php require_once '../../../views/client.php';
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-          if (isset($_POST['folder'])) {
-            $cartella = $_POST['folder'];
-          }
-        }else{
-          $cartella = null;
-        }   ?>
+          if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_POST['folder'])) {
+              $cartella = $_POST['folder'];
+            }
+          } else {
+            $cartella = null;
+          }   ?>
+        </div>
       </div>
-    </div>
     </div>
     <section id='portfolio' class='portfolio'>
       <div class='container'>
@@ -301,7 +317,7 @@ if (!isset($_SESSION['email_cliente'])) {
 
   <!-- Template Main JS File -->
   <script src="../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script type="text/javascript" src="../../../script/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/jquery-3.7.1.min.js"></script>
   <script src='../../../assets2/js/main.js'></script>
 </body>
 

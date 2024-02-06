@@ -12,9 +12,10 @@ session_start();
 $cartella_scelta=$_SESSION['cartella_scelta'];
 $cartella_scelta2=$_SESSION['cartella_scelta2'];
 $id_cliente=$_SESSION['id_cliente'];
-if(isset($id_cliente) && isset($cartella_scelta) && isset($cartella_scelta2) ){
+if($id_cliente == "NULL" ){
   $id_cliente=$_COOKIE['id_operatore'];
 }
+
 
 
 header("Expires: on, 01 Jan 1970 00:00:00 GMT");

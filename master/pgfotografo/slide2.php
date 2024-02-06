@@ -7,9 +7,10 @@ session_start();
 $cartella_scelta3=$_SESSION['cartella_scelta3'];
 $cartella_scelta4=$_SESSION['cartella_scelta4'];
 $id_cliente=$_SESSION['id_cliente2'];
-if(isset($id_cliente) && isset($cartella_scelta3) && isset($cartella_scelta4) ){
+if($id_cliente == "NULL" ){
   $id_cliente=$_COOKIE['id_operatore'];
 }
+
 
 
 

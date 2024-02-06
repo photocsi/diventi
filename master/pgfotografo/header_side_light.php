@@ -74,6 +74,8 @@ if(isset($_COOKIE['nome_operatore'])){
       $button->azzera_selezione();
       echo' <i class="bi bi-grip-vertical"> </i> ';
       $button->offcanvas_ricerche();
+      echo' <i class="bi bi-grip-vertical"> </i> ';
+      $button->counter();
 
       ?>
 

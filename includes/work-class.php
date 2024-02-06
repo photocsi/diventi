@@ -1,7 +1,7 @@
 <?php
 
-
-class WORK_CSI
+require_once 'db_pdo-class.php';
+class WORK_CSI extends DB_CSI
 {
     public $id_album = "";
     public $id_operatore = "";
@@ -64,10 +64,40 @@ class WORK_CSI
 
 
     }
+    public function counter()
+    {
+        if (isset($_COOKIE['counter'])) {
+            $counter = $_COOKIE['counter'];
+        } else {
+            $counter = 0;
+        }
 
+    ?>
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="counter(-1)">-</button>
+            <input class="btn btn-outline-primary btn-sm" value="<?php echo $counter ?>" id="numero" style="width: 50px !important;" readonly>
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="counter(1)">+</button>
+        </div>
+        <script>
+            function counter(i) {
+                var initialValue = 0
+                initialValue = parseInt(document.getElementById('numero').value);
+                initialValue += i;
+                document.getElementById('numero').value = initialValue;
+                document.cookie = "counter=" + initialValue + "; max-age=72000";
+            }
+        </script>
+
+    <?php
+
+
+
+    }
 
     public function offcanvas_folder()
     {
+
+        $tag = $this->select_distinct($this->id_album, 'tag');
     ?>
         <a class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" href="#offcanvasFolder" style="margin-left: 20px; margin-right: 10px" role="button" aria-controls="offcanvasFolder">
             <i class="bi bi-list-columns"></i> Cartelle
@@ -83,9 +113,18 @@ class WORK_CSI
 
 
                 <div class="card" style="margin: 0px">
+
                     <div class="card-body" style="padding-top: 20px">
+                        <?php for ($i = 0; $i < count($tag); $i++) {
+                      
+                     }   ?>
+
+
+
+
+
                         <form class="row g-3" method="POST" action="#">
-                            <button type="submit" name="mostra" class="btn btn-primary  btn-sm">Mostra Foto</button>
+
                             <select id="inputState" class="form-select" name="cartella_scelta[]" style="float:left; display:block;" size="16" multiple>
 
                                 <?php
@@ -93,12 +132,18 @@ class WORK_CSI
                                 $path = "../sottocartelle";
                                 /*     uso la funzione per scandire le cartelle e inserirle in un array */
                                 $cartelle = mostra_cartelle($path);
+
                                 foreach ($cartelle as $cartella) {
                                     $value = html_entity_decode($cartella);
-                                    echo "<option value=\"$value\"> $value </option>";
+                                    $result = $this->select(array('tag'), $this->id_album, 'sotto_cartella', $value);
+
+                                  
+                                        echo  "<option style='display: flex;' class=\"$idTag\" value=\"$value\"> $value </option>";
+                                  
                                 }
                                 ?>
                             </select>
+                            <button type="submit" name="mostra" class="btn btn-primary  btn-sm">Mostra Foto</button>
 
                         </form>
                     </div>
@@ -107,13 +152,38 @@ class WORK_CSI
                 <?php
                 $this->rename_folder();
                 $this->move_photo();
-                $this->create_folder();
+               /*  $this->create_folder(); */
                 ?>
 
             </div>
         </div>
+        <script>
+            function checkTag($id) {
+                nomeTag = document.getElementById($id).value;
+                check = document.getElementById($id).checked;
+                if (check == false) {
+                    x = document.getElementsByClassName(nomeTag);
+                    var i;
+                    for (i = 0; i < x.length; i++) {
+                        x[i].style.display = 'none';
+                    }
+                document.getElementById($id).checked=true;
+                    document.cookie=nomeTag + "= ; max-age=36000";
+                } else {
+                    x = document.getElementsByClassName(nomeTag);
+                    var i;
+                    for (i = 0; i < x.length; i++) {
+                        x[i].style.display = 'flex';
+                    }
+                    document.getElementById($id).checked=false;
+                    document.cookie=nomeTag + "=checked ; max-age=36000";
+                }
+            }
 
+            
+        </script>
     <?php
+
 
 
 
@@ -124,7 +194,7 @@ class WORK_CSI
     { ?>
 
 
-        <a href="javascript:apri('upload.php','upload')" class="btn btn-primary btn-sm waves-effect waves-light " id="workbody"  style="margin-left: 10px; margin-right: 10px">
+        <a href="javascript:apri('upload.php','upload')" class="btn btn-primary btn-sm waves-effect waves-light " id="workbody" style="margin-left: 10px; margin-right: 10px">
             <i class="bi bi-file-earmark-arrow-down"></i> Upload</a>
 
 
@@ -160,7 +230,6 @@ class WORK_CSI
         <div class="card" style="margin: 0px">
             <div class="card-body" style="padding-top: 20px">
                 <form class="row g-3" method="POST" action="#">
-                    <button type="submit" name="rename" class="btn btn-primary  btn-sm">Rinomina cartella</button>
                     <select id="inputState" class="form-select" name="cartella_rename" style="float:left; display:block;">
 
                         <?php
@@ -177,6 +246,7 @@ class WORK_CSI
                     </select>
 
                     <input type="text" name="cartella_newname" value="" placeholder="nuovo nome">
+                    <button type="submit" name="rename" class="btn btn-primary  btn-sm">Rinomina cartella</button>
                 </form>
 
             </div>
@@ -317,8 +387,8 @@ class WORK_CSI
     ?>
         <div class="card">
             <div class="card-body" style="text-align:center ; padding-top: 20px ; ">
-            <p>Dimensioni anteprima (Shift + 1-5)</p>
-           
+                <p>Dimensioni anteprima (Shift + 1-5)</p>
+
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-bar-graph" onclick="dsmall()" viewBox="0 0 16 16">
                     <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z" />
                     <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />

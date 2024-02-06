@@ -180,7 +180,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                     <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">Accetto <a href="#">termini e condizioni</a></label>
+                        <label class="form-check-label checked" for="acceptTerms">Accetto <a href="#">termini e condizioni</a></label>
                         <div class="invalid-feedback">Per proseguire devi accettare i termini e le condizioni</div>
                       </div>
                     </div>

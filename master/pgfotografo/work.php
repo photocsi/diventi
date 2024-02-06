@@ -325,17 +325,15 @@ $id_operatore = $_COOKIE['id_operatore'];
 
                       $path = str_replace($cartella_rename, $cartella_newname, $row['path']);
                       $path_medium = str_replace($cartella_rename, $cartella_newname, $row['path_medium']);
-                      $path_small = str_replace($cartella_rename, $cartella_newname, $row['path_small']);
                       $path_watermark = str_replace($cartella_rename, $cartella_newname, $row['path_watermark']);
                       $id_foto = $row['id_foto'];
 
 
                       $rename = $conn->prepare("UPDATE diventi.$id_album SET sotto_cartella = :cartella_newname , path= :path_foto , path_medium= :path_medium ,
-                                                           path_small= :path_small , path_watermark= :path_watermark WHERE id_foto = :id_foto ");
+                                                           path_watermark= :path_watermark WHERE id_foto = :id_foto ");
                       $rename->bindparam(":cartella_newname",  $cartella_newname);
                       $rename->bindparam(":path_foto",  $path);
                       $rename->bindparam(":path_medium",  $path_medium);
-                      $rename->bindparam(":path_small",  $path_small);
                       $rename->bindparam(":path_watermark",  $path_watermark);
                       $rename->bindparam(":id_foto",  $id_foto);
                       $rename->execute();
@@ -352,13 +350,13 @@ $id_operatore = $_COOKIE['id_operatore'];
 
                   /*    INIZIO CREA NUOVA CARTELLA */
 
-                  if (isset($_POST['create_folder']) && $_POST['create_folder'] != 'NULL') {
+                /*   if (isset($_POST['create_folder']) && $_POST['create_folder'] != 'NULL') {
                     $new_folder = $_POST['create_folder'];
                     mkdir("../sottocartelle/$new_folder/large/", 0777, TRUE);
                     mkdir("../sottocartelle/$new_folder/medium/", 0777, TRUE);
-                    mkdir("../sottocartelle/$new_folder/small/", 0777, TRUE);
+                   
                     mkdir("../sottocartelle/$new_folder/watermark/", 0777, TRUE);
-                  }
+                  } */
                   /*  FINE CREA NUOVA CARTELLA */
 
                   /*   INIZIO SPOSTA FOTO */
@@ -366,9 +364,8 @@ $id_operatore = $_COOKIE['id_operatore'];
                   if (isset($_POST['move_photo']) && $_POST['move_photo'] != 'NULL') {
                     $move_photo = $_POST['move_photo'];
                     if (!file_exists("../sottocartelle/$move_photo/large/")) {
-                      mkdir("../sottocartelle/$move_photo/large/", 0777, TRUE);
+                      mkdir("../sottocartelle/$move_photo/large/modificate/", 0777, TRUE);
                       mkdir("../sottocartelle/$move_photo/medium/", 0777, TRUE);
-                      mkdir("../sottocartelle/$move_photo/small/", 0777, TRUE);
                       mkdir("../sottocartelle/$move_photo/watermark/", 0777, TRUE);
                     }
                     $select = $db_class->take_select($id_operatore, $id_album);
@@ -380,12 +377,6 @@ $id_operatore = $_COOKIE['id_operatore'];
                         $db_class->update($id_album, 'path', $new_path, 'id_foto', $select[$i]['id_foto']);
                       }
 
-                      $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_small']);
-                      copy($select[$i]['path_small'], $new_path);
-                      if ($select[$i]['path_small'] != $new_path) {
-                        unlink($select[$i]['path_small']);
-                        $db_class->update($id_album, 'path_small', $new_path, 'id_foto', $select[$i]['id_foto']);
-                      }
 
                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_medium']);
                       copy($select[$i]['path_medium'], $new_path);
@@ -394,12 +385,13 @@ $id_operatore = $_COOKIE['id_operatore'];
                         $db_class->update($id_album, 'path_medium', $new_path, 'id_foto', $select[$i]['id_foto']);
                       }
 
-                      $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_watermark']);
+              
+                       $new_path = str_replace($select[$i]['sotto_cartella'], $move_photo, $select[$i]['path_watermark']);
                       copy($select[$i]['path_watermark'], $new_path);
                       if ($select[$i]['path_watermark'] != $new_path) {
                         unlink($select[$i]['path_watermark']);
                         $db_class->update($id_album, 'path_watermark', $new_path, 'id_foto', $select[$i]['id_foto']);
-                      }
+                      } 
 
                       $db_class->update($id_album, 'sotto_cartella', $move_photo, 'id_foto', $select[$i]['id_foto']);
                     }

@@ -63,10 +63,10 @@ $id_fotografo=34                                    ;
                                                 <div class="card-body  align-items-center" style="border: 1px solid #0040ff ; padding-top: 1rem; border-radius: 30px ; margin: 1rem ;">
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="resolution" id="inlineCheckbox1" value="speed" checked>
-                                                        <label class="form-check-label" for="inlineCheckbox1" >Speed</label>
+                                                        <label class="form-check-label" for="inlineCheckbox1">Speed</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="resolution" id="inlineCheckbox2" value="hd" >
+                                                        <input class="form-check-input" type="radio" name="resolution" id="inlineCheckbox2" value="hd">
                                                         <label class="form-check-label" for="inlineCheckbox2">HD</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
@@ -75,6 +75,12 @@ $id_fotografo=34                                    ;
                                                     </div>
                                                 </div>
                                                 <!--  FINE SCELTA hd -->
+                                                <?php
+                                                require_once '../../../includes/db_pdo-class.php';
+                                                $db_csi = new DB_CSI();
+                                                $tag=$db_csi->select_order($id_album,array('tag'),1,array('id_album'),array($id_album),'id_foto','DESC');
+                                              
+                                                ?>
 
 
                                                 <div class="row mb-3">
@@ -93,7 +99,7 @@ $id_fotografo=34                                    ;
                                                 <div class="row mb-3">
                                                     <label for="inputDate" class="col-sm-3 col-form-label">TAG</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="tag" class="form-control">
+                                                        <input type="text" name="tag" value="<?php  echo (isset($tag[0])) ?   $tag[0]['tag'] : '';  ?>" class="form-control">
                                                     </div>
                                                 </div>
 

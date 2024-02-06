@@ -7,7 +7,6 @@ unset($_SESSION['user_fotografo']);
 unset($_SESSION['password_fotografo']);
 
 
-
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +17,9 @@ unset($_SESSION['password_fotografo']);
     <title>Document</title>
 </head>
 <body>
-    Scansona nuovamente i QRCODE oppure utilizza il link della galleria per effetuare il login
+   
+
+    <h4>Scansiona nuovamente i QRCODE oppure utilizza il link della galleria per effetuare il login</h4>
+
 </body>
 </html>

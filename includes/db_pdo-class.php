@@ -54,7 +54,7 @@ class DB_CSI
         $this->value = $value;
 
 
-        $select = $this->conn->prepare("SELECT $this->field FROM $this->table WHERE $this->where= :value0 ");
+        $select = $this->conn->prepare("SELECT $this->field FROM $this->db.$this->table WHERE $this->where= :value0 ");
         $select->bindparam(":value0", $this->value);
         $select->execute();
 
@@ -85,7 +85,7 @@ class DB_CSI
         return $result;
     }
 
-    public function select_order($table,$array_field, $quantity, $array_where, $array_value,$asc_desc)
+    public function select_order($table,$array_field, $quantity, $array_where, $array_value,$field_order,$asc_desc)
     {
         $result = array();
 
@@ -108,12 +108,22 @@ class DB_CSI
              $this->value[2]=$this->value[0];
          }
 
-        $select = $this->conn->prepare("SELECT $this->field FROM $this->table WHERE ({$this->where[0]}= :value0 AND {$this->where[1]}= :value1 AND {$this->where[2]}= :value2 ) ORDER BY $this->field $asc_desc LIMIT $quantity");
+        $select = $this->conn->prepare("SELECT $this->field FROM $this->db.$this->table WHERE ({$this->where[0]}= :value0 AND {$this->where[1]}= :value1 AND {$this->where[2]}= :value2 ) ORDER BY $field_order $asc_desc LIMIT $quantity");
         $select->bindparam(":value0", $this->value[0]);
         $select->bindparam(":value1", $this->value[1]);
         $select->bindparam(":value2", $this->value[2]);
         $select->execute();
 
+        while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = $row;
+        }
+        return $result;
+    }
+
+    public function select_distinct($table,$field){
+        $select=$this->conn->prepare("SELECT DISTINCT $field FROM $this->db.$table ORDER BY $field ASC");
+        $select->execute();
+$result=array();
         while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
             $result[] = $row;
         }

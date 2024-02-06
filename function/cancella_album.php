@@ -15,6 +15,7 @@ rmdir($path_cartella); */
 cancella_preferiti($id_album);
 cancella_clienti($id_album);
 cancella_album($id_album);
+cancella_report($id_album);
 cancella_cartella($path_cartella);
 
 
@@ -54,6 +55,17 @@ function cancella_preferiti($id_album)
 
     $conn = null;
 }
+
+function cancella_report($id_album)
+{
+    include('../config_pdo.php');
+    $select = $conn->prepare("DELETE FROM 1report WHERE id_album= :id_album ");
+    $select->bindparam(":id_album", $id_album);
+    $select->execute();
+
+    $conn = null;
+}
+
 
 function cancella_clienti($id_album)
 {

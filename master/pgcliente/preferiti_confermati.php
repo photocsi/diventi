@@ -127,29 +127,31 @@ header('Location: ../../../register_clienti.php');
     ?>
   <!-- MENU -->
   
-  <!-- ======= Header ======= -->
-  <header id='header' class='fixed-top ' style='background-color: black'>
-      <div class='container d-flex align-items-center justify-content-lg-between'>
-  
-   <!--      <h1 class='logo me-auto me-lg-0'><a href='index.html'>Tardis<span>.</span></a></h1> -->
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <a href='' class='logo me-auto me-lg-0'><img src='<?php echo "../../../fotografi/$id_fotografo/logo/logo.jpg "; ?>' alt='' class='img-fluid'></a>
-  
-        <nav id='navbar' class='navbar order-last order-lg-0'>
-          <ul>
-            <li><a class='nav-link scrollto' href='index.php'>Album</a></li>
-            
-            <li><a class='nav-link scrollto' href='carrello.php'>Carrello</a></li>
-          </ul>
-          <i class='bi bi-list mobile-nav-toggle'></i>
-        </nav><!-- .navbar -->
-  
-        <a href='#header' class='get-started-btn scrollto'>Torna su</a>
-  
-      </div>
-    </header><!-- End Header -->
-
-    <main id='main'>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary ">
+<div class="container-fluid">
+<img class="navbar-brand " src="../../../img/logo_w.png" width="150" height="auto">
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse " id="navbarSupportedContent">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+<li class="nav-item">
+  <a class="nav-link text-primary" href="index.php">Album</a>
+</li>
+<li>
+              <a class="dropdown-item d-flex align-items-center text-primary" href="../../../log_out_clienti.php">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Log Out</span>
+              </a>
+            </li>
+</ul>
+<form class="d-flex" role="search">
+<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+<button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+</div>
+</div>
+</nav>
      <!-- ======= SEZIONE FOTO ======= -->
   
      <section id='portfolio' class='portfolio'>
@@ -159,7 +161,7 @@ header('Location: ../../../register_clienti.php');
   </br>
     <h2>Selezione</h2> 
     <h5></br>Hai confermato la scelta di <?php echo $numero_preferiti ?> fotografie</h5>
-    <h4> Il tuo fotografo ha già ricevuto la tua selezione , ora non ti resta che aspettare o acquistare altri prodotti.</h4>
+    <h4> Il tuo fotografo ha già ricevuto la tua selezione , recati la Photo Point per ritirare le foto stampate.</h4>
   </div>    
           <div class='row portfolio-container' data-aos='fade-up' data-aos-delay='200'>
   <!-- prendo i prefriti di quel cliente in quell'album -->
