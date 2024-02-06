@@ -563,13 +563,10 @@ IN UNA SOLA RIGA invece di fare 3 righe (nomealbum cartella e poi small) */
           copy($file['tmp_name'], "$path_hd" . $file['name']); //RICORDARSI DI SISTEMARE LA PATH GIUSTA PATH_HD_BIS
           $dimensioni_foto = getimagesize($file['tmp_name']);
           if ($dimensioni_foto[0] < $dimensioni_foto[1]) { //se è verticale uso queste dimensioni
-           
             riduci_e_salva($file['tmp_name'], 500, $path_medie . $file['name'], 75, true);
           } else if ($dimensioni_foto[0] > $dimensioni_foto[1]) {  //se è orizzontale uso queste dimensioni
-         
             riduci_e_salva($file['tmp_name'], 900, $path_medie . $file['name'], 75, false);
           } else {
-           
             riduci_e_salva($file['tmp_name'], 800, $path_medie . $file['name'], 75, false);
           }
         } else if (isset($_POST['resolution']) && $_POST['resolution'] == 'speed') {

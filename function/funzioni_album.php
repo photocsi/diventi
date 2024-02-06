@@ -334,19 +334,19 @@ function watermark($file,$path_destinazione,$path_watermark){
   $dimensioni_foto = getimagesize($file); // prendo le dimensioni della foto jpg
   if($dimensioni_foto[0]<$dimensioni_foto[1]){ //controllo se e verticale faccio cosi
     $distanza_sinistra=50; //distanza fra bordo sx e logo
-    $distanza_alto=350; //distanza fra bordo alto e lgo
+    $distanza_alto=200; //distanza fra bordo alto e lgo
      $larghezza=$dimensioni_watermark[0];
      $altezza=$dimensioni_watermark[1];
      $grandezza=600; //questa e la grandezza in px dell'immagine finale
   }else if($dimensioni_foto[0]>$dimensioni_foto[1]){ //se e orizzontale cosi
     $distanza_sinistra=200;
-    $distanza_alto=200;
+    $distanza_alto=100;
     $larghezza=$dimensioni_watermark[0];
     $altezza=$dimensioni_watermark[1];
     $grandezza=1000;
   }else{  // se e quadrata faccio cosi
     $distanza_sinistra=150;
-    $distanza_alto=150;
+    $distanza_alto=100;
     $larghezza=$dimensioni_watermark[0];
     $altezza=$dimensioni_watermark[1];
     $grandezza=900;

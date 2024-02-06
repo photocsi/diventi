@@ -97,7 +97,7 @@ if (!isset($_SESSION['email_cliente'])) {
       <div class="card-header">
         <nav class="navbar navbar-expand-lg bg-body-tertiary ">
           <div class="container-fluid">
-            <img class="navbar-brand " src="../../../img/logo_w.png" width="150" height="auto">
+            <img class="navbar-brand " src="../../../img/logo.png" width="150" height="auto">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -146,7 +146,7 @@ if (!isset($_SESSION['email_cliente'])) {
     <div class="container">
       <div class="card mt-2">
         <div class="card-header text-center">
-          <h5>Inizia Subito</h5>
+          <h5 style="color: red"><b>LE FOTO SONO DISPONIBILI SOLO NEI PRESSI DEL PHOTO POINT</b></h5>
         </div>
         <div class="card-body">
 

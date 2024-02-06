@@ -120,10 +120,11 @@ if (!isset($_SESSION['user_fotografo'])) {
                                                     <h5 class="card-title">IN LOCALE</h5>
                                                     <div class="row g-3">
                                                         <div class="col-md-12">
-                                                            <input id="link_locale" type="text" size="10" class="form-control" value="" disabled></input>
+                                                            <input id="link_locale" type="text" size="10" class="form-control" value="<?php echo $link_locale ?>" disabled></input>
                                                         </div>
                                                         <div class="col-md-8">
                                                             <input type="text" id="link_rete" onchange="link_locale('link_rete', '<?php echo $link_locale ?>' , 'link_locale')" style="border-radius: 5px ; border-color: green " placeholder="Inserisci indirizzo di rete" value=""></input>
+                                                            <label><p>Router: 192.168.0.101 </br>PC=>PC: 192.168.0.1 </p></label>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <button class="btn btn-outline-success btn-sm">INVIA</button>

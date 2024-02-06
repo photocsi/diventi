@@ -8,7 +8,7 @@ include_once __DIR__ . '/../includes/function-class.php';
 $path = "../sottocartelle";
 $function = new FUNCTION_CSI($id_album, $id_cliente);
 $cartelle = $function->mostra_cartelle($path);
-
+asort($cartelle);
 ?>
 
 <form action="#" method="post">
