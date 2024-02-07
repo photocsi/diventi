@@ -119,10 +119,6 @@ class WORK_CSI extends DB_CSI
                       
                      }   ?>
 
-
-
-
-
                         <form class="row g-3" method="POST" action="#">
 
                             <select id="inputState" class="form-select" name="cartella_scelta[]" style="float:left; display:block;" size="16" multiple>
@@ -135,10 +131,7 @@ class WORK_CSI extends DB_CSI
 
                                 foreach ($cartelle as $cartella) {
                                     $value = html_entity_decode($cartella);
-                                    $result = $this->select(array('tag'), $this->id_album, 'sotto_cartella', $value);
-
-                                  
-                                        echo  "<option style='display: flex;' class=\"$idTag\" value=\"$value\"> $value </option>";
+                                        echo  "<option style='display: flex;' value=\"$value\"> $value </option>";
                                   
                                 }
                                 ?>

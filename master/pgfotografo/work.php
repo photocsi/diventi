@@ -40,7 +40,7 @@ $id_operatore = $_COOKIE['id_operatore'];
   </script>
   <script>
     function apri(url, fin) {
-      window.open(url, fin, 'alwaysRaised=yes,scrollbars=no,status=no,resizabl e=no,top=100,left=150,width=630,height=620');
+      window.open(url, fin, 'alwaysRaised=yes,scrollbars=no,status=no,resizabl e=no,top=180,left=150,width=820,height=540');
       return false;
     }
   </script>

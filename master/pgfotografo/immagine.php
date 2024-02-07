@@ -77,14 +77,18 @@ header("Pragma: no-cache");
 
         <?php 
         include('../../../component/component_immagine/img.php');
-        include('../../../component/component_immagine/btn_primary.php');
          ?>
+         <div class="container text-center p-3">
+          <h5>Tasti Rapidi</h5>
+          <p><b>"v"</b> = RITAGLIA IN VERTICALE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>"c"</b> = RITAGLIA IN ORIZZONTALE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>"x"</b> = CONFERMA RITAGLIO </br>
+           <b>"s"</b> = STAMPA FOTO &nbsp;&nbsp;|&nbsp;&nbsp; <b>"a"</b> = SALVA IMMAGINE &nbsp;&nbsp;|&nbsp;&nbsp; <b>"r"</b> = RESETTA IMMAGINE &nbsp;&nbsp;|&nbsp;&nbsp; <b>"e"</b> = ELIMINA GRAFICA</p>
+         </div>
 
       </div>
 
       <!-- INIZIO SEZIONE LATERALE FISARMONICA -->
       <div class="col-3 ">
-
+    <?php  include('../../../component/component_immagine/btn_primary.php'); ?>
         <!-- Default Accordion -->
         <div class="accordion" id="accordionExample">
 
@@ -143,6 +147,35 @@ header("Pragma: no-cache");
 
 
       }
+  /* KEY PRINT */
+  document.addEventListener('keydown', function (event) {
+        if (event.code == 'KeyS') {
+            stampa('stampa');
+        }
+            });
+
+ /* KEY RESET */
+            document.addEventListener('keydown', function (event) {
+        if (event.code == 'KeyR') {
+          reset();
+        }
+            });
+
+ /* KEY SAVE */
+            document.addEventListener('keydown', function (event) {
+        if (event.code == 'KeyA') {
+          save_img64('save_button');
+        }
+            });
+
+ /* KEY ELIMINA GRAFICA */
+            document.addEventListener('keydown', function (event) {
+        if (event.code == 'KeyE') {
+          inserisci('elimina_grafica','elimina_grafica','elimina_grafica');
+        }
+            });
+
+
     </script>
     <script src="../../../assets-d20/js/key_ritocco.js"></script>
 

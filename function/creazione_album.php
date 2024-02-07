@@ -363,32 +363,7 @@ function crea_album()
   fwrite($nuovo_file, $testo);
   fclose($nuovo_file);
 
-  /* creo la pagina slide 5 */
-  $origin = "../master/pgfotografo/slide5.php";
-  $destination = "../album/$id_album/pgfotografo/slide5.php";
-  copy($origin, $destination);
-
-  $nuovo_file = fopen("$destination", "r+") or die("unable to open file!");
-  $testo = "<?php
-      \$id_album=$id_album;  ";
-
-
-  fwrite($nuovo_file, $testo);
-  fclose($nuovo_file);
-
-  /* creo la pagina slide 6 */
-  $origin = "../master/pgfotografo/slide6.php";
-  $destination = "../album/$id_album/pgfotografo/slide6.php";
-  copy($origin, $destination);
-
-  $nuovo_file = fopen("$destination", "r+") or die("unable to open file!");
-  $testo = "<?php
-      \$id_album=$id_album;  ";
-
-
-  fwrite($nuovo_file, $testo);
-  fclose($nuovo_file);
-
+  
   /*    CREO LE PAGINE PER I CLIENTI */
   /*   creo la pagina iniziale pgcliente */
   $origin = "../master/pgcliente/index.php";

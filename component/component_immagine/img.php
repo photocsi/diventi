@@ -3,7 +3,7 @@
  <div class="row" style="margin-bottom: 10;">
           <div class="col">
             <h5>Immagine originale</h5>
-            <div class="boxFoto" style="width: auto ; height: 580px">
+            <div class="boxFoto" style="width: auto ; height: 680px">
               <div style=" width: 100% ; height: 100% ; object-fit: cover; ">
                 <img src="<?php echo $path_immagine ?>" id="image">
               </div>
@@ -12,7 +12,7 @@
 
           <div class="col">
             <h5>Immagine da stampare</h5>
-            <div class="boxFoto" style="width: auto ; height: 580px">
+            <div class="boxFoto" style="width: auto ; height: 680px">
 
               <div class="card " id="fotoMod" style=" width: 100% ; height: 100% ; ">
                 <img class="card-img" src=" <?php echo  $path_immagine_large_modificata . '. ? .' .  time(), ' '; ?>" id="output" style="width: 100% ; height: 100%; object-fit: contain;">

@@ -39,7 +39,7 @@ session_start();
 
     <script type='text/javascript'>
         function slide1(url, win) {
-            window.open(url, win, 'alwaysRaised=yes,scrollbars=no,status=no,resizabl e=no,top=100,left=150,width=630,height=620');
+            window.open(url, win, 'alwaysRaised=yes,scrollbars=no,status=no,resizable=no,top=100,left=150,width=700,height=550');
             return false;
         }
     </script>
@@ -55,7 +55,7 @@ session_start();
         <section class="section">
             <div class="row">
                 <!--    PRIMO SLIDE -->
-                <div class="col-4">
+                <div class="col-3">
                     <div class="card">
                         <div class="card-body">
 
@@ -63,27 +63,19 @@ session_start();
                             <!--   FROM PER LA SCELTA DELLE CARTELLE------------------------------------------------------- -->
                             <!--  PRIMA SELEZIONE OPTION -->
                             <form class='row g-3' action="#" method="GET">
-                                <select name="cartella_scelta">
+                                <select id="inputState" class="form-select" name="cartella_scelta[]" style="float:left; display:block;" size="14" multiple>
                                     <?php
                                     /* il percorso dove cercare le cartelle */
                                     $path = "../sottocartelle/";
                                     /*     uso la funzione per scandire le cartelle e inserirle in un array */
                                     $sotto_cartelle = mostra_cartelle($path);
                                     /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL\">cartella</option>";
                                     foreach ($sotto_cartelle as $value) {
                                         echo "<option value=\"$value\"> $value </option>";
                                     }
                                     ?>
                                 </select>
-                                <!--  SECONDA SELEZIONE OPTION -->
-                                <!-- creo la seconda selezione -->
-                                <select name="cartella_scelta2">
-                                    <option selected="NULL" value="NULL">cartella</option>
-                                    <?php foreach ($sotto_cartelle as $value) {
-                                        echo "<option value=\"$value\"> $value </option>";
-                                    } ?>
-                                </select>
+
 
                                 <!-- SELEZIONE PER PRENDERE LE CARTELLE SELEZIONATE DAI CLIENTI -->
 
@@ -108,9 +100,10 @@ session_start();
 
                             <?php
                             if (isset($_GET['win1'])) {
+                               
+                                (isset($_GET['cartella_scelta'])) ? $_SESSION['cartella_scelta'] = $_GET['cartella_scelta'] : $_SESSION['cartella_scelta'] =  ['mySelect'];
+                               
 
-                                $_SESSION['cartella_scelta'] = $_GET['cartella_scelta'];
-                                $_SESSION['cartella_scelta2'] = $_GET['cartella_scelta2'];
                                 /*  per l'INPUT CARTELLA CLIENTI FACCIO IL PROCEDIMENTO PER ESTRAPOLARE I PREFERITI E METTERLI IN UN ARRAY */
                                 if (isset($_GET['scelta_cliente'])) {
                                     $array = explode(" ", $_GET['scelta_cliente']);
@@ -120,28 +113,40 @@ session_start();
                                     $_SESSION['id_cliente'] = $id_cliente;
                                 }
 
+                                if(isset($_GET['cartella_scelta2'])){
+                                foreach ($_GET['cartella_scelta'] as $cartella_scelta) {
+                                    include('../../../config_pdo.php');
+                                    /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
+                                    $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella = :cartella_scelta ; ");
+                                    $seleziona_foto->bindParam(':cartella_scelta', $cartella_scelta);
+                                    $seleziona_foto->execute();
 
-                                include('../../../config_pdo.php');
-                                /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
-                                $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella= '{$_GET['cartella_scelta']}' OR sotto_cartella='{$_GET['cartella_scelta2']}'; ");
-                                $seleziona_foto->execute();
+                                    $listafile = array();
 
-                                $listafile = array();
+                                    while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
+                                        $listafile[] = $row['path_medium'];
+                                        $_SESSION['sotto_cartella'] = $row['sotto_cartella'];
+                                    }
 
-                                while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_medium'];
-                                    $_SESSION['sotto_cartella'] = $row['sotto_cartella'];
+                                    $conn = null;
                                 }
-
-                                $conn = null;
                             }
+                            }
+                            /*   NOME DELLE CARTELLE IN SLIDE */
+                           if(isset($_SESSION['cartella_scelta'])){
+                            foreach ($_SESSION['cartella_scelta'] as  $cartella) {
                             ?>
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta']) && ($_SESSION['cartella_scelta'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta']}";
-                                                                } ?> </b> </p>
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta2']) && ($_SESSION['cartella_scelta2'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta2']}";
-                                                                } ?> </b> </p>
+                                <p style="text-align: center;">
+                                    <b><?php if (isset($cartella) && ($cartella != 'NULL')) {
+                                            echo " $cartella";
+                                        } ?>
+                                    </b>
+                                </p>
+
+                            <?php }
+                           }
+                            ?>
+
                             <p style="text-align: center;"> <b><?php if (isset($_SESSION['nome_cliente']) && ($_SESSION['nome_cliente'] != 'NULL')) {
                                                                     echo " {$_SESSION['nome_cliente']}";
                                                                 } ?> </b> </p>
@@ -150,42 +155,28 @@ session_start();
                     </div>
                 </div>
 
-
-
-
-                <!--    SECONDO SLIDE -->
-                <!-- <div class="row align-items-start" style=" padding: 10px;  background-color: #eee;"> -->
-                <div class="col-4">
+<!-- SECONDO SLIDE -->
+                <div class="col-3">
                     <div class="card">
                         <div class="card-body">
 
-                            <h4>SLIDE 2</h4>
+                <h4>SLIDE 2</h4>
                             <!--   FROM PER LA SCELTA DELLE CARTELLE------------------------------------------------------- -->
                             <!--  PRIMA SELEZIONE OPTION -->
                             <form class='row g-3' action="#" method="GET">
-                                <select name="cartella_scelta3">
+                                <select id="inputState" class="form-select" name="cartella_scelta2[]" style="float:left; display:block;" size="14" multiple>
                                     <?php
-
                                     /* il percorso dove cercare le cartelle */
                                     $path = "../sottocartelle/";
                                     /*     uso la funzione per scandire le cartelle e inserirle in un array */
                                     $sotto_cartelle = mostra_cartelle($path);
                                     /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL\">cartella</option>";
                                     foreach ($sotto_cartelle as $value) {
                                         echo "<option value=\"$value\"> $value </option>";
                                     }
                                     ?>
                                 </select>
 
-                                <!--  seconda SELEZIONE OPTION -->
-                                <!-- creo la seconda selezione -->
-                                <select name="cartella_scelta4">
-                                    <option selected="NULL" value="NULL">cartella</option>
-                                    <?php foreach ($sotto_cartelle as $value) {
-                                        echo "<option value=\"$value\"> $value </option>";
-                                    } ?>
-                                </select>
 
                                 <!-- SELEZIONE PER PRENDERE LE CARTELLE SELEZIONATE DAI CLIENTI -->
 
@@ -194,17 +185,15 @@ session_start();
                                     <?php
                                     $clienti = prendi_clienti($id_album);
                                     /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL NULL\">selezione</option>";
+                                    echo "<option selected=\"NULL\" value=\"NULL NULL\" >selezione</option>";
                                     while ($row = $clienti->fetch(PDO::FETCH_ASSOC)) {
                                         $row['nome_cliente'] = str_replace(" ", "_", $row['nome_cliente']);
-                                        echo "<option value=\"{$row['nome_cliente']} {$row['id_cliente']}\"> {$row['nome_cliente']}</option>";
+                                        echo "<option value=\"{$row['nome_cliente']} {$row['id_cliente']}\"> {$row['nome_cliente']} </option>";
                                     }     ?>
                                 </select>
 
-                                <!--            FINE CASELLE PER LA SELEZIONE -->
-
+                                <!--      FINE CASELLE PER LA SELEZIONE -->
                                 <!--  PULSANTE INPUT DEL FORM -->
-
                                 </br> <input type="submit" name="win2" value="prendi"></button>
                                 <button id="manda2" onclick="slide1('slide2.php','win2')" name="manda2">Manda</button>
                             </form>
@@ -212,40 +201,55 @@ session_start();
 
                             <?php
                             if (isset($_GET['win2'])) {
+                               
+                                   (isset($_GET['cartella_scelta2'])) ? $_SESSION['cartella_scelta2'] = $_GET['cartella_scelta2'] : $_SESSION['cartella_scelta2'] =  ['mySelect'];
+                               
 
-                                $_SESSION['cartella_scelta3'] = $_GET['cartella_scelta3'];
-                                $_SESSION['cartella_scelta4'] = $_GET['cartella_scelta4'];
                                 /*  per l'INPUT CARTELLA CLIENTI FACCIO IL PROCEDIMENTO PER ESTRAPOLARE I PREFERITI E METTERLI IN UN ARRAY */
                                 if (isset($_GET['scelta_cliente2'])) {
                                     $array = explode(" ", $_GET['scelta_cliente2']);
-                                    $nome_cliente = $array[0];
-                                    $id_cliente = $array[1];
-                                    $_SESSION['nome_cliente2'] = $nome_cliente;
-                                    $_SESSION['id_cliente2'] = $id_cliente;
+                                    $nome_cliente2 = $array[0];
+                                    $id_cliente2 = $array[1];
+                                    $_SESSION['nome_cliente2'] = $nome_cliente2;
+                                    $_SESSION['id_cliente2'] = $id_cliente2;
                                 }
 
-                                include('../../../config_pdo.php');
-                                /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
-                                $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella= '{$_GET['cartella_scelta3']}' OR sotto_cartella='{$_GET['cartella_scelta4']}'; ");
-                                $seleziona_foto->execute();
+                              
+                                if(isset($_GET['cartella_scelta2'])){
+                                foreach ($_GET['cartella_scelta2'] as $cartella_scelta) {
+                                    include('../../../config_pdo.php');
+                                    /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
+                                    $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella = :cartella_scelta ; ");
+                                    $seleziona_foto->bindParam(':cartella_scelta', $cartella_scelta);
+                                    $seleziona_foto->execute();
 
-                                $listafile = array();
+                                    $listafile = array();
 
-                                while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_medium'];
-                                    $_SESSION['sotto_cartella2'] = $row['sotto_cartella'];
+                                    while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
+                                        $listafile[] = $row['path_medium'];
+                                        $_SESSION['sotto_cartella2'] = $row['sotto_cartella'];
+                                    }
+
+                                    $conn = null;
                                 }
-
-                                $conn = null;
                             }
+                          
+                            }
+                            /*   NOME DELLE CARTELLE IN SLIDE */
+                           if(isset($_SESSION['cartella_scelta2'])){
+                            foreach ($_SESSION['cartella_scelta2'] as  $cartella) {
+                            ?>
+                                <p style="text-align: center;">
+                                    <b><?php if (isset($cartella) && ($cartella != 'NULL')) {
+                                            echo " $cartella";
+                                        } ?>
+                                    </b>
+                                </p>
+
+                            <?php }
+                           }
                             ?>
 
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta3']) && ($_SESSION['cartella_scelta3'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta3']}";
-                                                                } ?> </b> </p>
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta4']) && ($_SESSION['cartella_scelta4'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta4']}";
-                                                                } ?> </b> </p>
                             <p style="text-align: center;"> <b><?php if (isset($_SESSION['nome_cliente2']) && ($_SESSION['nome_cliente2'] != 'NULL')) {
                                                                     echo " {$_SESSION['nome_cliente2']}";
                                                                 } ?> </b> </p>
@@ -256,39 +260,28 @@ session_start();
 
 
 
-                <!--    TERZO SLIDE -->
-                <!-- <div class="row align-items-start" style=" padding: 10px;  background-color: #eee;"> -->
-                <div class="col-4">
+        <!-- TERZO SLIDE -->
+        <div class="col-3">
                     <div class="card">
                         <div class="card-body">
 
-                            <h4>SLIDE 3</h4>
+                <h4>SLIDE 3</h4>
                             <!--   FROM PER LA SCELTA DELLE CARTELLE------------------------------------------------------- -->
                             <!--  PRIMA SELEZIONE OPTION -->
                             <form class='row g-3' action="#" method="GET">
-                                <select name="cartella_scelta5">
+                                <select id="inputState" class="form-select" name="cartella_scelta3[]" style="float:left; display:block;" size="14" multiple>
                                     <?php
-
                                     /* il percorso dove cercare le cartelle */
                                     $path = "../sottocartelle/";
                                     /*     uso la funzione per scandire le cartelle e inserirle in un array */
                                     $sotto_cartelle = mostra_cartelle($path);
                                     /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL\">cartella</option>";
                                     foreach ($sotto_cartelle as $value) {
                                         echo "<option value=\"$value\"> $value </option>";
                                     }
                                     ?>
                                 </select>
 
-                                <!--  seconda SELEZIONE OPTION -->
-                                <!-- creo la seconda selezione -->
-                                <select name="cartella_scelta6">
-                                    <option selected="NULL" value="NULL">cartella</option>
-                                    <?php foreach ($sotto_cartelle as $value) {
-                                        echo "<option value=\"$value\"> $value </option>";
-                                    } ?>
-                                </select>
 
                                 <!-- SELEZIONE PER PRENDERE LE CARTELLE SELEZIONATE DAI CLIENTI -->
 
@@ -297,17 +290,15 @@ session_start();
                                     <?php
                                     $clienti = prendi_clienti($id_album);
                                     /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL NULL\">selezione</option>";
+                                    echo "<option selected=\"NULL\" value=\"NULL NULL\" >selezione</option>";
                                     while ($row = $clienti->fetch(PDO::FETCH_ASSOC)) {
                                         $row['nome_cliente'] = str_replace(" ", "_", $row['nome_cliente']);
-                                        echo "<option value=\"{$row['nome_cliente']} {$row['id_cliente']}\"> {$row['nome_cliente']}</option>";
+                                        echo "<option value=\"{$row['nome_cliente']} {$row['id_cliente']}\"> {$row['nome_cliente']} </option>";
                                     }     ?>
                                 </select>
 
-                                <!--            FINE CASELLE PER LA SELEZIONE -->
-
+                                <!--      FINE CASELLE PER LA SELEZIONE -->
                                 <!--  PULSANTE INPUT DEL FORM -->
-
                                 </br> <input type="submit" name="win3" value="prendi"></button>
                                 <button id="manda3" onclick="slide1('slide3.php','win3')" name="manda3">Manda</button>
                             </form>
@@ -315,40 +306,55 @@ session_start();
 
                             <?php
                             if (isset($_GET['win3'])) {
+                               
+                                   (isset($_GET['cartella_scelta3'])) ? $_SESSION['cartella_scelta3'] = $_GET['cartella_scelta3'] : $_SESSION['cartella_scelta3'] =  ['mySelect'];
+                               
 
-                                $_SESSION['cartella_scelta5'] = $_GET['cartella_scelta5'];
-                                $_SESSION['cartella_scelta6'] = $_GET['cartella_scelta6'];
                                 /*  per l'INPUT CARTELLA CLIENTI FACCIO IL PROCEDIMENTO PER ESTRAPOLARE I PREFERITI E METTERLI IN UN ARRAY */
                                 if (isset($_GET['scelta_cliente3'])) {
                                     $array = explode(" ", $_GET['scelta_cliente3']);
-                                    $nome_cliente = $array[0];
-                                    $id_cliente = $array[1];
-                                    $_SESSION['nome_cliente3'] = $nome_cliente;
-                                    $_SESSION['id_cliente3'] = $id_cliente;
+                                    $nome_cliente3 = $array[0];
+                                    $id_cliente3 = $array[1];
+                                    $_SESSION['nome_cliente3'] = $nome_cliente3;
+                                    $_SESSION['id_cliente3'] = $id_cliente3;
                                 }
 
-                                include('../../../config_pdo.php');
-                                /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
-                                $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella= '{$_GET['cartella_scelta5']}' OR sotto_cartella='{$_GET['cartella_scelta6']}'; ");
-                                $seleziona_foto->execute();
+                              
+                                if(isset($_GET['cartella_scelta3'])){
+                                foreach ($_GET['cartella_scelta3'] as $cartella_scelta) {
+                                    include('../../../config_pdo.php');
+                                    /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
+                                    $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella = :cartella_scelta ; ");
+                                    $seleziona_foto->bindParam(':cartella_scelta', $cartella_scelta);
+                                    $seleziona_foto->execute();
 
-                                $listafile = array();
+                                    $listafile = array();
 
-                                while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_medium'];
-                                    $_SESSION['sotto_cartella3'] = $row['sotto_cartella'];
+                                    while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
+                                        $listafile[] = $row['path_medium'];
+                                        $_SESSION['sotto_cartella3'] = $row['sotto_cartella'];
+                                    }
+
+                                    $conn = null;
                                 }
-
-                                $conn = null;
                             }
+                          
+                            }
+                            /*   NOME DELLE CARTELLE IN SLIDE */
+                           if(isset($_SESSION['cartella_scelta3'])){
+                            foreach ($_SESSION['cartella_scelta3'] as  $cartella) {
+                            ?>
+                                <p style="text-align: center;">
+                                    <b><?php if (isset($cartella) && ($cartella != 'NULL')) {
+                                            echo " $cartella";
+                                        } ?>
+                                    </b>
+                                </p>
+
+                            <?php }
+                           }
                             ?>
 
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta5']) && ($_SESSION['cartella_scelta5'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta5']}";
-                                                                } ?> </b> </p>
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta6']) && ($_SESSION['cartella_scelta6'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta6']}";
-                                                                } ?> </b> </p>
                             <p style="text-align: center;"> <b><?php if (isset($_SESSION['nome_cliente3']) && ($_SESSION['nome_cliente3'] != 'NULL')) {
                                                                     echo " {$_SESSION['nome_cliente3']}";
                                                                 } ?> </b> </p>
@@ -359,58 +365,45 @@ session_start();
 
 
 
-                <!--    QUARTO SLIDE -->
-                <!-- <div class="row align-items-start" style=" padding: 10px;  background-color: #eee;"> -->
-                <div class="col-4">
+          <!-- QUARTO SLIDE -->
+          <div class="col-3">
                     <div class="card">
                         <div class="card-body">
 
-                            <h4>SLIDE 4</h4>
+                <h4>SLIDE 4</h4>
                             <!--   FROM PER LA SCELTA DELLE CARTELLE------------------------------------------------------- -->
                             <!--  PRIMA SELEZIONE OPTION -->
                             <form class='row g-3' action="#" method="GET">
-                                <select name="cartella_scelta7">
+                                <select id="inputState" class="form-select" name="cartella_scelta4[]" style="float:left; display:block;" size="14" multiple>
                                     <?php
-
                                     /* il percorso dove cercare le cartelle */
                                     $path = "../sottocartelle/";
                                     /*     uso la funzione per scandire le cartelle e inserirle in un array */
                                     $sotto_cartelle = mostra_cartelle($path);
                                     /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL\">cartella</option>";
                                     foreach ($sotto_cartelle as $value) {
                                         echo "<option value=\"$value\"> $value </option>";
                                     }
                                     ?>
                                 </select>
 
-                                <!--  seconda SELEZIONE OPTION -->
-                                <!-- creo la seconda selezione -->
-                                <select name="cartella_scelta8">
-                                    <option selected="NULL" value="NULL">cartella</option>
-                                    <?php foreach ($sotto_cartelle as $value) {
-                                        echo "<option value=\"$value\"> $value </option>";
-                                    } ?>
-                                </select>
 
                                 <!-- SELEZIONE PER PRENDERE LE CARTELLE SELEZIONATE DAI CLIENTI -->
 
-                                <select id="inputState" class="form-select" name="scelta_cliente3" style="float:left; display:block;">
+                                <select id="inputState" class="form-select" name="scelta_cliente4" style="float:left; display:block;">
 
                                     <?php
                                     $clienti = prendi_clienti($id_album);
                                     /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL NULL\">selezione</option>";
+                                    echo "<option selected=\"NULL\" value=\"NULL NULL\" >selezione</option>";
                                     while ($row = $clienti->fetch(PDO::FETCH_ASSOC)) {
                                         $row['nome_cliente'] = str_replace(" ", "_", $row['nome_cliente']);
-                                        echo "<option value=\"{$row['nome_cliente']} {$row['id_cliente']}\"> {$row['nome_cliente']}</option>";
+                                        echo "<option value=\"{$row['nome_cliente']} {$row['id_cliente']}\"> {$row['nome_cliente']} </option>";
                                     }     ?>
                                 </select>
 
-                                <!--            FINE CASELLE PER LA SELEZIONE -->
-
+                                <!--      FINE CASELLE PER LA SELEZIONE -->
                                 <!--  PULSANTE INPUT DEL FORM -->
-
                                 </br> <input type="submit" name="win4" value="prendi"></button>
                                 <button id="manda4" onclick="slide1('slide4.php','win4')" name="manda4">Manda</button>
                             </form>
@@ -418,40 +411,55 @@ session_start();
 
                             <?php
                             if (isset($_GET['win4'])) {
+                               
+                                   (isset($_GET['cartella_scelta4'])) ? $_SESSION['cartella_scelta4'] = $_GET['cartella_scelta4'] : $_SESSION['cartella_scelta4'] =  ['mySelect'];
+                               
 
-                                $_SESSION['cartella_scelta7'] = $_GET['cartella_scelta7'];
-                                $_SESSION['cartella_scelta8'] = $_GET['cartella_scelta8'];
                                 /*  per l'INPUT CARTELLA CLIENTI FACCIO IL PROCEDIMENTO PER ESTRAPOLARE I PREFERITI E METTERLI IN UN ARRAY */
                                 if (isset($_GET['scelta_cliente4'])) {
                                     $array = explode(" ", $_GET['scelta_cliente4']);
-                                    $nome_cliente = $array[0];
-                                    $id_cliente = $array[1];
-                                    $_SESSION['nome_cliente4'] = $nome_cliente;
-                                    $_SESSION['id_cliente4'] = $id_cliente;
+                                    $nome_cliente4 = $array[0];
+                                    $id_cliente4 = $array[1];
+                                    $_SESSION['nome_cliente4'] = $nome_cliente4;
+                                    $_SESSION['id_cliente4'] = $id_cliente4;
                                 }
 
-                                include('../../../config_pdo.php');
-                                /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
-                                $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella= '{$_GET['cartella_scelta7']}' OR sotto_cartella='{$_GET['cartella_scelta8']}'; ");
-                                $seleziona_foto->execute();
+                              
+                                if(isset($_GET['cartella_scelta4'])){
+                                foreach ($_GET['cartella_scelta4'] as $cartella_scelta) {
+                                    include('../../../config_pdo.php');
+                                    /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
+                                    $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella = :cartella_scelta ; ");
+                                    $seleziona_foto->bindParam(':cartella_scelta', $cartella_scelta);
+                                    $seleziona_foto->execute();
 
-                                $listafile = array();
+                                    $listafile = array();
 
-                                while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_medium'];
-                                    $_SESSION['sotto_cartella4'] = $row['sotto_cartella'];
+                                    while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
+                                        $listafile[] = $row['path_medium'];
+                                        $_SESSION['sotto_cartella4'] = $row['sotto_cartella'];
+                                    }
+
+                                    $conn = null;
                                 }
-
-                                $conn = null;
                             }
+                          
+                            }
+                            /*   NOME DELLE CARTELLE IN SLIDE */
+                           if(isset($_SESSION['cartella_scelta4'])){
+                            foreach ($_SESSION['cartella_scelta4'] as  $cartella) {
+                            ?>
+                                <p style="text-align: center;">
+                                    <b><?php if (isset($cartella) && ($cartella != 'NULL')) {
+                                            echo " $cartella";
+                                        } ?>
+                                    </b>
+                                </p>
+
+                            <?php }
+                           }
                             ?>
 
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta7']) && ($_SESSION['cartella_scelta7'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta7']}";
-                                                                } ?> </b> </p>
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta8']) && ($_SESSION['cartella_scelta8'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta8']}";
-                                                                } ?> </b> </p>
                             <p style="text-align: center;"> <b><?php if (isset($_SESSION['nome_cliente4']) && ($_SESSION['nome_cliente4'] != 'NULL')) {
                                                                     echo " {$_SESSION['nome_cliente4']}";
                                                                 } ?> </b> </p>
@@ -462,213 +470,6 @@ session_start();
 
 
 
-
-
-                <!--    QUINTO SLIDE -->
-                <!-- <div class="row align-items-start" style=" padding: 10px;  background-color: #eee;"> -->
-                <div class="col-4">
-                    <div class="card">
-                        <div class="card-body">
-
-                            <h4>SLIDE 5</h4>
-                            <!--   FROM PER LA SCELTA DELLE CARTELLE------------------------------------------------------- -->
-                            <!--  PRIMA SELEZIONE OPTION -->
-                            <form class='row g-3' action="#" method="GET">
-                                <select name="cartella_scelta9">
-                                    <?php
-
-                                    /* il percorso dove cercare le cartelle */
-                                    $path = "../sottocartelle/";
-                                    /*     uso la funzione per scandire le cartelle e inserirle in un array */
-                                    $sotto_cartelle = mostra_cartelle($path);
-                                    /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL\">cartella</option>";
-                                    foreach ($sotto_cartelle as $value) {
-                                        echo "<option value=\"$value\"> $value </option>";
-                                    }
-                                    ?>
-                                </select>
-
-                                <!--  seconda SELEZIONE OPTION -->
-                                <!-- creo la seconda selezione -->
-                                <select name="cartella_scelta10">
-                                    <option selected="NULL" value="NULL">cartella</option>
-                                    <?php foreach ($sotto_cartelle as $value) {
-                                        echo "<option value=\"$value\"> $value </option>";
-                                    } ?>
-                                </select>
-
-                                <!-- SELEZIONE PER PRENDERE LE CARTELLE SELEZIONATE DAI CLIENTI -->
-
-                                <select id="inputState" class="form-select" name="scelta_cliente5" style="float:left; display:block;">
-
-                                    <?php
-                                    $clienti = prendi_clienti($id_album);
-                                    /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL NULL\">selezione</option>";
-                                    while ($row = $clienti->fetch(PDO::FETCH_ASSOC)) {
-                                        $row['nome_cliente'] = str_replace(" ", "_", $row['nome_cliente']);
-                                        echo "<option value=\"{$row['nome_cliente']} {$row['id_cliente']}\"> {$row['nome_cliente']}</option>";
-                                    }     ?>
-                                </select>
-
-                                <!--            FINE CASELLE PER LA SELEZIONE -->
-
-                                <!--  PULSANTE INPUT DEL FORM -->
-
-                                </br> <input type="submit" name="win5" value="prendi"></button>
-                                <button id="manda5" onclick="slide1('slide5.php','win5')" name="manda5">Manda</button>
-                            </form>
-                            <!-- fine form di scelta -->
-
-                            <?php
-                            if (isset($_GET['win5'])) {
-
-                                $_SESSION['cartella_scelta9'] = $_GET['cartella_scelta9'];
-                                $_SESSION['cartella_scelta10'] = $_GET['cartella_scelta10'];
-                                /*  per l'INPUT CARTELLA CLIENTI FACCIO IL PROCEDIMENTO PER ESTRAPOLARE I PREFERITI E METTERLI IN UN ARRAY */
-                                if (isset($_GET['scelta_cliente5'])) {
-                                    $array = explode(" ", $_GET['scelta_cliente5']);
-                                    $nome_cliente = $array[0];
-                                    $id_cliente = $array[1];
-                                    $_SESSION['nome_cliente5'] = $nome_cliente;
-                                    $_SESSION['id_cliente5'] = $id_cliente;
-                                }
-
-                                include('../../../config_pdo.php');
-                                /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
-                                $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella= '{$_GET['cartella_scelta9']}' OR sotto_cartella='{$_GET['cartella_scelta10']}'; ");
-                                $seleziona_foto->execute();
-
-                                $listafile = array();
-
-                                while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_medium'];
-                                    $_SESSION['sotto_cartella5'] = $row['sotto_cartella'];
-                                }
-
-                                $conn = null;
-                            }
-                            ?>
-
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta9']) && ($_SESSION['cartella_scelta9'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta9']}";
-                                                                } ?> </b> </p>
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta10']) && ($_SESSION['cartella_scelta10'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta10']}";
-                                                                } ?> </b> </p>
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['nome_cliente5']) && ($_SESSION['nome_cliente5'] != 'NULL')) {
-                                                                    echo " {$_SESSION['nome_cliente5']}";
-                                                                } ?> </b> </p>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-                <!--    SESTO SLIDE -->
-                <!-- <div class="row align-items-start" style=" padding: 10px;  background-color: #eee;"> -->
-                <div class="col-4">
-                    <div class="card">
-                        <div class="card-body">
-
-                            <h4>SLIDE 6</h4>
-                            <!--   FROM PER LA SCELTA DELLE CARTELLE------------------------------------------------------- -->
-                            <!--  PRIMA SELEZIONE OPTION -->
-                            <form class='row g-3' action="#" method="GET">
-                                <select name="cartella_scelta11">
-                                    <?php
-
-                                    /* il percorso dove cercare le cartelle */
-                                    $path = "../sottocartelle/";
-                                    /*     uso la funzione per scandire le cartelle e inserirle in un array */
-                                    $sotto_cartelle = mostra_cartelle($path);
-                                    /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL\">cartella</option>";
-                                    foreach ($sotto_cartelle as $value) {
-                                        echo "<option value=\"$value\"> $value </option>";
-                                    }
-                                    ?>
-                                </select>
-
-                                <!--  seconda SELEZIONE OPTION -->
-                                <!-- creo la seconda selezione -->
-                                <select name="cartella_scelta12">
-                                    <option selected="NULL" value="NULL">cartella</option>
-                                    <?php foreach ($sotto_cartelle as $value) {
-                                        echo "<option value=\"$value\"> $value </option>";
-                                    } ?>
-                                </select>
-
-                                <!-- SELEZIONE PER PRENDERE LE CARTELLE SELEZIONATE DAI CLIENTI -->
-
-                                <select id="inputState" class="form-select" name="scelta_cliente6" style="float:left; display:block;">
-
-                                    <?php
-                                    $clienti = prendi_clienti($id_album);
-                                    /* creo la prima selezione */
-                                    echo "<option selected=\"NULL\" value=\"NULL NULL\">selezione</option>";
-                                    while ($row = $clienti->fetch(PDO::FETCH_ASSOC)) {
-                                        $row['nome_cliente'] = str_replace(" ", "_", $row['nome_cliente']);
-                                        echo "<option value=\"{$row['nome_cliente']} {$row['id_cliente']}\"> {$row['nome_cliente']}</option>";
-                                    }     ?>
-                                </select>
-
-                                <!--            FINE CASELLE PER LA SELEZIONE -->
-
-                                <!--  PULSANTE INPUT DEL FORM -->
-
-                                </br> <input type="submit" name="win6" value="prendi"></button>
-                                <button id="manda6" onclick="slide1('slide6.php','win6')" name="manda6">Manda</button>
-                            </form>
-                            <!-- fine form di scelta -->
-
-                            <?php
-                            if (isset($_GET['win6'])) {
-
-                                $_SESSION['cartella_scelta11'] = $_GET['cartella_scelta11'];
-                                $_SESSION['cartella_scelta12'] = $_GET['cartella_scelta12'];
-                                /*  per l'INPUT CARTELLA CLIENTI FACCIO IL PROCEDIMENTO PER ESTRAPOLARE I PREFERITI E METTERLI IN UN ARRAY */
-                                if (isset($_GET['scelta_cliente6'])) {
-                                    $array = explode(" ", $_GET['scelta_cliente6']);
-                                    $nome_cliente = $array[0];
-                                    $id_cliente = $array[1];
-                                    $_SESSION['nome_cliente6'] = $nome_cliente;
-                                    $_SESSION['id_cliente6'] = $id_cliente;
-                                }
-
-                                include('../../../config_pdo.php');
-                                /*     faccio una query sql per prendere il percorso delle foto e le inserisco in un array */
-                                $seleziona_foto = $conn->prepare("SELECT * FROM `$id_album` WHERE sotto_cartella= '{$_GET['cartella_scelta11']}' OR sotto_cartella='{$_GET['cartella_scelta12']}'; ");
-                                $seleziona_foto->execute();
-
-                                $listafile = array();
-
-                                while ($row = $seleziona_foto->fetch(PDO::FETCH_ASSOC)) {
-                                    $listafile[] = $row['path_medium'];
-                                    $_SESSION['sotto_cartella6'] = $row['sotto_cartella'];
-                                }
-
-                                $conn = null;
-                            }
-                            ?>
-
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta11']) && ($_SESSION['cartella_scelta11'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta11']}";
-                                                                } ?> </b> </p>
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['cartella_scelta12']) && ($_SESSION['cartella_scelta12'] != 'NULL')) {
-                                                                    echo " {$_SESSION['cartella_scelta12']}";
-                                                                } ?> </b> </p>
-                            <p style="text-align: center;"> <b><?php if (isset($_SESSION['nome_cliente6']) && ($_SESSION['nome_cliente6'] != 'NULL')) {
-                                                                    echo " {$_SESSION['nome_cliente6']}";
-                                                                } ?> </b> </p>
-
-                        </div>
-                    </div>
-                </div>
 
         </section>
     </main><!-- End #main -->
